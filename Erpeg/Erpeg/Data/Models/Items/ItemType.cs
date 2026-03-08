@@ -8,13 +8,13 @@ public enum ItemType
     // eq - &
     Armor, Trousers, Boots, Gloves, Hat, Shield,
     
-    // potions - +
+    // consumable - +
     HealthPotion, ManaPotion,
     
     // ores - =
     Wood, Iron, Leather,
     
-    // scrap - ? (default)
+    // scrap - ,
     Scrap,
     
     // money - $

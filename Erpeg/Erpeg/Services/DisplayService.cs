@@ -7,6 +7,7 @@ public class DisplayService : IService
     
     public static void Write(string text)
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.CursorVisible = false;
         Console.SetCursorPosition(0, 0);
         Console.Write(text);

@@ -1,11 +1,12 @@
 ﻿namespace Erpeg.Data.Models.Items;
 
-public class WeaponData(string name, ItemType type, int value, WeaponGripType grip, int damage, double hitspeed, int range)
-    : ItemData(name, type, value)
+public class WeaponData(string name, ItemType type, int value, 
+    WeaponGripType grip, int damage, double hitspeed, int range, char symbol = '?')
+    : ItemData(name, type, value, symbol)
 {
-    public WeaponGripType Grip { get; set; } = grip;
-    public int Damage { get; set; } = damage;
-    public double Hitspeed { get; set; } = hitspeed;
-    public int Range { get; set; } = range;
+    public WeaponGripType Grip { get; } = grip;
+    public int Damage { get; } = damage;
+    public double Hitspeed { get; } = hitspeed;
+    public int Range { get; } = range;
     // public StatModifiers Stats {get; set;}
 }

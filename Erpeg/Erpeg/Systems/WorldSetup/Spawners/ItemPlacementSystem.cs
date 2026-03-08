@@ -1,7 +1,7 @@
 ﻿using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
 
-namespace Erpeg.Systems.WorldSetup;
+namespace Erpeg.Systems.WorldSetup.Spawners;
 
 public class ItemPlacementSystem
 {

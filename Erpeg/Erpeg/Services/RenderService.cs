@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using System.Linq;
 
 namespace Erpeg.Services;
 
@@ -25,6 +27,10 @@ public class RenderService : IService
                 
                 if (map.Items.ContainsKey((x, y)))
                     symbol = map.Items[(x, y)].MapSymbol;
+                
+                var character = map.Characters.FirstOrDefault(c => c.Position == (x, y));
+                if (character != null) 
+                    symbol = character.MapSymbol;
 
                 sb.Append(symbol);
             }
