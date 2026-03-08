@@ -1,8 +1,8 @@
 
 
 TODO:
-    - ogarnięcie rysowania mapy [do poprawy (bufforowanie)]
-    - system podnoszenia przedmiotów
     - system używania przedmiotów
-    - system inventory, equipment
+    - system equipment
     - wczytywanie mapy z pliku
+    - UI
+    - statystyki

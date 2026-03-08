@@ -12,5 +12,6 @@ public static class ItemSpawner
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetHealthPotion());
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetWood());
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetDust());
+        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetCoins(10));
     }
 }

@@ -9,11 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Characters\Player\" />
       <Folder Include="Core\EventSystem\" />
       <Folder Include="Core\StateMachine\" />
-      <Folder Include="Events\" />
-      <Folder Include="Items\" />
     </ItemGroup>
 
 </Project>

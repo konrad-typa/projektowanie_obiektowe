@@ -1,0 +1,12 @@
+﻿namespace Erpeg.Services;
+
+public enum InputActionType
+{
+    MoveUp, 
+    MoveDown, 
+    MoveLeft, 
+    MoveRight, 
+    PickUp, 
+    Exit, 
+    None
+}
