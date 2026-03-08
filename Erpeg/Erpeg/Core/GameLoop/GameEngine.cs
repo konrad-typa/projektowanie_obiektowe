@@ -1,38 +1,36 @@
 ﻿using System.Data;
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
+using Erpeg.Systems.WorldSetup;
 
 namespace Erpeg.Core.GameLoop;
 
 public class GameEngine
 {
     private bool _isRunning = true;
-
-    private List<IService> _services = new List<IService>
-    {
-        new RenderService()
-    };
+    private MapData _map;
 
     public void Run()
     {
-        foreach (var service in _services)
-        {
-            service.Initialize();
-        }
-
+        _map = MazeGenerator.Generate();
+        MapInitializer.SetupMap(_map);
+        
         while (_isRunning)
         {
-            Update();
+            //Update();
             Draw();
         }
     }
     private void Update()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void Draw()
     {
-        throw new  NotImplementedException();
+        var frame = RenderService.RenderFrame(_map);
+        DisplayService.Write(frame);
+        Thread.Sleep(16);
     }
 }

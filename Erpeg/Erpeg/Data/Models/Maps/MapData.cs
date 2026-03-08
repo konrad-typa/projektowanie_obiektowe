@@ -1,0 +1,27 @@
+﻿using System.Runtime.CompilerServices;
+using Erpeg.Data.Models.Items;
+
+namespace Erpeg.Data.Models.Maps;
+
+public class MapData(string name, int sizeX, int sizeY)
+{
+    public string Name { get; } = name;
+    public int SizeX { get; } = sizeX;
+    public int SizeY { get; } = sizeY;
+    public TileType[,] Layout { get; } = new TileType[sizeX, sizeY];
+    public Dictionary<(int x, int y), ItemData> Items { get; } = new();
+
+    private static readonly Random Rng = new();
+    public (int x, int y) GetRandomEmptyTile()
+    {
+        
+        int x = Rng.Next(0, this.SizeX);
+        int y = Rng.Next(0, this.SizeY);
+        while (this.Layout[x, y] != TileType.Empty)
+        {
+            x = Rng.Next(0, this.SizeX); 
+            y = Rng.Next(0, this.SizeY);
+        }
+        return (x, y);
+    }
+}

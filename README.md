@@ -1,8 +1,8 @@
 
 
 TODO:
-    - podział data na maps/ items/ characters/ (player?), usunięcie models
-    - ogarnięcie rysowania mapy
+    - ogarnięcie rysowania mapy [do poprawy (bufforowanie)]
     - system podnoszenia przedmiotów
     - system używania przedmiotów
     - system inventory, equipment
+    - wczytywanie mapy z pliku

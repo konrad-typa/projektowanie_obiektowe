@@ -3,8 +3,15 @@
 namespace Erpeg.Services;
 public class DisplayService : IService
 {
-    public void Initialize()
+    public void Initialize() { }
+    
+    public static void Write(string text)
     {
-        throw new NotImplementedException();
+        Console.CursorVisible = false;
+        Console.SetCursorPosition(0, 0);
+        Console.Write(text);
     }
+
+    public static void Clear() => Console.Clear();
+    
 }
