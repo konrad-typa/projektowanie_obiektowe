@@ -1,3 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Erpeg.Core.GameLoop;
 
-Console.WriteLine("Hello, World!");
+namespace Erpeg
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var engine = new GameEngine();
+            engine.Run();
+        }
+    }
+}
