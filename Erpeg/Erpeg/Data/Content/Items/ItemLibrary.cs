@@ -25,10 +25,16 @@ public static class ItemLibrary
     public static EquipmentData GetShield() => 
         new EquipmentData("Shield", 
             ItemType.Shield, 50, EquipmentSlotType.OffHand, 60, 10, 'O');
+    public static EquipmentData GetArtifact() => 
+        new EquipmentData("Artifact", 
+            ItemType.Shield, 20, EquipmentSlotType.Artifact, 60, 10, '~');
 
     // potions
     public static ConsumableData GetHealthPotion() => 
         new ConsumableData("Health Potion", 
+            ItemType.HealthPotion, 20, 50, 2,'+');
+    public static ConsumableData GetManaPotion() => 
+        new ConsumableData("Mana Potion", 
             ItemType.HealthPotion, 20, 50, 2,'+');
 
     // money
@@ -37,7 +43,7 @@ public static class ItemLibrary
             ItemType.Gold, amount, 0,'$');
     public static ItemData GetCoins(int amount) => 
         new ItemData("Coins", 
-            ItemType.Coin, amount, 0,'$');
+            ItemType.Coin, amount, 0,'◎');
     
     // ores
     public static ItemData GetWood() =>
@@ -47,5 +53,5 @@ public static class ItemLibrary
     // scrap
     public static ItemData GetDust() =>
         new ItemData("Dust", 
-            ItemType.Scrap, 2, 1,',');
+            ItemType.Scrap, 2, 1,'.');
 }

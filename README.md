@@ -1,8 +1,7 @@
 
 
-TODO:
+TODO (roughly):
+    - system przeglądania ekwipunku
+    - system ubierania eq
     - system używania przedmiotów
-    - system equipment
-    - wczytywanie mapy z pliku
-    - UI
-    - statystyki
+    - damage

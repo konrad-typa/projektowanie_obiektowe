@@ -5,7 +5,7 @@ using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
 using Erpeg.Systems.CharacterSystems;
 
-namespace Erpeg.Systems.ItemSystems;
+namespace Erpeg.Systems.CharacterSystems;
 
 public class InventorySystem
 {

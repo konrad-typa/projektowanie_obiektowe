@@ -7,6 +7,7 @@ public enum InputActionType
     MoveLeft, 
     MoveRight, 
     PickUp, 
-    Exit, 
+    Exit,
+    OpenInventory,
     None
 }

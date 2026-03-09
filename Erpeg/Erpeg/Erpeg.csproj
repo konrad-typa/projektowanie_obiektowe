@@ -11,6 +11,7 @@
     <ItemGroup>
       <Folder Include="Core\EventSystem\" />
       <Folder Include="Core\StateMachine\" />
+      <Folder Include="Systems\ItemSystems\" />
     </ItemGroup>
 
 </Project>

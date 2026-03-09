@@ -2,7 +2,6 @@
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
 using Erpeg.Systems.CharacterSystems;
-using Erpeg.Systems.ItemSystems;
 using Erpeg.Systems.WorldSetup;
 using Erpeg.Systems.WorldSetup.Spawners;
 
@@ -42,7 +41,7 @@ public class GameEngine
 
     private void Draw()
     {
-        var frame = RenderService.RenderFrame(_map);
+        var frame = RenderService.RenderFrame(_map, _player);
         DisplayService.Write(frame);
     }
 }

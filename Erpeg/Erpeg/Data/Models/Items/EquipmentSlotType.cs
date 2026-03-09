@@ -8,5 +8,6 @@ public enum EquipmentSlotType
     Feet,
     MainHand,
     OffHand,
+    Artifact,
     None,
 }
