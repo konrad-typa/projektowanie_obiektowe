@@ -24,6 +24,7 @@ public class InputService : IService
             ConsoleKey.E => InputActionType.PickUp,
             ConsoleKey.Escape => InputActionType.Exit,
             ConsoleKey.I => InputActionType.OpenInventory,
+            ConsoleKey.G => InputActionType.Drop,
             _ => InputActionType.None
         };
 

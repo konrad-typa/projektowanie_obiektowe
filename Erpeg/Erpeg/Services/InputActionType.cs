@@ -9,5 +9,6 @@ public enum InputActionType
     PickUp, 
     Exit,
     OpenInventory,
+    Drop,
     None
 }

@@ -9,7 +9,7 @@ public static class UIService
 {
     public static List<string> GenerateHUDLines(MapData map, PlayerData player)
     {
-        int width = 60;
+        int width = 50;
         List<string> hudLines = new();
 
         // informacja o przedmiocie na polu
