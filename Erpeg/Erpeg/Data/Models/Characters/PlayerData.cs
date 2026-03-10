@@ -30,7 +30,6 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
 
     private int _mana = 100;
     private int _maxMana = 100;
-
     public int MaxMana
     {
         get => _maxMana;
@@ -40,10 +39,18 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
             _mana = Math.Clamp(_mana, 0, _maxMana);
         }
     }
-
     public int Mana
     {
         get => _mana;
         set => Math.Clamp(value, 0, _maxMana);
-    }   
+    }
+    
+    public int Damage { get; set; } = 0;
+    public int Defense { get; set; } = 0;
+
+    public Dictionary<ItemType, int> Money = new Dictionary<ItemType, int>()
+    {
+        { ItemType.Coin, 0 },
+        { ItemType.Gold, 0 },
+    };
 }

@@ -35,7 +35,7 @@ public class RenderService : IService
                 sb.Append(symbol);
             }
                 
-            var hudlines = UIService.GenerateHUDLines(map, player);
+            var hudlines = UIService.GenerateUILines(map, player);
             string hudline = (y < hudlines.Count) ? hudlines[y] : "";
             sb.Append("    " + hudline);
             sb.AppendLine();

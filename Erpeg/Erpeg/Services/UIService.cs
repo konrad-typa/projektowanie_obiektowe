@@ -2,19 +2,20 @@
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Systems;
 
 namespace Erpeg.Services;
 
 public static class UIService
 {
-    public static List<string> GenerateHUDLines(MapData map, PlayerData player)
+    public static List<string> GenerateUILines(MapData map, PlayerData player)
     {
         int width = 50;
         List<string> hudLines = new();
 
         // informacja o przedmiocie na polu
-        var tileinfo = ItemInfo(map, player);
-        hudLines.Add(Center(tileinfo, width));
+        var info= MessageLogSystem.GetCurrent();
+        hudLines.Add(Center(info, width));
         
         // atrybuty
         hudLines.Add("╔" + new string('=', width - 2) + "╗");
@@ -55,15 +56,8 @@ public static class UIService
         hudLines.Add("╠" + new string('=', width - 2) + "╣");
         
         // inventory - waluty
-        hudLines.Add("║" + Center( "Inventory", width - 2) + "║");
-        var coinsGathered = player.Inventory
-            .Where(c => c.Type == ItemType.Coin)
-            .Sum(c => c.Value);
-        var goldGathered = player.Inventory
-            .Where(c => c.Type == ItemType.Gold)
-            .Sum(c => c.Value);
         hudLines.Add("║" + Center( "" +
-                                   $"Coins: {coinsGathered}     Gold: {goldGathered}", 
+                                   $"Coins: {player.Money[ItemType.Coin]}     Gold: {player.Money[ItemType.Gold]}", 
             width - 2) + "║");
         
         //inventory - itemy
@@ -91,8 +85,8 @@ public static class UIService
         hudLines.Add("╚" + new string('=', width - 2) + "╝");
         return hudLines;
     }
-    
-    private static string Center(string? text,  int width)
+
+    private static string Center(string? text, int width)
     {
         text ??= "";
         if (text.Length >= width) return text.Substring(0, width);
@@ -101,16 +95,5 @@ public static class UIService
         int rightPadding = width - text.Length - leftPadding;
 
         return new string(' ', leftPadding) + text + new string(' ', rightPadding);
-    }
-
-    private static string ItemInfo(MapData map, PlayerData player)
-    {
-        var iteminfo = new StringBuilder();
-        var pos = player.Position;
-        if (map.Items.TryGetValue(pos, out var item))
-        {
-            iteminfo.Append("(" + item.Name + ")" + " Pick Up [E]");
-        }
-        return iteminfo.ToString();
     }
 }

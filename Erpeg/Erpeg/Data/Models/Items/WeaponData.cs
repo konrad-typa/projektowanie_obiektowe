@@ -1,6 +1,5 @@
 ﻿namespace Erpeg.Data.Models.Items;
 
-// attr do konstruktora
 public class WeaponData(string name, ItemType type, int value, 
     WeaponGripType grip, int damage, double hitspeed, int range, double weight, char symbol = '?')
     : ItemData(name, type, value, weight, symbol)

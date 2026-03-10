@@ -28,4 +28,9 @@ public class MapData(string name, int sizeX, int sizeY)
         }
         return (x, y);
     }
+    
+    public ItemData? GetItemAt((int x, int y) position)
+    {
+        return Items.TryGetValue(position, out var item) ? item : null;
+    }
 }

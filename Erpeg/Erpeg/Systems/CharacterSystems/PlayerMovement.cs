@@ -5,14 +5,7 @@ using Erpeg.Services;
 namespace Erpeg.Systems.CharacterSystems;
 
 public class PlayerMovement
-{
-    public static event Action<(int, int)> OnPlayerMoved;
-
-    public static void Initialize(MapData map, PlayerData player)
-    {
-        InputService.OnInput += (action) => HandleMovement(map, player, action);
-    }
-    
+{ 
     public static void HandleMovement(MapData map, PlayerData player, InputActionType actionType)
     {
         (int dx, int dy) = actionType switch
@@ -32,7 +25,6 @@ public class PlayerMovement
             map.Layout[newX, newY] != TileType.Wall)
         {
             player.Position = (newX, newY); 
-            OnPlayerMoved?.Invoke(player.Position);
         }
     } 
 }

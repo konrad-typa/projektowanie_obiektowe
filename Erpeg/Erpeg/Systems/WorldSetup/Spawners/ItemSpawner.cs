@@ -15,6 +15,10 @@ public static class ItemSpawner
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetWood());
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetDust());
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetArmor());
+        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetShield());
+        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetDaggers());
+        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetArtifact());
+        
         
         // kasa
         ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetCoins(10));

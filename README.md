@@ -1,7 +1,9 @@
 
 
 TODO (roughly):
-    - system przeglądania ekwipunku
-    - system ubierania eq
-    - system używania przedmiotów
-    - damage
+    - system używania potek
+    - wyswietlanie dmg, obrony
+    - powiększenie rozmiaru gry
+    - hud
+    - wyświetlanie info o itemie w trybie ekwipunku
+    - kolory

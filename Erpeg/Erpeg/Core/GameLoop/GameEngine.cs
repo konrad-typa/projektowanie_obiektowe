@@ -1,7 +1,8 @@
-﻿using Erpeg.Data.Models.Characters;
+﻿using Erpeg.Core.StateMachine;
+using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
-using Erpeg.Systems.CharacterSystems;
+using Erpeg.Systems.GameStates;
 using Erpeg.Systems.WorldSetup;
 using Erpeg.Systems.WorldSetup.Spawners;
 
@@ -19,13 +20,7 @@ public class GameEngine
         MapSetup.SetupMap(_map);
         CharacterSpawner.SpawnPlayer(_map, _player);
         
-        InputService.OnInput += (action) =>
-        {
-            if(action == InputActionType.Exit) 
-                _isRunning = false;
-        };
-        PlayerMovement.Initialize(_map, _player);
-        InventorySystem.Subscribe(_map, _player);
+        GameStateManager.Initialize(new ExplorationState(_map, _player));
         
         while (_isRunning)
         {
@@ -37,6 +32,7 @@ public class GameEngine
     private void Update()
     {
         InputService.ReadInput();
+        GameStateManager.Update();
     }
 
     private void Draw()

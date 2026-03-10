@@ -1,28 +1,23 @@
-﻿using System.Runtime.ExceptionServices;
+﻿using System.Reflection.PortableExecutable;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
-using Erpeg.Services;
-using Erpeg.Systems.CharacterSystems;
+
 
 namespace Erpeg.Systems.CharacterSystems;
 
 public class InventorySystem
 {
-    public static void Subscribe(MapData map, PlayerData player)
-    {
-        InputService.OnInput += (action) =>
-        {
-            if (action == InputActionType.PickUp)
-                TryPickUp(map, player);
-        };
-    }
-
-    private static void TryPickUp(MapData map, PlayerData player)
+    public static void TryPickUp(MapData map, PlayerData player)
     {
         if (map.Items.TryGetValue(player.Position, out ItemData item))
         {
-            if (player.CurrentWeight + item.Weight <= player.MaxWeight)
+            if (item.Type == ItemType.Coin || item.Type == ItemType.Gold)
+            {
+                player.Money[item.Type] += item.Value;
+                map.Items.Remove(player.Position);
+            }
+            else if (player.CurrentWeight + item.Weight <= player.MaxWeight)
             {
                 player.Inventory.Add(item);
                 player.CurrentWeight += item.Weight;
@@ -33,5 +28,101 @@ public class InventorySystem
                 // za ciężkie 
             }
         }
+    }
+
+    public static void TryDrop(MapData map, PlayerData player, ItemData item)
+    {
+        if (AvailableTile(map, player.Position, out var dropTile)
+            && player.Inventory.Contains(item)
+            && map.Layout[dropTile.x, dropTile.y] != TileType.Wall)
+        {
+            player.Inventory.Remove(item);
+            map.Items[dropTile] = item;
+        }
+    }
+
+    public static void TryEquip(PlayerData player, ItemData item)
+    {
+        if (!player.Inventory.Contains(item))
+            return;
+        
+        if (item is WeaponData weapon)
+            TryEquipWeapon(player, weapon);
+        
+        else if (item is EquipmentData equipment)
+            TryEquipEq(player, equipment);
+    }
+    
+    private static void TryEquipWeapon(PlayerData player, WeaponData weapon)
+    {
+        Unequip(player, EquipmentSlotType.MainHand);
+
+        if (weapon.Grip == WeaponGripType.TwoHanded)
+            Unequip(player, EquipmentSlotType.OffHand);
+        
+        player.Inventory.Remove(weapon);
+        player.CurrentWeight -= weapon.Weight;
+        
+        player.Equipment[EquipmentSlotType.MainHand] = weapon;
+    }
+    
+    private static void TryEquipEq(PlayerData player, EquipmentData equipment)
+    {
+        var slot = equipment.SlotType;
+        Unequip(player, slot);
+
+        if (slot ==  EquipmentSlotType.OffHand && IsOffHandBlocked(player))
+            Unequip(player, EquipmentSlotType.MainHand);
+        
+        player.Inventory.Remove(equipment);
+        player.CurrentWeight -= equipment.Weight;
+        
+        player.Equipment[slot] = equipment;
+    }
+    
+    // helpery
+    private static void Unequip(PlayerData player, EquipmentSlotType slot)
+    {
+        if (player.Equipment.TryGetValue(slot, out var item) && item != null)
+        {
+            player.Equipment[slot] = null;
+            player.Inventory.Add(item);
+            player.CurrentWeight += item.Weight;
+        }
+    }
+    
+    private static bool IsOffHandBlocked(PlayerData player)
+    {
+        return player.Equipment.TryGetValue(EquipmentSlotType.MainHand, out var item)
+               && item is WeaponData weapon
+               && weapon.Grip == WeaponGripType.TwoHanded;
+    }
+
+    private static bool AvailableTile(MapData map, (int x, int y) position, out (int x, int y) pos)
+    {
+        if (!map.Items.ContainsKey(position))
+        {
+            pos = position;
+            return true;
+        }
+        
+        for (int i = -1; i < 2; i ++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                int dx = Math.Clamp(position.x + i, 0, map.SizeX);
+                int dy = Math.Clamp(position.y + j, 0, map.SizeY);
+
+                var check = (dx, dy);
+                if (!map.Items.ContainsKey(check))
+                {
+                    pos = check;
+                    return true;
+                }
+            }
+        }
+
+        pos = default;
+        return false;
     }
 }

@@ -9,26 +9,5 @@ namespace Erpeg.Systems.CharacterSystems;
 
 public class EquipmentSystem
 {
-    public static void Subscribe(PlayerData player)
-    {
-        InputService.OnInput += (action) =>
-        {
-            if (action == InputActionType.OpenInventory)
-                TryOpen(player);
-        };
-    }
-
-    private static void TryOpen(PlayerData player)
-    {
-        InputService.OnInput += (action) =>
-        {
-            if (action == InputActionType.PickUp)
-                TryEquip(player);
-        };
-    }
-
-    private static void TryEquip(PlayerData player)
-    {
-        
-    }
+    
 }
