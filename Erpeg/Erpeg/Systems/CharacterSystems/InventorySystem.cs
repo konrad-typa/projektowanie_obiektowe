@@ -33,10 +33,10 @@ public class InventorySystem
     public static void TryDrop(MapData map, PlayerData player, ItemData item)
     {
         if (AvailableTile(map, player.Position, out var dropTile)
-            && player.Inventory.Contains(item)
-            && map.Layout[dropTile.x, dropTile.y] != TileType.Wall)
+            && player.Inventory.Contains(item))
         {
             player.Inventory.Remove(item);
+            player.CurrentWeight -= item.Weight;
             map.Items[dropTile] = item;
         }
     }
@@ -110,11 +110,11 @@ public class InventorySystem
         {
             for (int j = -1; j < 2; j++)
             {
-                int dx = Math.Clamp(position.x + i, 0, map.SizeX);
-                int dy = Math.Clamp(position.y + j, 0, map.SizeY);
+                int dx = Math.Clamp(position.x + i, 0, map.SizeX - 1);
+                int dy = Math.Clamp(position.y + j, 0, map.SizeY - 1);
 
                 var check = (dx, dy);
-                if (!map.Items.ContainsKey(check))
+                if (!map.Items.ContainsKey(check) && map.Layout[dx, dy] != TileType.Wall)
                 {
                     pos = check;
                     return true;

@@ -13,6 +13,8 @@ public class RenderService : IService
     public static string RenderFrame(MapData map, PlayerData player)
     {
         var sb = new StringBuilder();
+        var hudlines = UIService.GenerateUILines(map, player);
+        int uiWidth = hudlines.Count > 0 ? hudlines[0].Length : UIService.Width;
         
         for (int y = 0; y < map.SizeY; y++)
         {
@@ -34,9 +36,7 @@ public class RenderService : IService
 
                 sb.Append(symbol);
             }
-                
-            var hudlines = UIService.GenerateUILines(map, player);
-            string hudline = (y < hudlines.Count) ? hudlines[y] : "";
+            string hudline = (y < hudlines.Count) ? hudlines[y] : new string(' ', uiWidth);
             sb.Append("    " + hudline);
             sb.AppendLine();
         }
