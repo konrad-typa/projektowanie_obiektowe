@@ -46,11 +46,11 @@ public class InventorySystem
         if (!player.Inventory.Contains(item))
             return;
         
-        if (item is WeaponData weapon)
-            TryEquipWeapon(player, weapon);
+        if (item.Type == ItemType.Weapon)
+            TryEquipWeapon(player, (WeaponData)item);
         
-        else if (item is EquipmentData equipment)
-            TryEquipEq(player, equipment);
+        else if (item.Type == ItemType.Eq)
+            TryEquipEq(player, (EquipmentData)item);
     }
     
     private static void TryEquipWeapon(PlayerData player, WeaponData weapon)
@@ -93,9 +93,15 @@ public class InventorySystem
     
     private static bool IsOffHandBlocked(PlayerData player)
     {
-        return player.Equipment.TryGetValue(EquipmentSlotType.MainHand, out var item)
-               && item is WeaponData weapon
-               && weapon.Grip == WeaponGripType.TwoHanded;
+        if (player.Equipment.TryGetValue(EquipmentSlotType.MainHand, out var item)
+            && item.Type == ItemType.Weapon)
+        {
+            WeaponData weapon = (WeaponData)item;
+            if (weapon.Grip == WeaponGripType.TwoHanded)
+                return true;
+        }
+
+        return false;
     }
 
     private static bool AvailableTile(MapData map, (int x, int y) position, out (int x, int y) pos)
