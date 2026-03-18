@@ -1,16 +1,15 @@
-﻿using System.Reflection.PortableExecutable;
-using Erpeg.Data.Models.Characters;
+﻿using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
 
 
 namespace Erpeg.Systems.CharacterSystems;
 
-public class InventorySystem
+public static class InventorySystem
 {
     public static void TryPickUp(MapData map, PlayerData player)
     {
-        if (map.Items.TryGetValue(player.Position, out ItemData item))
+        if (map.Items.TryGetValue(player.Position, out ItemData? item))
         {
             if (item.Type == ItemType.Coin || item.Type == ItemType.Gold)
             {
@@ -94,7 +93,7 @@ public class InventorySystem
     private static bool IsOffHandBlocked(PlayerData player)
     {
         if (player.Equipment.TryGetValue(EquipmentSlotType.MainHand, out var item)
-            && item.Type == ItemType.Weapon)
+            && item?.Type == ItemType.Weapon)
         {
             WeaponData weapon = (WeaponData)item;
             if (weapon.Grip == WeaponGripType.TwoHanded)

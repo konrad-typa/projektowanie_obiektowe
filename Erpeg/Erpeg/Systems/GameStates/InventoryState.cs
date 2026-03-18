@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Erpeg.Core.StateMachine;
+﻿using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
@@ -23,10 +22,10 @@ public class InventoryState : IGameState
         switch (action)
         {
             case InputActionType.MoveLeft: 
-                _selectedIndex = Math.Max(0, _selectedIndex - 1);
+                _selectedIndex--;
                 break;
             case InputActionType.MoveRight:
-                _selectedIndex = Math.Min(_player.Inventory.Count - 1, _selectedIndex + 1);
+                _selectedIndex++;
                 break;
             
             case InputActionType.PickUp:
@@ -50,6 +49,7 @@ public class InventoryState : IGameState
     {
         if (_player.Inventory.Count > 0)
         {
+            _selectedIndex = Math.Clamp(_selectedIndex, 0, _player.Inventory.Count - 1);
             var item =  _player.Inventory[_selectedIndex];
             MessageLogSystem.Log($"({item.Name}) Equip [E] / Drop [G]");
         }
