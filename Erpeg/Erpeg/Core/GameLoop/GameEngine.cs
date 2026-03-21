@@ -2,6 +2,7 @@
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
+using Erpeg.Systems;
 using Erpeg.Systems.GameStates;
 using Erpeg.Systems.WorldSetup;
 using Erpeg.Systems.WorldSetup.Spawners;
@@ -12,7 +13,7 @@ public class GameEngine
 {
     private bool _isRunning = true;
     private MapData _map;
-    private PlayerData _player = new PlayerData("Tytus Bomba", (0, 0));
+    private PlayerData _player = new("Tytus Bomba", (0, 0));
 
     public void Run()
     {
@@ -21,12 +22,15 @@ public class GameEngine
         CharacterSpawner.SpawnPlayer(_map, _player);
         
         GameStateManager.Initialize(new ExplorationState(_map, _player));
+        DisplayService.Initialize();
+        GameDiagnostics.Start();
         
         while (_isRunning)
         {
             Update();
             Draw();
-            Thread.Sleep(16);
+            GameDiagnostics.Update();
+            //Thread.Sleep(16);
         }
     }
     private void Update()

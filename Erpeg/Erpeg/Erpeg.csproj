@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <Folder Include="Core\EventSystem\" />
-      <Folder Include="Systems\ItemSystems\" />
     </ItemGroup>
 
 </Project>
