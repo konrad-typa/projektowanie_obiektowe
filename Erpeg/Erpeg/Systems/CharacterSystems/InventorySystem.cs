@@ -24,7 +24,7 @@ public static class InventorySystem
             }
             else
             {
-                // za ciężkie 
+                MessageLogSystem.Log("Not enough space in inventory!");
             }
         }
     }

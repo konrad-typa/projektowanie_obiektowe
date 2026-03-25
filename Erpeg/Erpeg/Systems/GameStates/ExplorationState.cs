@@ -1,4 +1,5 @@
-﻿using Erpeg.Core.StateMachine;
+﻿using System.Text;
+using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
@@ -52,5 +53,17 @@ public class ExplorationState : IGameState
         {
             MessageLogSystem.Clear();
         }
+    }
+
+    public List<string> GetAvailableActions()
+    {
+        List<string> actionList = new();
+
+        actionList.Add("Actions:");
+        actionList.Add("Move: [W, A, S, D]");
+        actionList.Add("Open Inventory: [I]");
+        actionList.Add("Exit: [Esc]");
+        
+        return actionList;
     }
 }

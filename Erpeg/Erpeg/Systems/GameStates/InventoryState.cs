@@ -58,4 +58,16 @@ public class InventoryState : IGameState
             MessageLogSystem.Log("Inventory empty!");
         }
     }
+    
+    public List<string> GetAvailableActions()
+    {
+        List<string> actionList = new();
+
+        actionList.Add("Actions:");
+        actionList.Add("Prev Item: [A]");
+        actionList.Add("Next Item: [D]");
+        actionList.Add("Close Inv: [I]/[Esc]");
+        
+        return actionList;
+    }
 }

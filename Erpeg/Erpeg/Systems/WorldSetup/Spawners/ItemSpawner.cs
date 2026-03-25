@@ -5,27 +5,54 @@ namespace Erpeg.Systems.WorldSetup.Spawners;
 
 public static class ItemSpawner
 {
-    public static void SpawnItems(MapData map)
+    private static readonly Random Random = new();
+    
+    public static void SpawnRandomItems(MapData map, int count)
     {
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetOneHandSword());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetTwoHandSword());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetBow());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetHealthPotion());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetManaPotion());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetWood());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetDust());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetArmor());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetShield());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetDaggers());
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetArtifact());
-        
-        
-        // kasa
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetCoins(10));
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetCoins(20));
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetCoins(50));
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetGold(100));
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetGold(50));
-        ItemPlacementSystem.PlaceItem(map, ItemLibrary.GetGold(50));
+        for (int i = 0; i < count; i++)
+        {
+            var item = Random.Next(6) switch
+            {
+                0 => ItemLibrary.GetHealthPotion(),
+                1 => ItemLibrary.GetWood(),
+                2 => ItemLibrary.GetIron(),
+                3 => ItemLibrary.GetDust(),
+                4 => ItemLibrary.GetCoins(20),
+                5 => ItemLibrary.GetGold(10)
+            };
+
+            ItemPlacementSystem.PlaceItem(map, item);
+        }
+    }
+    
+    public static void SpawnRandomWeapons(MapData map, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var item = Random.Next(4) switch
+            {
+                0 => ItemLibrary.GetOneHandSword(),
+                1 => ItemLibrary.GetBow(),
+                2 => ItemLibrary.GetTwoHandSword(),
+                3 => ItemLibrary.GetDaggers()
+            };
+
+            ItemPlacementSystem.PlaceItem(map, item);
+        }
+    }
+    
+    public static void SpawnRandomEq(MapData map, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var item = Random.Next(3) switch
+            {
+                0 => ItemLibrary.GetArmor(),
+                1 => ItemLibrary.GetArtifact(),
+                2 => ItemLibrary.GetShield()
+            };
+
+            ItemPlacementSystem.PlaceItem(map, item);
+        }
     }
 }

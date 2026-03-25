@@ -11,12 +11,12 @@ public class RenderService : IService
 {
     public void Initialize() { }
 
-    public static string RenderFrame(MapData map, PlayerData player)
+    public static string RenderFrame(MapData map, PlayerData player, IGameState gameState)
     {
         var sb = new StringBuilder();
         var rHudlines = UIService.GenerateUILinesRight(map, player);
         var topHudlines = UIService.GenerateUILinesTop(map, player);
-        var lHudlines = UIService.GenerateUILinesLeft(map, player);
+        var lHudlines = UIService.GenerateUILinesLeft(map, player, gameState);
         var bottomHudlines = UIService.GenerateUILinesBottom(map, player);
         
         int rUiWidth = rHudlines.Count > 0 ? rHudlines[0].Length : UIService.Width;
@@ -29,7 +29,7 @@ public class RenderService : IService
         for (int y = 0; y < map.SizeY; y++)
         {
             string lHudline = (y < lHudlines.Count) ? lHudlines[y] : new string(' ', lUiWidth);
-            sb.Append("    " + lHudline);
+            sb.Append(lHudline + "  "); // 3 spacje odstępu
             
             for (int x = 0; x < map.SizeX; x++)
             {
@@ -51,7 +51,7 @@ public class RenderService : IService
             }
 
             string rHudline = (y < rHudlines.Count) ? rHudlines[y] : new string(' ', rUiWidth);
-            sb.Append("    " + rHudline);
+            sb.Append("  " + rHudline); // 3 spacje odstępu
             sb.AppendLine();
         }
 

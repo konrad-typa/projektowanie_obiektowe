@@ -13,12 +13,13 @@ public class GameEngine
 {
     private bool _isRunning = true;
     private MapData _map;
-    private PlayerData _player = new("Tytus Bomba", (0, 0));
+    private PlayerData _player;
 
     public void Run()
     {
-        _map = MazeGenerator.Generate();
-        MapSetup.SetupMap(_map);
+        _map = MapSetup.SetupMap();
+        _player = new("Tytus Bomba", (_map.SizeX/2, _map.SizeY/2));
+        
         CharacterSpawner.SpawnPlayer(_map, _player);
         
         GameStateManager.Initialize(new ExplorationState(_map, _player));
@@ -41,7 +42,8 @@ public class GameEngine
 
     private void Draw()
     {
-        var frame = RenderService.RenderFrame(_map, _player);
+        var currentState = GameStateManager.CurrentState;
+        var frame = RenderService.RenderFrame(_map, _player, currentState);
         DisplayService.Write(frame);
     }
 }

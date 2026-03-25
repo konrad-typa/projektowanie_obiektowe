@@ -4,26 +4,26 @@ namespace Erpeg.Core.StateMachine;
 
 public static class GameStateManager
 {
-    private static IGameState _currentState;
+    public static IGameState CurrentState { get; private set; }
 
     public static void Initialize(IGameState initialState)
     {
-        _currentState  = initialState;
+        CurrentState  = initialState;
         InputService.OnInput += HandleAction;
     }
 
     public static void ChangeState(IGameState newState)
     {
-        _currentState = newState;
+        CurrentState = newState;
     }
     
     private static void HandleAction(InputActionType action)
     {
-        _currentState.HandleInput(action);
+        CurrentState.HandleInput(action);
     }
     
     public static void Update()
     {
-        _currentState.Update();
+        CurrentState.Update();
     }
 }

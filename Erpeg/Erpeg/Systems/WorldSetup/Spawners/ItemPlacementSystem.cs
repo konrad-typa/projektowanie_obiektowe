@@ -8,8 +8,12 @@ public class ItemPlacementSystem
     public static void PlaceItem(MapData map, ItemData item)
     {
         var pos = map.GetRandomEmptyTile();
-        while (map.Items.ContainsKey(pos))
+        int att = 0;
+        while (map.Items.ContainsKey(pos) && att < map.SizeY * map.SizeX)
+        {
             pos = map.GetRandomEmptyTile();
+            att++;
+        }
         map.Items[pos] = item;
     }
 }

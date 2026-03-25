@@ -6,8 +6,11 @@ namespace Erpeg.Systems.WorldSetup;
 
 public static class MapSetup
 {
-    public static void SetupMap(MapData map)
+    public static MapData SetupMap()
     {
-        ItemSpawner.SpawnItems(map);
+        var strategy = new ClassicDungeonGenerator();
+        var generated = strategy.Generate();
+
+        return generated;
     }
 }
