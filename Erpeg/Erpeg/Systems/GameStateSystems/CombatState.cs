@@ -70,7 +70,7 @@ public class CombatState : IGameState
         if (_player.Hp <= 0)
         {
             MessageLogSystem.Log("YOU DIED!");
-            Environment.Exit(0); 
+            GameStateManager.ChangeState(new GameOverState()); 
         }
     }
 

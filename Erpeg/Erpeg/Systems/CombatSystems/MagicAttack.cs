@@ -5,13 +5,13 @@ namespace Erpeg.Systems.CombatSystems;
 
 public class MagicAttack : IAttackVisitor
 { 
-    public int VisitHeavyWeaponDamage(int weaponDamage, PlayerData player) => 1; // Ciężka: 1
+    public int VisitHeavyWeaponDamage(int weaponDamage, PlayerData player) => 1;
 
-    public int VisitLightWeaponDamage(int weaponDamage, PlayerData player) => 1; // Lekka: 1
+    public int VisitLightWeaponDamage(int weaponDamage, PlayerData player) => 1;
 
-    public int VisitMagicWeaponDamage(int weaponDamage, PlayerData player) => weaponDamage; // Bez zmian
+    public int VisitMagicWeaponDamage(int weaponDamage, PlayerData player) => weaponDamage;
 
-    public int VisitItemDamage(int itemDamage, PlayerData player) => 0; // Nie-broń: 0
+    public int VisitItemDamage(int itemDamage, PlayerData player) => 0;
 
     public int VisitHeavyWeaponDefense(int weaponDefense, PlayerData player)
     {

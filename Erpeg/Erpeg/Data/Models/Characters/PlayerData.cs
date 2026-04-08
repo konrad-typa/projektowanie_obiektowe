@@ -159,7 +159,10 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 200, i
                 totalDefense += item.Defense;
             }
         }
-        Damage = totalDamage;
-        Defense = totalDefense;
+        int totalStrength = GetTotalAttribute(AttributesType.Strength);
+        int totalDexterity = GetTotalAttribute(AttributesType.Dexterity);
+        
+        Damage = totalDamage + totalStrength;
+        Defense = totalDefense +  totalDexterity;
     }
 }

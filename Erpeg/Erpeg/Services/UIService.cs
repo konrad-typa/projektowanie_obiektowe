@@ -31,21 +31,21 @@ public static class UIService
         hudLines.Add("║" + Center(" ", Width - 2) + "║");
         
         string statsLine2 =
-            $"Strength: {player.Attributes[AttributesType.Strength]}".PadRight(Width/2 - 5) +
+            $"Strength: {player.GetTotalAttribute(AttributesType.Strength)}".PadRight(Width/2 - 5) +
             "  " +
-            $"Dexterity: {player.Attributes[AttributesType.Dexterity]}".PadRight(Width/2 - 5);
+            $"Dexterity: {player.GetTotalAttribute(AttributesType.Dexterity)}".PadRight(Width/2 - 5);
         hudLines.Add("║" + Center(statsLine2, Width - 2) + "║");
-        
+
         string statsLine3 =
-            $"Stamina: {player.Attributes[AttributesType.Stamina]}".PadRight(Width/2 - 5) +
+            $"Stamina: {player.GetTotalAttribute(AttributesType.Stamina)}".PadRight(Width/2 - 5) +
             "  " +
-            $"Intelligence: {player.Attributes[AttributesType.Intelligence]}".PadRight(Width/2 - 5);
+            $"Intelligence: {player.GetTotalAttribute(AttributesType.Intelligence)}".PadRight(Width/2 - 5);
         hudLines.Add("║" + Center(statsLine3, Width - 2) + "║");
-        
+
         string statsLine4 =
-            $"Luck: {player.Attributes[AttributesType.Luck]}".PadRight(Width/2 - 5) +
+            $"Luck: {player.GetTotalAttribute(AttributesType.Luck)}".PadRight(Width/2 - 5) +
             "  " +
-            $"Aggression: {player.Attributes[AttributesType.Aggression]}".PadRight(Width/2 - 5);
+            $"Aggression: {player.GetTotalAttribute(AttributesType.Aggression)}".PadRight(Width/2 - 5);
         hudLines.Add("║" + Center(statsLine4, Width - 2) + "║");
         
         hudLines.Add("╠" + new string('=', Width - 2) + "╣");
