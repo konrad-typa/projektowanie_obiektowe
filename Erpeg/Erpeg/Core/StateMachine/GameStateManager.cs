@@ -1,4 +1,5 @@
-﻿using Erpeg.Services;
+﻿using Erpeg.Core.Interfaces;
+using Erpeg.Services;
 
 namespace Erpeg.Core.StateMachine;
 
@@ -17,9 +18,9 @@ public static class GameStateManager
         CurrentState = newState;
     }
     
-    private static void HandleAction(InputActionType action)
+    private static void HandleAction(ConsoleKey key)
     {
-        CurrentState.HandleInput(action);
+        CurrentState.HandleInput(key);
     }
     
     public static void Update()

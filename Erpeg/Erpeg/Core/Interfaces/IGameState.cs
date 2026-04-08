@@ -1,8 +1,8 @@
-﻿using Erpeg.Services;
+﻿namespace Erpeg.Core.Interfaces;
 
 public interface IGameState
 {
-    void HandleInput(InputActionType action);
+    void HandleInput(ConsoleKey key);
     void Update();
     List<string> GetAvailableActions();
 }

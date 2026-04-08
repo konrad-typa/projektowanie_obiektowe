@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
@@ -53,15 +54,13 @@ public static class UIService
         
         // inventory - waluty
         hudLines.Add("║" + Center( "" +
-                                   $"Coins: {player.Money[ItemType.Coin]}     Gold: {player.Money[ItemType.Gold]}", 
+                                   $"Coins: {player.Coins}     Gold: {player.Gold}", 
             Width - 2) + "║");
         
-        //inventory - itemy
+        // inventory - itemy
         StringBuilder rowSb = new();
         foreach (var item in player.Inventory)
         {
-            if (item.Type == ItemType.Gold || item.Type == ItemType.Coin)
-                continue;
             string itemName = item.Name;
             if (rowSb.Length + itemName.Length > Width - 3)
             {

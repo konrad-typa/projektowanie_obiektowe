@@ -5,7 +5,7 @@ namespace Erpeg.Systems.WorldSetup.Spawners;
 
 public class ItemPlacementSystem
 {
-    public static void PlaceItem(MapData map, ItemData item)
+    public static void PlaceItem(MapData map, Item item)
     {
         var pos = map.GetRandomEmptyTile();
         int att = 0;

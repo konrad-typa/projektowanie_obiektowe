@@ -1,4 +1,5 @@
 ﻿using Erpeg.Data.Content.Items;
+using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Systems.WorldSetup.Spawners;
@@ -11,7 +12,7 @@ public static class ItemSpawner
     {
         for (int i = 0; i < count; i++)
         {
-            var item = Random.Next(6) switch
+            Item item = Random.Next(6) switch
             {
                 0 => ItemLibrary.GetHealthPotion(),
                 1 => ItemLibrary.GetWood(),
