@@ -30,12 +30,14 @@ public static class ItemSpawner
     {
         for (int i = 0; i < count; i++)
         {
-            var item = Random.Next(4) switch
+            var item = Random.Next(6) switch
             {
-                0 => ItemLibrary.GetOneHandSword(),
-                1 => ItemLibrary.GetBow(),
-                2 => ItemLibrary.GetTwoHandSword(),
-                3 => ItemLibrary.GetDaggers()
+                0 => ItemLibrary.GetStrongOneHandSword(),
+                1 => ItemLibrary.GetMagicStaff(),
+                2 => ItemLibrary.GetStrongTwoHandSword(),
+                3 => ItemLibrary.GetUnluckyTwoHandSword(),
+                4 => ItemLibrary.GetStrongDexterityOHSword(),
+                5 => ItemLibrary.GetDexterityDaggers()
             };
 
             ItemPlacementSystem.PlaceItem(map, item);
@@ -48,9 +50,9 @@ public static class ItemSpawner
         {
             var item = Random.Next(3) switch
             {
-                0 => ItemLibrary.GetArmor(),
-                1 => ItemLibrary.GetArtifact(),
-                2 => ItemLibrary.GetShield()
+                0 => ItemLibrary.GetStaminaArmor(),
+                1 => ItemLibrary.GetIntelligentArtifact(),
+                2 => ItemLibrary.GetIntelligentStaminaShield() 
             };
 
             ItemPlacementSystem.PlaceItem(map, item);

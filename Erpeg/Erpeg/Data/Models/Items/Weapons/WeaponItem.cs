@@ -9,12 +9,10 @@ public class WeaponItem(string name, int value,
     : Item(name, value, weight, symbol)
 {
     public WeaponGripType Grip { get; } = grip;
-    public int Damage { get; } = damage;
+    public override int Damage { get; protected set; } = damage;
     public double Hitspeed { get; } = hitspeed;
     public int Range { get; } = range;
     public override bool BlocksOffHand => Grip == WeaponGripType.TwoHanded;
-   
-    public Dictionary<AttributesType, int> Attributes { get; set; } = new Dictionary<AttributesType, int>();
     
     public override void OnPickedUp(PlayerData player, MapData map)
     {

@@ -3,5 +3,7 @@
     Strength,
     Stamina,
     Dexterity,
-    Intelligence
+    Intelligence,
+    Luck,
+    Aggression
 }

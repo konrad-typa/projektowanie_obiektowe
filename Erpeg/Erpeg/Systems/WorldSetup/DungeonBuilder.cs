@@ -99,6 +99,12 @@ public class DungeonBuilder
         return this;
     }
 
+    public DungeonBuilder AddEnemies(int count)
+    {
+        EnemySpawner.SpawnRandomEnemies(_map, count);
+        return this;
+    }
+
     public MapData Build() => _map;
     
     // helpery

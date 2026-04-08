@@ -4,7 +4,7 @@ using Erpeg.Data.Models.Items;
 
 namespace Erpeg.Data.Models.Characters;
 
-public class PlayerData(string name, (int x, int y) position, int maxhp = 500, int hp = 500, char symbol = '¶')
+public class PlayerData(string name, (int x, int y) position, int maxhp = 200, int hp = 200, char symbol = '¶')
     : CharacterData(name, position, maxhp, hp, symbol)
 {
     public List<Item> Inventory { get; set; } = new();
@@ -23,7 +23,9 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
         { AttributesType.Strength , 20 },
         { AttributesType.Stamina, 20 },
         { AttributesType.Dexterity , 20 },
-        { AttributesType.Intelligence , 20 }
+        { AttributesType.Intelligence , 20 },
+        { AttributesType.Aggression, 20},
+        { AttributesType.Luck, 20}
     };
     public double CurrentWeight { get; private set; } = 0;
     public double MaxWeight { get; private set; } = 100;
@@ -87,10 +89,12 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
         if (weapon.Grip == WeaponGripType.TwoHanded)
         {
             UnequipSlot(EquipmentSlotType.OffHand);
+            RecalculateStats();
         }
 
         Inventory.Remove(weapon);
         Equipment[EquipmentSlotType.MainHand] = weapon;
+        RecalculateStats();
     }
 
     public void EquipEq(EquipmentItem item)
@@ -104,11 +108,13 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
             if (mainHandItem != null && mainHandItem.BlocksOffHand)
             {
                 UnequipSlot(EquipmentSlotType.MainHand);
+                RecalculateStats();
             }
         }
         
         Inventory.Remove(item);
         Equipment[item.SlotType] = item;
+        RecalculateStats();
     }
 
     public void UnequipSlot(EquipmentSlotType slot)
@@ -117,6 +123,43 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 500, i
         {
             Equipment[slot] = null;
             Inventory.Add(currentItem);
+            RecalculateStats();
         }
+    }
+    
+    public int GetTotalAttribute(AttributesType type)
+    {
+        int total = Attributes.GetValueOrDefault(type, 0);
+        
+        foreach (var item in Equipment.Values)
+        {
+            if (item != null && item.Attributes.TryGetValue(type, out var itemBonus))
+            {
+                total += itemBonus;
+            }
+        }
+
+        return total;
+    }
+    
+    public void RecalculateStats()
+    {
+        // bonus do hp ze staminy
+        int totalStamina = GetTotalAttribute(AttributesType.Stamina);
+        MaxHp = 200 + (totalStamina * 5); 
+        
+        // bonus do dmg, obrony z itemow
+        int totalDamage = 0;
+        int totalDefense = 0;
+        foreach (var item in Equipment.Values)
+        {
+            if (item != null)
+            {
+                totalDamage += item.Damage;
+                totalDefense += item.Defense;
+            }
+        }
+        Damage = totalDamage;
+        Defense = totalDefense;
     }
 }

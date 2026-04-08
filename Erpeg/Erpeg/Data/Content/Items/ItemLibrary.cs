@@ -1,26 +1,36 @@
 ﻿using Erpeg.Data.Models.Items;
+using Erpeg.Data.Models.Items.Decorators;
+using Erpeg.Data.Models.Items.Weapons;
 
 namespace Erpeg.Data.Content.Items;
 
 public static class ItemLibrary
 {
     // weapons
-    public static WeaponItem GetOneHandSword() => 
-        new WeaponItem("One Handed Sword", 
+    public static LightWeapon GetOneHandSword() => 
+        new LightWeapon("Sword", 
             100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
-    public static WeaponItem GetAxe() => 
-        new WeaponItem("Axe", 
-            100, WeaponGripType.OneHanded, 40, 1.3, 1, 10,'/');
-    public static WeaponItem GetTwoHandSword() => 
-        new WeaponItem("Two Handed Sword", 
+    public static HeavyWeapon GetTwoHandSword() => 
+        new HeavyWeapon("2H Sword", 
             250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
-    public static WeaponItem GetDaggers() => 
-        new WeaponItem("Daggers", 
+    public static LightWeapon GetDaggers() => 
+        new LightWeapon("Daggers", 
             75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
-    public static WeaponItem GetBow() =>
-        new WeaponItem("Bow", 
-            100, WeaponGripType.TwoHanded, 40, 0.7, 5, 10, '}');
-
+    public static HeavyWeapon GetMagicStaff() =>
+        new HeavyWeapon("Magic Staff", 
+            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
+    // decorated weapons
+    public static WeaponItem GetStrongOneHandSword() =>
+        new StrongWeaponDecorator(GetOneHandSword());
+    public static WeaponItem GetStrongTwoHandSword() =>
+        new StrongWeaponDecorator(GetTwoHandSword());
+    public static WeaponItem GetUnluckyTwoHandSword() =>
+        new UnluckyWeaponDecorator(GetTwoHandSword());
+    public static WeaponItem GetDexterityDaggers() =>
+        new DexterityWeaponDecorator(GetDaggers());
+    public static WeaponItem GetStrongDexterityOHSword() =>
+        new StrongWeaponDecorator(new DexterityWeaponDecorator(GetOneHandSword()));
+    
     // eq
     public static EquipmentItem GetArmor() => 
         new EquipmentItem("Armor",
@@ -31,6 +41,13 @@ public static class ItemLibrary
     public static EquipmentItem GetArtifact() => 
         new EquipmentItem("Artifact", 
              20, EquipmentSlotType.Artifact, 60, 10, '~');
+    // decorated eq
+    public static EquipmentItem GetIntelligentArtifact() =>
+        new IntelligentEquipmentDecorator(GetArtifact());
+    public static EquipmentItem GetStaminaArmor() =>
+        new IntelligentEquipmentDecorator(GetArmor());
+    public static EquipmentItem GetIntelligentStaminaShield() =>
+        new IntelligentEquipmentDecorator(new StaminaEquipmentDecorator(GetShield()));
 
     // potions
     public static HealthPotion GetHealthPotion() => 

@@ -40,11 +40,11 @@ public class ExplorationState : IGameState
         var info = _map.GetItemAt(_player.Position);
         if (info != null)
         {
-            MessageLogSystem.Log($"({info.Name}) Pick Up [E]");
+            MessageLogSystem.SetContext($"({info.Name}) Pick Up [E]");
         }
         else
         {
-            MessageLogSystem.Clear();
+            MessageLogSystem.SetContext("");
         }
     }
 

@@ -79,11 +79,11 @@ public class InventoryState : IGameState
         {
             _selectedIndex = Math.Clamp(_selectedIndex, 0, _player.Inventory.Count - 1);
             var item =  _player.Inventory[_selectedIndex];
-            MessageLogSystem.Log($"({item.Name}) Equip/Use [E] / Drop [G]");
+            MessageLogSystem.SetContext($"({item.Name}) Equip/Use [E] / Drop [G]");
         }
         else
         {
-            MessageLogSystem.Log("Inventory empty!");
+            MessageLogSystem.SetContext("Inventory empty!");
         }
     }
     

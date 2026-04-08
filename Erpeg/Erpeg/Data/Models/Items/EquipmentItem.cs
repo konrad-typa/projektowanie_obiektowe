@@ -9,9 +9,7 @@ public class EquipmentItem(string name, int value,
     : Item(name, value, weight, symbol)
 {
     public EquipmentSlotType SlotType { get; set; } = slotType;
-    public int Defense { get; set; } = defense;
-    
-    public Dictionary<AttributesType, int> Attributes { get; set; } = new Dictionary<AttributesType, int>();
+    public override int Defense { get; protected set; } = defense;
     
     public override void OnPickedUp(PlayerData player, MapData map)
     {

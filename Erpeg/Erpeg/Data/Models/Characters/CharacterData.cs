@@ -1,4 +1,6 @@
-﻿namespace Erpeg.Data.Models.Characters;
+﻿using Erpeg.Data.Models.Maps;
+
+namespace Erpeg.Data.Models.Characters;
 
 public class CharacterData(string name, (int x, int y) position, 
     int maxhp = 500, int hp = 500, char symbol = '@')
@@ -9,7 +11,7 @@ public class CharacterData(string name, (int x, int y) position,
 
     private int _hp = hp;
     private int _maxHp = maxhp;
-    public int MaxHp
+    public virtual int MaxHp
     {
         get => _maxHp;
         set
@@ -22,5 +24,9 @@ public class CharacterData(string name, (int x, int y) position,
     {
         get => _hp; 
         set => _hp = Math.Clamp(value, 0, MaxHp);
+    }
+
+    public virtual void Interact(PlayerData player, MapData map)
+    {
     }
 }

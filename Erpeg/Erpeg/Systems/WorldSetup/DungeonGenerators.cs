@@ -14,6 +14,7 @@ public class ClassicDungeonGenerator : IDungeonGenStrategy
             .AddItems(10)
             .AddWeapons(5)
             .AddEq(5)
+            .AddEnemies(5)
             .Build();
     }
 }
