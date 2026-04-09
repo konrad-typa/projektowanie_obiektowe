@@ -1,7 +1,7 @@
 ﻿using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 
-namespace Erpeg.Systems.WorldSetup.Spawners; // Lub Erpeg.Systems.WorldSetup.Spawners, zależnie od Twoich folderów
+namespace Erpeg.Systems.WorldSetup.Spawners;
 
 public static class EnemySpawner
 {
