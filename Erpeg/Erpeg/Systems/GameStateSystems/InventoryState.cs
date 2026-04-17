@@ -35,6 +35,10 @@ public class InventoryState : IGameState
         {
             action.Invoke();
         }
+        else
+        {
+            MessageLogSystem.Log($"[{key}]: Wrong input");
+        }
     }
 
     private void UseSelectedItem()

@@ -13,7 +13,12 @@ public class MoveCommand(MapData map, PlayerData player, int dx, int dy)
         int newY = player.Position.y + dy;
         var targetPos = (newX, newY);
 
-        if (newX >= 0 && newX < map.SizeX && newY >= 0 && newY < map.SizeY && map.Layout[newX, newY] != TileType.Wall)
+        if (!(newX >= 0 && newX < map.SizeX && newY >= 0 && newY < map.SizeY &&
+              map.Layout[newX, newY] != TileType.Wall))
+        {
+            MessageLogSystem.Log("Trying to sniff a wall, huh?");
+        }
+        else
         {
             var characterOnTile = map.Characters.FirstOrDefault(c => c.Position == targetPos);
 

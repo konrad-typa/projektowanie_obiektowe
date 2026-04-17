@@ -42,6 +42,10 @@ public class CombatState : IGameState
         {
             action.Invoke();
         }
+        else
+        {
+            MessageLogSystem.Log($"[{key}]: Wrong input");
+        }
     }
 
     private void ExecuteTurn(IAttackVisitor attackType)
