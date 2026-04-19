@@ -11,7 +11,7 @@ public class FileLogger : ILogger
     {
         _innerLogger = innerLogger;
         string timeStamp = DateTime.Now.ToString("yyyy-MM-dd_HH:mm");
-        string timeStamp2 = DateTime.Now.ToString("yyyy MM dd HH:mm");
+        string timeStamp2 = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
         string fileName = $"{timeStamp}_{playerName}.log";
         
         _filePath = Path.Combine(directoryPath, fileName);
@@ -21,7 +21,7 @@ public class FileLogger : ILogger
 
     public void Log(string message)
     {
-        File.AppendAllText(_filePath, $"[{DateTime.Now:HH:mm::ss}] {message}\n");
+        File.AppendAllText(_filePath, $"[{DateTime.Now:HH:mm:ss}] {message}\n");
         _innerLogger.Log(message);
     }
 

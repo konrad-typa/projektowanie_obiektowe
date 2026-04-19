@@ -16,7 +16,7 @@ public class GameEngine
     private const bool IsRunning = true;
     private MapData _map;
     private PlayerData _player;
-    private string _logPath = "";
+    private string _logPath = "logs";
 
     public void Run()
     {

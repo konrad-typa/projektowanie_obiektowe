@@ -8,8 +8,4 @@
         <RootNamespace>Erpeg</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Core\EventSystem\" />
-    </ItemGroup>
-
 </Project>
