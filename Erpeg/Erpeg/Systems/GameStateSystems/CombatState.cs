@@ -95,4 +95,6 @@ public class CombatState : IGameState
             "[3] Magic Attack"
         };
     }
+    
+    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
 }

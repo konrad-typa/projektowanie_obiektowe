@@ -8,24 +8,22 @@ namespace Erpeg.Systems.GameStateSystems;
 
 public class JournalState : IGameState
 {
-    private readonly MapData _map;
-    private readonly PlayerData _player;
     private int _offset = 0;
-    private static List<string> _fullHistory = GameLogger.Instance.GetFullHistory();
+    private const int WindowSize = 10;
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
     public JournalState(MapData map, PlayerData player)
     {
-        _map = map;
-        _player = player;
+        var map1 = map;
+        var player1 = player;
         
         _keyBindings = new Dictionary<ConsoleKey, Action>
         {
-            { ConsoleKey.A, () => _offset-- },
-            { ConsoleKey.D, () => _offset++ },
-            { ConsoleKey.J, () => GameStateManager.ChangeState(new ExplorationState(_map, _player)) },
-            { ConsoleKey.Escape, () => GameStateManager.ChangeState(new ExplorationState(_map, _player)) }
+            { ConsoleKey.W, () => _offset-- },
+            { ConsoleKey.S, () => _offset++ },
+            { ConsoleKey.J, () => GameStateManager.ChangeState(new ExplorationState(map1, player1)) },
+            { ConsoleKey.Escape, () => GameStateManager.ChangeState(new ExplorationState(map1, player1)) }
         };
     }
 
@@ -43,6 +41,7 @@ public class JournalState : IGameState
 
     public void Update()
     {
+        GameLogger.Instance.SetContext("Opened Journal");
     }
     
     public List<string> GetAvailableActions()
@@ -50,9 +49,18 @@ public class JournalState : IGameState
         return new List<string>
         {
             "Actions:",
-            "Prev page: [A]",
-            "Next page: [D]",
-            "Close Journal: [I]/[Esc]"
+            "Scroll Up: [W]",
+            "Scroll Down: [S]",
+            "Close Journal: [J]/[Esc]"
         };
     }
+
+    public List<string> GetLogHistory()
+    {
+        var fullHistory = GameLogger.Instance.GetFullHistory();
+        _offset = Math.Clamp(_offset, 0, Math.Max(0,  fullHistory.Count - WindowSize));
+        int bufferSize =(fullHistory.Count - 1 - _offset) < WindowSize ? fullHistory.Count - 1 : WindowSize;
+
+        return fullHistory.Skip(_offset).Take(bufferSize).ToList();
+    } 
 }

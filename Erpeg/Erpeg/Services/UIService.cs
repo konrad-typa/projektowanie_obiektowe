@@ -131,7 +131,7 @@ public static class UIService
         
         // historia ostatnich akcji
         hudLines.Add("History:".PadRight(Width / 2));
-        var logs = GameLogger.Instance.GetRecentLogs();
+        var logs = gameState.GetLogHistory();
         foreach (var log in logs)
         {
             var wrappedLines = WrapText(log, Width / 2 - 2);

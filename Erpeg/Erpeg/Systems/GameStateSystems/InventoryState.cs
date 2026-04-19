@@ -102,4 +102,6 @@ public class InventoryState : IGameState
             "Close Inv: [I]/[Esc]"
         };
     }
+    
+    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
 }

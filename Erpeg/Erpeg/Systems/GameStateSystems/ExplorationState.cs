@@ -65,4 +65,6 @@ public class ExplorationState : IGameState
             "Exit: [Esc]"
         };
     }
+
+    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
 }

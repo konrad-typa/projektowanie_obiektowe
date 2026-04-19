@@ -1,4 +1,5 @@
 ﻿using Erpeg.Core.Interfaces;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStateSystems;
 
@@ -24,4 +25,6 @@ public class GameOverState : IGameState
             "Press any key to exit the game"
         };
     }
+
+    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
 }
