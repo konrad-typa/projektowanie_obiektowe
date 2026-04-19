@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
-using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Services;
 
@@ -106,7 +106,7 @@ public static class UIService
         List<string> hudLines = new();
         
         // informacja o przedmiocie na polu 
-        var info = MessageLogSystem.GetContext();
+        var info = GameLogger.Instance.GetContext();
         hudLines.Add(Center(info, Width * 2 - 10));
         
         return hudLines;
@@ -131,7 +131,7 @@ public static class UIService
         
         // historia ostatnich akcji
         hudLines.Add("History:".PadRight(Width / 2));
-        var logs = MessageLogSystem.GetLogs();
+        var logs = GameLogger.Instance.GetRecentLogs();
         foreach (var log in logs)
         {
             var wrappedLines = WrapText(log, Width / 2 - 2);

@@ -1,8 +1,8 @@
 ﻿using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
-using Erpeg.Systems;
+using Erpeg.Systems.LogSystem;
 
-namespace Erpeg.Data.Models.Items;
+namespace Erpeg.Data.Models.Items.Weapons;
 
 public class WeaponItem(string name, int value, 
     WeaponGripType grip, int damage, double hitspeed, int range, double weight, char symbol = '?')
@@ -20,13 +20,13 @@ public class WeaponItem(string name, int value,
         {
             player.Inventory.Add(this);
             map.Items.Remove(player.Position);
-            Systems.MessageLogSystem.Log($"Picked up {Name}.");
+            GameLogger.Instance.Log($"Picked up {Name}.");
         }
     }
     
     public override void Use(PlayerData player)
     {
         player.EquipWeapon(this); 
-        Systems.MessageLogSystem.Log($"Equipped {Name}.");
+        GameLogger.Instance.Log($"Equipped {Name}.");
     }
 }

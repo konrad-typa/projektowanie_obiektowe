@@ -1,6 +1,6 @@
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
-using Erpeg.Systems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
@@ -17,13 +17,13 @@ public class EquipmentItem(string name, int value,
         {
             player.Inventory.Add(this);
             map.Items.Remove(player.Position);
-            Systems.MessageLogSystem.Log($"Picked up {Name}.");
+            GameLogger.Instance.Log($"Picked up {Name}.");
         }
     }
     
     public override void Use(PlayerData player)
     {
         player.EquipEq(this); 
-        Systems.MessageLogSystem.Log($"Equipped {Name}.");
+        GameLogger.Instance.Log($"Equipped {Name}.");
     }
 }

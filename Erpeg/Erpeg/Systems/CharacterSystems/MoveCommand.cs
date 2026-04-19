@@ -1,6 +1,7 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.CharacterSystems;
 
@@ -16,7 +17,7 @@ public class MoveCommand(MapData map, PlayerData player, int dx, int dy)
         if (!(newX >= 0 && newX < map.SizeX && newY >= 0 && newY < map.SizeY &&
               map.Layout[newX, newY] != TileType.Wall))
         {
-            MessageLogSystem.Log("Trying to sniff a wall, huh?");
+            GameLogger.Instance.Log("Trying to sniff a wall, huh?");
         }
         else
         {

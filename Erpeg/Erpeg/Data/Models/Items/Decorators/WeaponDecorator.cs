@@ -1,5 +1,6 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
+using Erpeg.Data.Models.Items.Weapons;
 using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Data.Models.Items.Decorators;

@@ -1,7 +1,7 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
-using Erpeg.Systems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
@@ -35,6 +35,6 @@ public abstract class Item(string name, int value, double weight, char symbol)
     
     public virtual void Use(PlayerData player)
     {
-        MessageLogSystem.Log($"You cannot use {Name}.");
+        GameLogger.Instance.Log($"You cannot use {Name}.");
     }
 }

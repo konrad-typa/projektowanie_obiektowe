@@ -1,18 +1,13 @@
 ﻿using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
-using Erpeg.Systems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
-public abstract class ConsumableItem : Item
+public abstract class ConsumableItem(string name, int value, int restoreAmount, double weight, char symbol = '?')
+    : Item(name, value, weight, symbol)
 {
-    public int RestoreAmount { get; protected set; }
-
-    protected ConsumableItem(string name, int value, int restoreAmount, double weight, char symbol = '?') 
-        : base(name, value, weight, symbol)
-    {
-        RestoreAmount = restoreAmount;
-    }
+    protected int RestoreAmount { get; set; } = restoreAmount;
 
     public override void OnPickedUp(PlayerData player, MapData map)
     {
@@ -20,37 +15,31 @@ public abstract class ConsumableItem : Item
         {
             player.Inventory.Add(this);
             map.Items.Remove(player.Position);
-            MessageLogSystem.Log($"Picked up {Name}.");
+            GameLogger.Instance.Log($"Picked up {Name}.");
         }
         else
         {
-            MessageLogSystem.Log("Not enough space in inventory!");
+            GameLogger.Instance.Log("Not enough space in inventory!");
         }
     }
 }
 
-public class HealthPotion : ConsumableItem
+public class HealthPotion(int restoreAmount, int value) : ConsumableItem("Health Potion", value, restoreAmount, 2, '+')
 {
-    public HealthPotion(int restoreAmount, int value) 
-        : base("Health Potion", value, restoreAmount, 2, '+') { }
-
     public override void Use(PlayerData player)
     {
         player.Heal(RestoreAmount);
         player.RemoveItemFromInventory(this);
-        MessageLogSystem.Log($"You drank a {Name}. Restored {RestoreAmount} HP.");
+        GameLogger.Instance.Log($"You drank a {Name}. Restored {RestoreAmount} HP.");
     }
 }
 
-public class ManaPotion : ConsumableItem
+public class ManaPotion(int restoreAmount, int value) : ConsumableItem("Mana Potion", value, restoreAmount, 2, '+')
 {
-    public ManaPotion(int restoreAmount, int value) 
-        : base("Mana Potion", value, restoreAmount, 2, '+') { }
-
     public override void Use(PlayerData player)
     {
         player.RestoreMana(RestoreAmount);
         player.RemoveItemFromInventory(this);
-        MessageLogSystem.Log($"You drank a {Name}. Restored {RestoreAmount} Mana.");
+        GameLogger.Instance.Log($"You drank a {Name}. Restored {RestoreAmount} Mana.");
     }
 }

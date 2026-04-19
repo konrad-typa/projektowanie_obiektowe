@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Metadata;
 using Erpeg.Data.Content.Items;
 using Erpeg.Data.Models.Items;
+using Erpeg.Data.Models.Items.Weapons;
 
 namespace Erpeg.Data.Models.Characters;
 

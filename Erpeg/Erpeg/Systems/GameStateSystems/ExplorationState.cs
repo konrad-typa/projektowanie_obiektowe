@@ -2,6 +2,7 @@
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.CharacterSystems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStateSystems;
 
@@ -36,7 +37,7 @@ public class ExplorationState : IGameState
         }
         else
         {
-            MessageLogSystem.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}]: Wrong input");
         }
     }
 
@@ -45,11 +46,11 @@ public class ExplorationState : IGameState
         var info = _map.GetItemAt(_player.Position);
         if (info != null)
         {
-            MessageLogSystem.SetContext($"({info.Name}) Pick Up [E]");
+            GameLogger.Instance.SetContext($"({info.Name}) Pick Up [E]");
         }
         else
         {
-            MessageLogSystem.SetContext("");
+            GameLogger.Instance.SetContext("");
         }
     }
 

@@ -8,6 +8,7 @@ using Erpeg.Data.Models.Maps;
 using Erpeg.Systems;
 using Erpeg.Systems.CombatSystems;
 using Erpeg.Systems.GameStateSystems;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStates;
 
@@ -26,7 +27,7 @@ public class CombatState : IGameState
         _player = player;
         _enemy = enemy;
         
-        MessageLogSystem.SetContext($"Combat! {_enemy.Name} blocks the way.");
+        GameLogger.Instance.SetContext($"Combat! {_enemy.Name} blocks the way.");
 
         _combatActions = new Dictionary<ConsoleKey, Action>
         {
@@ -44,7 +45,7 @@ public class CombatState : IGameState
         }
         else
         {
-            MessageLogSystem.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}]: Wrong input");
         }
     }
 
@@ -57,11 +58,11 @@ public class CombatState : IGameState
         
         int damageToEnemy = Math.Max(0, playerDamage - _enemy.Defense);
         _enemy.Hp -= damageToEnemy;
-        MessageLogSystem.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
+        GameLogger.Instance.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
 
         if (_enemy.Hp <= 0)
         {
-            MessageLogSystem.Log($"{_enemy.Name} has been defeated!");
+            GameLogger.Instance.Log($"{_enemy.Name} has been defeated!");
             _map.Characters.Remove(_enemy);
             GameStateManager.ChangeState(new ExplorationState(_map, _player));
             return;
@@ -69,11 +70,11 @@ public class CombatState : IGameState
         
         int damageToPlayer = Math.Max(0, _enemy.Attack - playerDefense);
         _player.Hp -= damageToPlayer; 
-        MessageLogSystem.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
+        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
         
         if (_player.Hp <= 0)
         {
-            MessageLogSystem.Log("YOU DIED!");
+            GameLogger.Instance.Log("YOU DIED!");
             GameStateManager.ChangeState(new GameOverState()); 
         }
     }

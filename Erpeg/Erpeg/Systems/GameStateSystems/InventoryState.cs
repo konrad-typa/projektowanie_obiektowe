@@ -2,6 +2,7 @@
 using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStateSystems;
 
@@ -37,7 +38,7 @@ public class InventoryState : IGameState
         }
         else
         {
-            MessageLogSystem.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}]: Wrong input");
         }
     }
 
@@ -65,14 +66,14 @@ public class InventoryState : IGameState
                 
                 _map.Items[dropPos] = item;
             
-                MessageLogSystem.Log($"Dropped {item.Name}.");
+                GameLogger.Instance.Log($"Dropped {item.Name}.");
             
                 if (_selectedIndex >= _player.Inventory.Count) 
                     _selectedIndex = Math.Max(0, _player.Inventory.Count - 1);
             }
             else
             {
-                MessageLogSystem.Log("No space to drop the item here!");
+                GameLogger.Instance.Log("No space to drop the item here!");
             }
         }
     }
@@ -83,11 +84,11 @@ public class InventoryState : IGameState
         {
             _selectedIndex = Math.Clamp(_selectedIndex, 0, _player.Inventory.Count - 1);
             var item =  _player.Inventory[_selectedIndex];
-            MessageLogSystem.SetContext($"({item.Name}) Equip/Use [E] / Drop [G]");
+            GameLogger.Instance.SetContext($"({item.Name}) Equip/Use [E] / Drop [G]");
         }
         else
         {
-            MessageLogSystem.SetContext("Inventory empty!");
+            GameLogger.Instance.SetContext("Inventory empty!");
         }
     }
     
