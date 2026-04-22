@@ -4,9 +4,9 @@ using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Systems.WorldSetup;
 
-public class ClassicDungeonGenerator : IDungeonGenStrategy
+public class ClassicDungeon : IDungeonGenStrategy
 {
-    public string StartMessage => "Welcome to the classic Dungeon";
+    public string StartMessage => "Welcome to the classic Dungeon!";
     public MapData Generate()
     {
         return DungeonBuilder.CreateFilled("Classic Dungeon", 40, 20)

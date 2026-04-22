@@ -42,8 +42,19 @@ public class GameEngine
             _isRunning = false;
             return;
         }
+
+        var mapIntro = config!.Strategy.StartMessage;
+        foreach (char c in mapIntro)
+        {
+            Console.Write(c);
+            Thread.Sleep(50);
+            if (c == '.' || c == '!')
+                Thread.Sleep(50);
+        }
+        Console.WriteLine($"\nPress any key to continue.");
+        Console.ReadKey();
         
-        _map = MapSetup.SetupMap(config!.DungeonTheme);
+        _map = MapSetup.SetupMap(config!.Strategy);
         _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
         CharacterSpawner.SpawnPlayer(_map, _player);
 
