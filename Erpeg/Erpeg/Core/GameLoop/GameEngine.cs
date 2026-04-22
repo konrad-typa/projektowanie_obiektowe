@@ -54,6 +54,7 @@ public class GameEngine
         }
         Console.WriteLine($"\n\nPress any key to continue.");
         Console.ReadKey();
+        Console.Clear();
         
         _map = MapSetup.SetupMap(config!.Strategy);
         _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
