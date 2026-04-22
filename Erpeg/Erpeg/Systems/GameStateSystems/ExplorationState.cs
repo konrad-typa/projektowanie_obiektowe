@@ -23,7 +23,7 @@ public class ExplorationState : IGameState
             { ConsoleKey.A, new MoveCommand(_map, _player, -1, 0) },
             { ConsoleKey.D, new MoveCommand(_map, _player, 1, 0) },
             { ConsoleKey.E, new PickUpCommand(_map, _player) },
-            { ConsoleKey.I, new ChangeStateCommand(new InventoryState(_map, _player)) },
+            { ConsoleKey.I, new ChangeStateCommand(new InventoryState(_map, _player, this))},
             { ConsoleKey.J, new ChangeStateCommand(new JournalState(_map, _player)) },
             { ConsoleKey.Escape, new ChangeStateCommand(new GameOverState()) },
         };

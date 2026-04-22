@@ -33,7 +33,8 @@ public class CombatState : IGameState
         {
             { ConsoleKey.D1, () => ExecuteTurn(new NormalAttack()) },
             { ConsoleKey.D2, () => ExecuteTurn(new StealthAttack()) },
-            { ConsoleKey.D3, () => ExecuteTurn(new MagicAttack()) }
+            { ConsoleKey.D3, () => ExecuteTurn(new MagicAttack()) },
+            { ConsoleKey.I, () => GameStateManager.ChangeState(new InventoryState(_map, _player, this)) }
         };
     }
 
@@ -92,7 +93,8 @@ public class CombatState : IGameState
             "Actions:",
             "[1] Normal Attack",
             "[2] Stealth Attack",
-            "[3] Magic Attack"
+            "[3] Magic Attack",
+            "[I] Open Inventory"
         };
     }
     

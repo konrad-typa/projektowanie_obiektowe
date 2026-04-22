@@ -14,7 +14,7 @@ public class InventoryState : IGameState
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
-    public InventoryState(MapData map, PlayerData player)
+    public InventoryState(MapData map, PlayerData player, IGameState previousState)
     {
         _map = map;
         _player = player;
@@ -25,8 +25,8 @@ public class InventoryState : IGameState
             { ConsoleKey.D, () => _selectedIndex++ },
             { ConsoleKey.E, UseSelectedItem },
             { ConsoleKey.G, DropSelectedItem },
-            { ConsoleKey.I, () => GameStateManager.ChangeState(new ExplorationState(_map, _player)) },
-            { ConsoleKey.Escape, () => GameStateManager.ChangeState(new ExplorationState(_map, _player)) }
+            { ConsoleKey.I, () => GameStateManager.ChangeState(previousState) },
+            { ConsoleKey.Escape, () => GameStateManager.ChangeState(previousState) }
         };
     }
 
