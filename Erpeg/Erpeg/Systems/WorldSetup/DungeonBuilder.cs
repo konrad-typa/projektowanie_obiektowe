@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Erpeg.Data.Models.Characters;
+using Erpeg.Data.Models.Items;
+using Erpeg.Data.Models.Items.Weapons;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.WorldSetup.Spawners;
 
@@ -82,21 +84,27 @@ public class DungeonBuilder
         return this;
     }
 
+    public DungeonBuilder AddArtifact(int count, params Func<EquipmentItem>[] arGens)
+    {
+        ItemSpawner.SpawnThemeEq(_map, count, arGens);
+        return this;
+    }
+    
     public DungeonBuilder AddItems(int count)
     {
         ItemSpawner.SpawnRandomItems(_map, count);
         return this;
     }
 
-    public DungeonBuilder AddWeapons(int count)
+    public DungeonBuilder AddWeapons(int count, params Func<WeaponItem>[] weaponGens)
     {
-        ItemSpawner.SpawnRandomWeapons(_map, count);
+        ItemSpawner.SpawnThemeWeapons(_map, count, weaponGens);
         return this;
     }
     
-    public DungeonBuilder AddEq(int count)
+    public DungeonBuilder AddEq(int count, params Func<EquipmentItem>[] eqGens)
     {
-        ItemSpawner.SpawnRandomEq(_map, count);
+        ItemSpawner.SpawnThemeEq(_map, count, eqGens);
         return this;
     }
 
@@ -105,7 +113,7 @@ public class DungeonBuilder
         EnemySpawner.SpawnThemeEnemies(_map, count, enemyGens);
         return this;
     }
-
+    
     public MapData Build() => _map;
     
     // helpery

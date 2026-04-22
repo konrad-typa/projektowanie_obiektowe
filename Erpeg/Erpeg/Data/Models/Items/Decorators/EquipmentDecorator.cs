@@ -1,29 +1,25 @@
 ﻿namespace Erpeg.Data.Models.Items.Decorators;
 
-public abstract class EquipmentDecorator : EquipmentItem
+public abstract class EquipmentDecorator(EquipmentItem innerEquipment) : EquipmentItem(innerEquipment.Name,
+    innerEquipment.Value, innerEquipment.SlotType, innerEquipment.Defense, innerEquipment.Weight,
+    innerEquipment.MapSymbol)
 {
-    protected readonly EquipmentItem _innerEquipment;
+    protected readonly EquipmentItem InnerEquipment = innerEquipment;
 
-    protected EquipmentDecorator(EquipmentItem innerEquipment) 
-        : base(innerEquipment.Name, innerEquipment.Value, innerEquipment.SlotType, innerEquipment.Defense, innerEquipment.Weight, innerEquipment.MapSymbol)
-    {
-        _innerEquipment = innerEquipment;
-    }
-    
-    public override string Name => _innerEquipment.Name;
-    public override int Defense => _innerEquipment.Defense;
-    public override Dictionary<AttributesType, int> Attributes => _innerEquipment.Attributes;
+    public override string Name => InnerEquipment.Name;
+    public override int Defense => InnerEquipment.Defense;
+    public override Dictionary<AttributesType, int> Attributes => new(InnerEquipment.Attributes);
 }
 
 public class IntelligentEquipmentDecorator(EquipmentItem innerEquipment) : EquipmentDecorator(innerEquipment)
 {
-    public override string Name => $"{_innerEquipment.Name} (+int)";
+    public override string Name => $"{InnerEquipment.Name} (+int)";
 
     public override Dictionary<AttributesType, int> Attributes
     {
         get
         {
-            var modifiedAttributes = new Dictionary<AttributesType, int>(_innerEquipment.Attributes);
+            var modifiedAttributes = new Dictionary<AttributesType, int>(InnerEquipment.Attributes);
             modifiedAttributes[AttributesType.Intelligence] += 5;
             return modifiedAttributes;
         }
@@ -32,13 +28,13 @@ public class IntelligentEquipmentDecorator(EquipmentItem innerEquipment) : Equip
 
 public class StaminaEquipmentDecorator(EquipmentItem innerEquipment) : EquipmentDecorator(innerEquipment)
 {
-    public override string Name => $"{_innerEquipment.Name} (+stm)";
+    public override string Name => $"{InnerEquipment.Name} (+stm)";
 
     public override Dictionary<AttributesType, int> Attributes
     {
         get
         {
-            var modifiedAttributes = new Dictionary<AttributesType, int>(_innerEquipment.Attributes);
+            var modifiedAttributes = new Dictionary<AttributesType, int>(InnerEquipment.Attributes);
             modifiedAttributes[AttributesType.Stamina] += 5;
             return modifiedAttributes;
         }
@@ -47,15 +43,17 @@ public class StaminaEquipmentDecorator(EquipmentItem innerEquipment) : Equipment
 
 public class ArtifactDecorator(EquipmentItem innerEquipment) : EquipmentDecorator(innerEquipment)
 {
-    public override string Name => $"*{_innerEquipment.Name}*";
+    public override string Name => $"*{InnerEquipment.Name}*";
 
     public override Dictionary<AttributesType, int> Attributes
     {
         get
         {
-            var modifiedAttributes = new Dictionary<AttributesType, int>(_innerEquipment.Attributes);
-            foreach (var attribute in innerEquipment.Attributes)
-                modifiedAttributes[attribute.Key] += attribute.Value;
+            var modifiedAttributes = new Dictionary<AttributesType, int>(InnerEquipment.Attributes);
+            
+            foreach (var attribute in InnerEquipment.Attributes)
+                modifiedAttributes[attribute.Key] += 5;
+            
             return modifiedAttributes;
         }
     }

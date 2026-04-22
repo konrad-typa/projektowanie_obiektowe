@@ -1,5 +1,6 @@
 ﻿using Erpeg.Data.Content.Items;
 using Erpeg.Data.Models.Items;
+using Erpeg.Data.Models.Items.Weapons;
 using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Systems.WorldSetup.Spawners;
@@ -26,36 +27,25 @@ public static class ItemSpawner
         }
     }
     
-    public static void SpawnRandomWeapons(MapData map, int count)
+    public static void SpawnThemeEq(MapData map, int count, params Func<EquipmentItem>[] eqGens)
     {
         for (int i = 0; i < count; i++)
         {
-            var item = Random.Next(6) switch
-            {
-                0 => ItemLibrary.GetStrongOneHandSword(),
-                1 => ItemLibrary.GetMagicStaff(),
-                2 => ItemLibrary.GetStrongTwoHandSword(),
-                3 => ItemLibrary.GetUnluckyTwoHandSword(),
-                4 => ItemLibrary.GetStrongDexterityOHSword(),
-                5 => ItemLibrary.GetDexterityDaggers()
-            };
-
-            ItemPlacementSystem.PlaceItem(map, item);
+            var generator = eqGens[Random.Next(eqGens.Length)];
+            var eq = generator();
+            
+            ItemPlacementSystem.PlaceItem(map, eq);
         }
     }
     
-    public static void SpawnRandomEq(MapData map, int count)
+    public static void SpawnThemeWeapons(MapData map, int count, params Func<WeaponItem>[] weaponGens)
     {
         for (int i = 0; i < count; i++)
         {
-            var item = Random.Next(3) switch
-            {
-                0 => ItemLibrary.GetStaminaArmor(),
-                1 => ItemLibrary.GetIntelligentArtifact(),
-                2 => ItemLibrary.GetIntelligentStaminaShield() 
-            };
-
-            ItemPlacementSystem.PlaceItem(map, item);
+            var generator = weaponGens[Random.Next(weaponGens.Length)];
+            var weapon = generator();
+            
+            ItemPlacementSystem.PlaceItem(map, weapon);
         }
     }
 }

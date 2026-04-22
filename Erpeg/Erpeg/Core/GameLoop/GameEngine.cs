@@ -42,16 +42,17 @@ public class GameEngine
             _isRunning = false;
             return;
         }
+        Console.Clear();
 
         var mapIntro = config!.Strategy.StartMessage;
         foreach (char c in mapIntro)
         {
             Console.Write(c);
-            Thread.Sleep(50);
+            Thread.Sleep(40);
             if (c == '.' || c == '!')
                 Thread.Sleep(50);
         }
-        Console.WriteLine($"\nPress any key to continue.");
+        Console.WriteLine($"\n\nPress any key to continue.");
         Console.ReadKey();
         
         _map = MapSetup.SetupMap(config!.Strategy);

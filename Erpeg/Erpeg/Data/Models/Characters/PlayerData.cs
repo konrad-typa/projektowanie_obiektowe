@@ -5,7 +5,7 @@ using Erpeg.Data.Models.Items.Weapons;
 
 namespace Erpeg.Data.Models.Characters;
 
-public class PlayerData(string name, (int x, int y) position, int maxhp = 200, int hp = 200, char symbol = '¶')
+public class PlayerData(string name, (int x, int y) position, int maxhp = 300, int hp = 300, char symbol = '¶')
     : CharacterData(name, position, maxhp, hp, symbol)
 {
     public List<Item> Inventory { get; set; } = new();
