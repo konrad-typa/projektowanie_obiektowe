@@ -7,17 +7,12 @@ public static class EnemySpawner
 {
     private static readonly Random Random = new Random();
 
-    public static void SpawnRandomEnemies(MapData map, int count)
+    public static void SpawnThemeEnemies(MapData map, int count, params Func<EnemyData>[] enemyGens)
     {
         for (int i = 0; i < count; i++)
         {
-            var enemy = Random.Next(3) switch
-            {
-                0 => new EnemyData("Goblin", (0, 0), attack: 15, defense: 5, maxhp: 50, hp: 50),
-                1 => new EnemyData("Orc", (0, 0), attack: 30, defense: 10, maxhp: 120, hp: 120),
-                2 => new EnemyData("Troll", (0, 0), attack: 50, defense: 20, maxhp: 250, hp: 250),
-                _ => new EnemyData("Goblin", (0, 0), attack: 15, defense: 5, maxhp: 50, hp: 50)
-            };
+            var generator = enemyGens[Random.Next(enemyGens.Length)];
+            var enemy = generator();
             
             PlaceEnemyRandomly(map, enemy);
         }

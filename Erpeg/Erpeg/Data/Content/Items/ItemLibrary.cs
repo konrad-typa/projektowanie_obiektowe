@@ -6,31 +6,6 @@ namespace Erpeg.Data.Content.Items;
 
 public static class ItemLibrary
 {
-    // weapons
-    public static LightWeapon GetOneHandSword() => 
-        new LightWeapon("Sword", 
-            100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
-    public static HeavyWeapon GetTwoHandSword() => 
-        new HeavyWeapon("2H Sword", 
-            250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
-    public static LightWeapon GetDaggers() => 
-        new LightWeapon("Daggers", 
-            75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
-    public static HeavyWeapon GetMagicStaff() =>
-        new HeavyWeapon("Magic Staff", 
-            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
-    // decorated weapons
-    public static WeaponItem GetStrongOneHandSword() =>
-        new StrongWeaponDecorator(GetOneHandSword());
-    public static WeaponItem GetStrongTwoHandSword() =>
-        new StrongWeaponDecorator(GetTwoHandSword());
-    public static WeaponItem GetUnluckyTwoHandSword() =>
-        new UnluckyWeaponDecorator(GetTwoHandSword());
-    public static WeaponItem GetDexterityDaggers() =>
-        new DexterityWeaponDecorator(GetDaggers());
-    public static WeaponItem GetStrongDexterityOHSword() =>
-        new StrongWeaponDecorator(new DexterityWeaponDecorator(GetOneHandSword()));
-    
     // eq
     public static EquipmentItem GetArmor() => 
         new EquipmentItem("Armor",
@@ -70,4 +45,38 @@ public static class ItemLibrary
     // scrap
     public static MaterialItem GetDust() =>
         new MaterialItem("Dust", 2, 0,'.');
+    
+    
+    /* ----------- THEME ITEMS ---------- */
+    
+    // CLASSIC THEME
+    // weapons
+    public static LightWeapon GetOneHandSword() => 
+        new LightWeapon("Sword", 
+            100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
+    public static HeavyWeapon GetTwoHandSword() => 
+        new HeavyWeapon("2H Sword", 
+            250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
+    public static LightWeapon GetDaggers() => 
+        new LightWeapon("Daggers", 
+            75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
+    public static HeavyWeapon GetMagicStaff() =>
+        new HeavyWeapon("Magic Staff", 
+            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
+    // decorated weapons
+    public static WeaponItem GetStrongOneHandSword() =>
+        new StrongWeaponDecorator(GetOneHandSword());
+    public static WeaponItem GetStrongTwoHandSword() =>
+        new StrongWeaponDecorator(GetTwoHandSword());
+    public static WeaponItem GetUnluckyTwoHandSword() =>
+        new UnluckyWeaponDecorator(GetTwoHandSword());
+    public static WeaponItem GetDexterityDaggers() =>
+        new DexterityWeaponDecorator(GetDaggers());
+    public static WeaponItem GetStrongDexterityOHSword() =>
+        new StrongWeaponDecorator(new DexterityWeaponDecorator(GetOneHandSword()));
+    
+    // FUTURISTIC THEME
+    
+    
+    // UNI THEME
 }

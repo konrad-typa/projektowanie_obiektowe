@@ -1,10 +1,12 @@
 ﻿using Erpeg.Core.Interfaces;
+using Erpeg.Data.Content.Enemies;
 using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Systems.WorldSetup;
 
 public class ClassicDungeonGenerator : IDungeonGenStrategy
 {
+    public string StartMessage => "Welcome to the classic Dungeon";
     public MapData Generate()
     {
         return DungeonBuilder.CreateFilled("Classic Dungeon", 40, 20)
@@ -14,7 +16,9 @@ public class ClassicDungeonGenerator : IDungeonGenStrategy
             .AddItems(10)
             .AddWeapons(5)
             .AddEq(5)
-            .AddEnemies(5)
+            .AddThemeEnemies(5, 
+                EnemyLibrary.GetGoblin,
+                EnemyLibrary.GetOrc)
             .Build();
     }
 }

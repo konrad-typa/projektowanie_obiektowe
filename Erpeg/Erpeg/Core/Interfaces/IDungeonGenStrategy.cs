@@ -4,5 +4,6 @@ namespace Erpeg.Core.Interfaces;
 
 public interface IDungeonGenStrategy
 {
+    string StartMessage { get; }
     MapData Generate();
 }

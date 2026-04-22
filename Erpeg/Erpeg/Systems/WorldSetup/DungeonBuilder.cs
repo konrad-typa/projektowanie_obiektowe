@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.WorldSetup.Spawners;
 
@@ -99,9 +100,9 @@ public class DungeonBuilder
         return this;
     }
 
-    public DungeonBuilder AddEnemies(int count)
+    public DungeonBuilder AddThemeEnemies(int count, params Func<EnemyData>[] enemyGens)
     {
-        EnemySpawner.SpawnRandomEnemies(_map, count);
+        EnemySpawner.SpawnThemeEnemies(_map, count, enemyGens);
         return this;
     }
 

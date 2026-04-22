@@ -44,3 +44,19 @@ public class StaminaEquipmentDecorator(EquipmentItem innerEquipment) : Equipment
         }
     }
 }
+
+public class ArtifactDecorator(EquipmentItem innerEquipment) : EquipmentDecorator(innerEquipment)
+{
+    public override string Name => $"*{_innerEquipment.Name}*";
+
+    public override Dictionary<AttributesType, int> Attributes
+    {
+        get
+        {
+            var modifiedAttributes = new Dictionary<AttributesType, int>(_innerEquipment.Attributes);
+            foreach (var attribute in innerEquipment.Attributes)
+                modifiedAttributes[attribute.Key] += attribute.Value;
+            return modifiedAttributes;
+        }
+    }
+}

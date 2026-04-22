@@ -1,5 +1,6 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Core.StateMachine;
+using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
@@ -13,27 +14,48 @@ namespace Erpeg.Core.GameLoop;
 
 public class GameEngine
 {
-    private const bool IsRunning = true;
+    private bool _isRunning = true;
     private MapData _map;
     private PlayerData _player;
-    private string _logPath = "logs";
 
     public void Run()
     {
-        _map = MapSetup.SetupMap();
+        var configService = new GameConfigService();
+        string filePath;
+        while (true)
+        {
+            Console.WriteLine("Config File name/path:");
+            filePath = Console.ReadLine()!;
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("Config file not found. Try again.");
+            }
+            else break;
+        }
+
+        if (!configService.TryLoadConfig(filePath, out GameConfig? config, out var message))
+        {
+            Console.WriteLine($"Error loading config file: {message}");
+            Console.WriteLine($"Press any key to exit.");
+            Console.ReadKey();
+            
+            _isRunning = false;
+            return;
+        }
         
-        _player = new("Tytus Bomba", (_map.SizeX/2, _map.SizeY/2));
+        _map = MapSetup.SetupMap(config!.DungeonTheme);
+        _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
         CharacterSpawner.SpawnPlayer(_map, _player);
 
         ILogger logger = new JournalLogger();
-        logger = new FileLogger(_logPath, _player.Name, logger);
+        logger = new FileLogger(config!.LogFilePath, _player.Name, logger);
         GameLogger.Instance.Initialize(logger);
         
         GameStateManager.Initialize(new ExplorationState(_map, _player));
         DisplayService.Initialize();
         GameDiagnostics.Start();
         
-        while (IsRunning)
+        while (_isRunning)
         {
             Update();
             Draw();
