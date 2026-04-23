@@ -55,8 +55,8 @@ public static class ItemLibrary
     public static LightWeapon GetDaggers() => 
         new LightWeapon("Daggers", 
             75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
-    public static HeavyWeapon GetMagicStaff() =>
-        new HeavyWeapon("Magic Staff", 
+    public static MagicWeapon GetMagicStaff() =>
+        new MagicWeapon("Magic Staff", 
             100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
     // decorated weapons
     public static WeaponItem GetStrongOneHandSword() =>
@@ -83,8 +83,8 @@ public static class ItemLibrary
     public static HeavyWeapon GetLightsaber() => 
         new HeavyWeapon("Lightsaber", 
             250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
-    public static HeavyWeapon GetMagicRing() =>
-        new HeavyWeapon("Magic Ring", 
+    public static MagicWeapon GetMagicRing() =>
+        new MagicWeapon("Magic Ring", 
             100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
     // decorated weapons
     public static WeaponItem GetStrongBlaster() =>
@@ -114,8 +114,8 @@ public static class ItemLibrary
     public static LightWeapon GetCrayons() => 
         new LightWeapon("Crayons", 
             75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
-    public static HeavyWeapon GetMagicIpad() =>
-        new HeavyWeapon("Magic Ipad", 
+    public static MagicWeapon GetMagicIpad() =>
+        new MagicWeapon("Magic Ipad", 
             100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
     // decorated weapons
     public static WeaponItem GetStrongPencil() =>
@@ -124,8 +124,8 @@ public static class ItemLibrary
         new StrongWeaponDecorator(GetPen());
     public static WeaponItem GetUnluckyPen() =>
         new UnluckyWeaponDecorator(GetPen());
-    public static WeaponItem GetDexterityCrayons() =>
-        new DexterityWeaponDecorator(GetCrayons());
+    public static WeaponItem GetDexterityMagicIpad() =>
+        new DexterityWeaponDecorator(GetMagicIpad());
     public static WeaponItem GetStrongDexterityPencil() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetPencil()));
     // artifact

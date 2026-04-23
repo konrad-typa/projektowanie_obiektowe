@@ -27,7 +27,8 @@ public class ClassicDungeon : IDungeonGenStrategy
                 ItemLibrary.GetDexterityDaggers,
                 ItemLibrary.GetStrongOneHandSword,
                 ItemLibrary.GetStrongTwoHandSword,
-                ItemLibrary.GetUnluckyTwoHandSword)
+                ItemLibrary.GetUnluckyTwoHandSword,
+                ItemLibrary.GetMagicStaff)
             .AddEq(5,
                 ItemLibrary.GetArmor,
                 ItemLibrary.GetShield,
@@ -93,7 +94,7 @@ public class UniversityDungeon : IDungeonGenStrategy
             .AddWeapons(5,
                 ItemLibrary.GetPencil,
                 ItemLibrary.GetStrongDexterityPencil,
-                ItemLibrary.GetDexterityCrayons,
+                ItemLibrary.GetDexterityMagicIpad,
                 ItemLibrary.GetStrongPen,
                 ItemLibrary.GetStrongPencil,
                 ItemLibrary.GetUnluckyPen)
