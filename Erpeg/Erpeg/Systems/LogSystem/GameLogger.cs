@@ -1,5 +1,3 @@
-
-
 using Erpeg.Core.Interfaces;
 
 namespace Erpeg.Systems.LogSystem;

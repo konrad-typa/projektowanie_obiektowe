@@ -74,7 +74,7 @@ public class CombatState : IGameState
         int damageToPlayer = Math.Max(0, _enemy.Attack - playerDefense);
         damageToPlayer += CritHitBonus(_enemy.Attack, 50, 0.10);
         _player.Hp -= damageToPlayer; 
-        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg! your defense is {playerDefense}");
+        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
         
         if (_player.Hp <= 0)
         {
