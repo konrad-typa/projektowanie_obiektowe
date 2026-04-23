@@ -14,6 +14,7 @@ namespace Erpeg.Systems.GameStates;
 
 public class CombatState : IGameState
 {
+    private static readonly Random Random = new();
     private readonly MapData _map;
     private readonly PlayerData _player;
     private readonly EnemyData _enemy;
@@ -54,8 +55,9 @@ public class CombatState : IGameState
     {
         var weapon = _player.Equipment.TryGetValue(EquipmentSlotType.MainHand, out var w) && w != null ? w : _fists;
         
-        int playerDamage = weapon.AcceptDamage(attackType, _player, weapon.Damage);
-        int playerDefense = weapon.AcceptDefense(attackType, _player, weapon.Defense);
+        int playerDamage = weapon.AcceptDamage(attackType, _player);
+        playerDamage += CritHitBonus(playerDamage, _player.GetTotalAttribute(AttributesType.Luck), 0.05);
+        int playerDefense = weapon.AcceptDefense(attackType, _player);
         
         int damageToEnemy = Math.Max(0, playerDamage - _enemy.Defense);
         _enemy.Hp -= damageToEnemy;
@@ -70,8 +72,9 @@ public class CombatState : IGameState
         }
         
         int damageToPlayer = Math.Max(0, _enemy.Attack - playerDefense);
+        damageToPlayer += CritHitBonus(_enemy.Attack, 50, 0.10);
         _player.Hp -= damageToPlayer; 
-        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
+        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg! your defense is {playerDefense}");
         
         if (_player.Hp <= 0)
         {
@@ -99,4 +102,17 @@ public class CombatState : IGameState
     }
     
     public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+
+    private int CritHitBonus(int damage, int chance, double bonusPercentage)
+    {
+        int ret = 0;
+        
+        int roll = Random.Next(0, 100);
+        if (roll <= chance)
+        {
+            ret = (int)Math.Floor(damage * bonusPercentage);
+        }
+
+        return ret;
+    }
 }

@@ -14,9 +14,9 @@ public class HeavyWeapon(
     char symbol = '?')
     : WeaponItem(name, value, grip, damage, hitspeed, range, weight, symbol)
 {
-    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player, int currentDamage) 
-        => visitor.VisitHeavyWeaponDamage(currentDamage, player);
+    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitHeavyWeaponDamage(player);
 
-    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player, int currentDefense) 
-        => visitor.VisitHeavyWeaponDefense(currentDefense, player);
+    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitHeavyWeaponDefense(player);
 }

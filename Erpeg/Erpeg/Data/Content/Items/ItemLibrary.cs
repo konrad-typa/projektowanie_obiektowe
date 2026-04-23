@@ -9,10 +9,10 @@ public static class ItemLibrary
     // eq
     public static EquipmentItem GetArmor() => 
         new EquipmentItem("Armor",
-             80, EquipmentSlotType.Chest, 100, 10, '&');
+             80, EquipmentSlotType.Chest, 30, 10, '&');
     public static EquipmentItem GetShield() => 
         new EquipmentItem("Shield", 
-             50, EquipmentSlotType.OffHand, 60, 10, 'O');
+             50, EquipmentSlotType.OffHand, 20, 10, 'O');
     // decorated eq
     public static EquipmentItem GetStaminaArmor() =>
         new IntelligentEquipmentDecorator(GetArmor());
@@ -21,9 +21,9 @@ public static class ItemLibrary
 
     // potions
     public static HealthPotion GetHealthPotion() => 
-        new HealthPotion( 50, 20);
+        new HealthPotion( 100, 20);
     public static ConsumableItem GetManaPotion() => 
-        new ManaPotion( 50, 20);
+        new ManaPotion( 100, 20);
 
     // money
     public static GoldItem GetGold(int amount) => 

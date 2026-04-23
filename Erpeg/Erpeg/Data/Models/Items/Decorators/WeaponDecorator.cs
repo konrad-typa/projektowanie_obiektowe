@@ -20,14 +20,14 @@ public abstract class WeaponDecorator : WeaponItem
     public override Dictionary<AttributesType, int> Attributes => _innerWeapon.Attributes;
     public override bool BlocksOffHand => _innerWeapon.BlocksOffHand;
     
-    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player, int currentDamage)
+    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player)
     {
-        return _innerWeapon.AcceptDamage(visitor, player, currentDamage);
+        return _innerWeapon.AcceptDamage(visitor, player);
     }
 
-    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player, int currentDefense)
+    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player)
     {
-        return _innerWeapon.AcceptDefense(visitor, player, currentDefense);
+        return _innerWeapon.AcceptDefense(visitor, player);
     }
 }
 

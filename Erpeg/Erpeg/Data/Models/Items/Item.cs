@@ -25,11 +25,11 @@ public abstract class Item(string name, int value, double weight, char symbol)
     public virtual int Damage { get; protected set; } = 0;
     public virtual int Defense { get; protected set; } = 0;
     
-    public virtual int AcceptDamage(IAttackVisitor visitor, PlayerData player, int currentDamage) 
-        => visitor.VisitItemDamage(currentDamage, player);
+    public virtual int AcceptDamage(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitItemDamage(player);
 
-    public virtual int AcceptDefense(IAttackVisitor visitor, PlayerData player, int currentDefense) 
-        => visitor.VisitItemDefense(currentDefense, player);
+    public virtual int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitItemDefense(player);
 
     public abstract void OnPickedUp(PlayerData player, MapData map);
     

@@ -59,6 +59,7 @@ public class GameEngine
         _map = MapSetup.SetupMap(config!.Strategy);
         _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
         CharacterSpawner.SpawnPlayer(_map, _player);
+        _player.RecalculateStats();
 
         ILogger logger = new JournalLogger();
         logger = new FileLogger(config!.LogFilePath, _player.Name, logger);

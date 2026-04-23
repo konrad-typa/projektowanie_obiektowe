@@ -147,7 +147,10 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 300, i
     {
         // bonus do hp ze staminy
         int totalStamina = GetTotalAttribute(AttributesType.Stamina);
-        MaxHp = 200 + (totalStamina * 5); 
+        
+        var hpPercentage = Hp / MaxHp; 
+        MaxHp = 300 + (totalStamina * 5); 
+        Hp = MaxHp * hpPercentage;
         
         // bonus do dmg, obrony z itemow
         int totalDamage = 0;
@@ -160,10 +163,8 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 300, i
                 totalDefense += item.Defense;
             }
         }
-        int totalStrength = GetTotalAttribute(AttributesType.Strength);
-        int totalDexterity = GetTotalAttribute(AttributesType.Dexterity);
         
-        Damage = totalDamage + totalStrength;
-        Defense = totalDefense +  totalDexterity;
+        Damage = totalDamage;
+        Defense = totalDefense;
     }
 }

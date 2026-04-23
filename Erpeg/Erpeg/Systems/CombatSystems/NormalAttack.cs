@@ -5,34 +5,42 @@ namespace Erpeg.Systems.CombatSystems;
 
 public class NormalAttack : IAttackVisitor
 {
-    public int VisitHeavyWeaponDamage(int weaponDamage, PlayerData player) => weaponDamage;
+    public int VisitHeavyWeaponDamage(PlayerData player)
+    {
+        var stats =  player.GetTotalAttribute(AttributesType.Strength) + player.GetTotalAttribute(AttributesType.Aggression);
+        return player.Damage +  stats;
+    }
 
-    public int VisitLightWeaponDamage(int weaponDamage, PlayerData player) => weaponDamage;
+    public int VisitLightWeaponDamage(PlayerData player)
+    {
+        var stats =  player.GetTotalAttribute(AttributesType.Dexterity) + player.GetTotalAttribute(AttributesType.Luck);
+        return player.Damage +  stats;
+    }
 
-    public int VisitMagicWeaponDamage(int weaponDamage, PlayerData player) => 1;
+    public int VisitMagicWeaponDamage(PlayerData player) => 1;
 
-    public int VisitItemDamage(int itemDamage, PlayerData player) => 0;
+    public int VisitItemDamage(PlayerData player) => 0;
 
-    public int VisitHeavyWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitHeavyWeaponDefense(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Strength) + player.GetTotalAttribute(AttributesType.Luck);
-        return weaponDefense + stats;
+        return player.Defense + stats;
     }
     
-    public int VisitLightWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitLightWeaponDefense(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Dexterity) + player.GetTotalAttribute(AttributesType.Luck);
-        return weaponDefense + stats;
+        return player.Defense + stats;
     }
 
-    public int VisitMagicWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitMagicWeaponDefense(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Dexterity) + player.GetTotalAttribute(AttributesType.Luck);
-        return weaponDefense + stats;
+        return player.Defense + stats;
     }
 
-    public int VisitItemDefense(int itemDefense, PlayerData player)
+    public int VisitItemDefense(PlayerData player)
     {
-        return itemDefense + player.GetTotalAttribute(AttributesType.Dexterity);
+        return player.Defense + player.GetTotalAttribute(AttributesType.Dexterity);
     }
 }

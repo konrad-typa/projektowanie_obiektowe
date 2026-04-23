@@ -13,14 +13,17 @@ public static class ItemSpawner
     {
         for (int i = 0; i < count; i++)
         {
-            Item item = Random.Next(6) switch
+            Item item = Random.Next(10) switch
             {
                 0 => ItemLibrary.GetHealthPotion(),
                 1 => ItemLibrary.GetWood(),
                 2 => ItemLibrary.GetIron(),
                 3 => ItemLibrary.GetDust(),
                 4 => ItemLibrary.GetCoins(20),
-                5 => ItemLibrary.GetGold(10)
+                5 => ItemLibrary.GetGold(10),
+                6 => ItemLibrary.GetCoins(50),
+                7 => ItemLibrary.GetGold(25),
+                _ => ItemLibrary.GetHealthPotion()
             };
 
             ItemPlacementSystem.PlaceItem(map, item);

@@ -5,32 +5,32 @@ namespace Erpeg.Systems.CombatSystems;
 
 public class StealthAttack : IAttackVisitor
 {
-    public int VisitHeavyWeaponDamage(int weaponDamage, PlayerData player)
+    public int VisitHeavyWeaponDamage(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Strength) + player.GetTotalAttribute(AttributesType.Aggression);
-        return (weaponDamage + stats) / 2;
+        return (player.Damage+ stats) / 2;
     }
 
-    public int VisitLightWeaponDamage(int weaponDamage, PlayerData player)
+    public int VisitLightWeaponDamage(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Dexterity) + player.GetTotalAttribute(AttributesType.Luck);
-        return (weaponDamage + stats) * 2;
+        return (player.Damage+ stats) * 2;
     }
 
-    public int VisitMagicWeaponDamage(int weaponDamage, PlayerData player) => 1;
+    public int VisitMagicWeaponDamage(PlayerData player) => 1;
 
-    public int VisitItemDamage(int itemDamage, PlayerData player) => 0;
+    public int VisitItemDamage(PlayerData player) => 0;
 
-    public int VisitHeavyWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitHeavyWeaponDefense(PlayerData player)
     {
-        return weaponDefense + player.GetTotalAttribute(AttributesType.Strength);
+        return player.Defense + player.GetTotalAttribute(AttributesType.Strength);
     }
 
-    public int VisitLightWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitLightWeaponDefense(PlayerData player)
     {
-        return weaponDefense + player.GetTotalAttribute(AttributesType.Dexterity);
+        return player.Defense + player.GetTotalAttribute(AttributesType.Dexterity);
     }
 
-    public int VisitMagicWeaponDefense(int weaponDefense, PlayerData player) => weaponDefense;
-    public int VisitItemDefense(int itemDefense, PlayerData player) => itemDefense;
+    public int VisitMagicWeaponDefense(PlayerData player) => player.Defense;
+    public int VisitItemDefense(PlayerData player) => player.Defense;
 }

@@ -5,32 +5,36 @@ namespace Erpeg.Systems.CombatSystems;
 
 public class MagicAttack : IAttackVisitor
 { 
-    public int VisitHeavyWeaponDamage(int weaponDamage, PlayerData player) => 1;
+    public int VisitHeavyWeaponDamage(PlayerData player) => 1;
 
-    public int VisitLightWeaponDamage(int weaponDamage, PlayerData player) => 1;
+    public int VisitLightWeaponDamage(PlayerData player) => 1;
 
-    public int VisitMagicWeaponDamage(int weaponDamage, PlayerData player) => weaponDamage;
-
-    public int VisitItemDamage(int itemDamage, PlayerData player) => 0;
-
-    public int VisitHeavyWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitMagicWeaponDamage(PlayerData player)
     {
-        return weaponDefense + player.GetTotalAttribute(AttributesType.Luck);
+        var stats = player.GetTotalAttribute(AttributesType.Intelligence) * 3;
+        return player.Damage + stats; 
+    } 
+
+    public int VisitItemDamage(PlayerData player) => 0;
+
+    public int VisitHeavyWeaponDefense(PlayerData player)
+    {
+        return player.Defense + player.GetTotalAttribute(AttributesType.Luck);
     }
 
-    public int VisitLightWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitLightWeaponDefense(PlayerData player)
     {
-        return weaponDefense + player.GetTotalAttribute(AttributesType.Luck);
+        return player.Defense + player.GetTotalAttribute(AttributesType.Luck);
     }
 
-    public int VisitMagicWeaponDefense(int weaponDefense, PlayerData player)
+    public int VisitMagicWeaponDefense(PlayerData player)
     {
         int stats = player.GetTotalAttribute(AttributesType.Intelligence) * 2;
-        return weaponDefense + stats;
+        return player.Defense + stats;
     }
 
-    public int VisitItemDefense(int itemDefense, PlayerData player)
+    public int VisitItemDefense(PlayerData player)
     {
-        return itemDefense + player.GetTotalAttribute(AttributesType.Luck);
+        return player.Defense + player.GetTotalAttribute(AttributesType.Luck);
     }
 }

@@ -14,9 +14,9 @@ public class MagicWeapon(
     char symbol = '?')
     : WeaponItem(name, value, grip, damage, hitspeed, range, weight, symbol)
 {
-    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player, int currentDamage) 
-        => visitor.VisitMagicWeaponDamage(currentDamage, player);
+    public override int AcceptDamage(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitMagicWeaponDamage(player);
 
-    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player, int currentDefense) 
-        => visitor.VisitMagicWeaponDefense(currentDefense, player);
+    public override int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
+        => visitor.VisitMagicWeaponDefense(player);
 }
