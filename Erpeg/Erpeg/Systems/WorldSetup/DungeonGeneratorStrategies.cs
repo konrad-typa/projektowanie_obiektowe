@@ -20,17 +20,17 @@ public class ClassicDungeon : IDungeonGenStrategy
             .AddCorridors()
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedClassicArtifact)
-            .AddItems(10)
-            .AddWeapons(5,
+            .AddItems(7)
+            .AddWeapons(3,
                 ItemLibrary.GetOneHandSword,
                 ItemLibrary.GetStrongDexterityOHSword,
-                ItemLibrary.GetDexterityDaggers,
+                ItemLibrary.GetIntelligentMagicStaff,
                 ItemLibrary.GetStrongOneHandSword,
                 ItemLibrary.GetStrongTwoHandSword,
                 ItemLibrary.GetUnluckyTwoHandSword,
                 ItemLibrary.GetMagicStaff)
-            .AddEq(5,
-                ItemLibrary.GetArmor,
+            .AddEq(3,
+                ItemLibrary.GetIntelligentArmor,
                 ItemLibrary.GetShield,
                 ItemLibrary.GetStaminaArmor,
                 ItemLibrary.GetIntelligentStaminaShield)
@@ -56,18 +56,18 @@ public class FuturisticDungeon : IDungeonGenStrategy
             .AddCorridors()
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedFuturisticArtifact)
-            .AddItems(10)
-            .AddWeapons(5,
+            .AddItems(7)
+            .AddWeapons(3,
                 ItemLibrary.GetBlaster,
                 ItemLibrary.GetStrongBlaster,
-                ItemLibrary.GetDexterityMagicRing,
+                ItemLibrary.GetIntelligentMagicRing,
                 ItemLibrary.GetStrongDexterityBlaster,
                 ItemLibrary.GetStrongLightsaber,
                 ItemLibrary.GetUnluckyLightsaber)
-            .AddEq(5,
-                ItemLibrary.GetArmor,
-                ItemLibrary.GetShield,
+            .AddEq(3,
                 ItemLibrary.GetStaminaArmor,
+                ItemLibrary.GetShield,
+                ItemLibrary.GetIntelligentArmor,
                 ItemLibrary.GetIntelligentStaminaShield)
             .AddThemeEnemies(5, 
                 EnemyLibrary.GetAndroid,
@@ -90,16 +90,16 @@ public class UniversityDungeon : IDungeonGenStrategy
             .AddCorridors()
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedUniArtifact)
-            .AddItems(10)
-            .AddWeapons(5,
+            .AddItems(7)
+            .AddWeapons(3,
                 ItemLibrary.GetPencil,
                 ItemLibrary.GetStrongDexterityPencil,
-                ItemLibrary.GetDexterityMagicIpad,
+                ItemLibrary.GetIntelligentMagicIpad,
                 ItemLibrary.GetStrongPen,
                 ItemLibrary.GetStrongPencil,
                 ItemLibrary.GetUnluckyPen)
-            .AddEq(5,
-                ItemLibrary.GetArmor,
+            .AddEq(3,
+                ItemLibrary.GetIntelligentArmor,
                 ItemLibrary.GetShield,
                 ItemLibrary.GetStaminaArmor,
                 ItemLibrary.GetIntelligentStaminaShield)

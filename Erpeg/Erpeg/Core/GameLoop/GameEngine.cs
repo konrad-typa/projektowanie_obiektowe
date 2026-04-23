@@ -44,16 +44,24 @@ public class GameEngine
         }
         Console.Clear();
 
+        bool skipped = false;
         var mapIntro = config!.Strategy.StartMessage;
         foreach (char c in mapIntro)
         {
             Console.Write(c);
-            Thread.Sleep(40);
-            if (c == '.' || c == '!')
-                Thread.Sleep(50);
+            if (Console.KeyAvailable)
+                skipped = true;
+            
+            if (!skipped)
+            {
+                Thread.Sleep(40);
+                if (c == '.' || c == '!')
+                    Thread.Sleep(50);
+            }
         }
+        while (Console.KeyAvailable) Console.ReadKey(intercept: true);
         Console.WriteLine($"\n\nPress any key to continue.");
-        Console.ReadKey();
+        Console.ReadKey(intercept: true);
         Console.Clear();
         
         _map = MapSetup.SetupMap(config!.Strategy);

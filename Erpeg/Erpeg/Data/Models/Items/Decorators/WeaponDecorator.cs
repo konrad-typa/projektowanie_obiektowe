@@ -83,4 +83,19 @@ public class DexterityWeaponDecorator(WeaponItem innerWeapon) : WeaponDecorator(
     }
 }
 
+public class IntelligentWeaponDecorator(WeaponItem innerWeapon) : WeaponDecorator(innerWeapon)
+{
+    public override string Name => $"{_innerWeapon.Name} (+int)";
+
+    public override Dictionary<AttributesType, int> Attributes
+    {
+        get
+        {
+            var modifiedAttributes = new Dictionary<AttributesType, int>(_innerWeapon.Attributes);
+            modifiedAttributes[AttributesType.Intelligence] += 5;
+            return modifiedAttributes;
+        }
+    }
+}
+
 // dodaj nowe

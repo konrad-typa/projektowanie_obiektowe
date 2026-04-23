@@ -14,8 +14,10 @@ public static class ItemLibrary
         new EquipmentItem("Shield", 
              50, EquipmentSlotType.OffHand, 20, 10, 'O');
     // decorated eq
-    public static EquipmentItem GetStaminaArmor() =>
+    public static EquipmentItem GetIntelligentArmor() =>
         new IntelligentEquipmentDecorator(GetArmor());
+    public static EquipmentItem GetStaminaArmor() =>
+        new StaminaEquipmentDecorator(GetArmor());
     public static EquipmentItem GetIntelligentStaminaShield() =>
         new IntelligentEquipmentDecorator(new StaminaEquipmentDecorator(GetShield()));
 
@@ -64,9 +66,9 @@ public static class ItemLibrary
     public static WeaponItem GetStrongTwoHandSword() =>
         new StrongWeaponDecorator(GetTwoHandSword());
     public static WeaponItem GetUnluckyTwoHandSword() =>
-        new UnluckyWeaponDecorator(GetTwoHandSword());
-    public static WeaponItem GetDexterityDaggers() =>
-        new DexterityWeaponDecorator(GetDaggers());
+        new UnluckyWeaponDecorator(GetTwoHandSword()); 
+    public static WeaponItem GetIntelligentMagicStaff() =>
+        new IntelligentWeaponDecorator(GetMagicStaff());
     public static WeaponItem GetStrongDexterityOHSword() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetOneHandSword()));
     // artifact
@@ -93,8 +95,8 @@ public static class ItemLibrary
         new StrongWeaponDecorator(GetLightsaber());
     public static WeaponItem GetUnluckyLightsaber() =>
         new UnluckyWeaponDecorator(GetLightsaber());
-    public static WeaponItem GetDexterityMagicRing() =>
-        new DexterityWeaponDecorator(GetMagicRing());
+    public static WeaponItem GetIntelligentMagicRing() =>
+        new IntelligentWeaponDecorator(GetMagicRing());
     public static WeaponItem GetStrongDexterityBlaster() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetBlaster()));
     // artifact
@@ -124,8 +126,8 @@ public static class ItemLibrary
         new StrongWeaponDecorator(GetPen());
     public static WeaponItem GetUnluckyPen() =>
         new UnluckyWeaponDecorator(GetPen());
-    public static WeaponItem GetDexterityMagicIpad() =>
-        new DexterityWeaponDecorator(GetMagicIpad());
+    public static WeaponItem GetIntelligentMagicIpad() =>
+        new IntelligentWeaponDecorator(GetMagicIpad());
     public static WeaponItem GetStrongDexterityPencil() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetPencil()));
     // artifact
