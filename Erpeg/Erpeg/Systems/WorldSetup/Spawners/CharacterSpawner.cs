@@ -9,6 +9,6 @@ public static class CharacterSpawner
     private static readonly Random Random = new Random();
     public static void SpawnPlayer(MapData map, PlayerData player)
     {
-        map.Characters.Add(player);
+        map.Characters[player.Position] = player;
     }
 }

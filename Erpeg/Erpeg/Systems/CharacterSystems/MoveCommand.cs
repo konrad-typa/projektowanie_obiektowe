@@ -21,15 +21,15 @@ public class MoveCommand(MapData map, PlayerData player, int dx, int dy)
         }
         else
         {
-            var characterOnTile = map.Characters.FirstOrDefault(c => c.Position == targetPos);
-
-            if (characterOnTile != null)
+            if (map.Characters.TryGetValue((newX, newY), out var characterOnTile))
             {
                 characterOnTile.Interact(player, map);
             }
             else
             {
+                map.Characters.Remove(player.Position);
                 player.Position = targetPos;
+                map.Characters[targetPos] = player;
             }
         }
     }

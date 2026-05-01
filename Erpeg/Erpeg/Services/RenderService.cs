@@ -28,8 +28,10 @@ public class RenderService : IService
         
         for (int y = 0; y < map.SizeY; y++)
         {
-            string lHudline = (y < lHudlines.Count) ? lHudlines[y] : new string(' ', lUiWidth);
-            sb.Append(lHudline + "  "); // 3 spacje odstępu
+            if (y < lHudlines.Count)
+                sb.Append($"{lHudlines[y]}  "); // 2 spacje odstępu
+            else 
+                sb.Append(' ',  lUiWidth + 2); // 2 spacje odstępu
             
             for (int x = 0; x < map.SizeX; x++)
             {
@@ -40,18 +42,20 @@ public class RenderService : IService
                     _ => '.'
                 };
 
-                if (map.Items.ContainsKey((x, y)))
-                    symbol = map.Items[(x, y)].MapSymbol;
+                if (map.Items.TryGetValue((x, y), out var item))
+                    symbol = item.MapSymbol;
 
-                var character = map.Characters.FirstOrDefault(c => c.Position == (x, y));
-                if (character != null)
+                if (map.Characters.TryGetValue((x, y), out var character))
                     symbol = character.MapSymbol;
-
+                
                 sb.Append(symbol);
             }
 
-            string rHudline = (y < rHudlines.Count) ? rHudlines[y] : new string(' ', rUiWidth);
-            sb.Append("  " + rHudline); // 3 spacje odstępu
+            if (y < rHudlines.Count)
+                sb.Append($"  {rHudlines[y]}"); // 2 spacje odstępu
+            else 
+                sb.Append(' ',  rUiWidth + 2); // 2 spacje odstępu
+            
             sb.AppendLine();
         }
 

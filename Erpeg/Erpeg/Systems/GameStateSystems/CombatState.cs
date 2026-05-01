@@ -66,7 +66,7 @@ public class CombatState : IGameState
         if (_enemy.Hp <= 0)
         {
             GameLogger.Instance.Log($"{_enemy.Name} has been defeated!");
-            _map.Characters.Remove(_enemy);
+            _map.Characters.Remove(_enemy.Position);
             GameStateManager.ChangeState(new ExplorationState(_map, _player));
             return;
         }

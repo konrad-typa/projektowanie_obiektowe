@@ -11,7 +11,7 @@ public class MapData(string name, int sizeX, int sizeY)
     public int SizeY { get; } = sizeY;
     public TileType[,] Layout { get; } = new TileType[sizeX, sizeY];
     public Dictionary<(int x, int y), Item> Items { get; } = new();
-    public List<CharacterData> Characters { get; } = new();
+    public Dictionary<(int x, int y), CharacterData> Characters { get; } = new();
 
     private static readonly Random Rng = new();
     public (int x, int y) GetRandomEmptyTile()

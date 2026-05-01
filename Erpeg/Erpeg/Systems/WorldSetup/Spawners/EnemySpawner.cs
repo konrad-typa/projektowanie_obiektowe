@@ -30,14 +30,13 @@ public static class EnemySpawner
             
             if (map.Layout[x, y] != TileType.Wall)
             {
-                bool isCharacterHere = map.Characters.Any(c => c.Position == targetPos);
-                
+                bool isCharacterHere = map.Characters.ContainsKey(targetPos);
                 bool isItemHere = map.Items.ContainsKey(targetPos);
                 
                 if (!isCharacterHere && !isItemHere)
                 {
                     enemy.Position = targetPos;
-                    map.Characters.Add(enemy);
+                    map.Characters[targetPos] = enemy;
                     return; 
                 }
             }
