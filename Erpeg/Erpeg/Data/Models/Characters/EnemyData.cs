@@ -24,6 +24,10 @@ public class EnemyData(
     public int Defense { get; protected set; } = defense;
     public string Species { get; protected set; } = species;
     private static readonly Random Rng = new Random();
+    
+    // do ruchu
+    private DateTime _lastMoveTime = DateTime.Now;
+    private TimeSpan _moveInterval = TimeSpan.FromSeconds(0.6 + (Rng.NextDouble() * 0.4));
 
     public override void Interact(PlayerData player, MapData map)
     {
@@ -33,6 +37,11 @@ public class EnemyData(
     //
     public void MoveRandomly(MapData map)
     {
+        if (DateTime.Now - _lastMoveTime < _moveInterval)
+        {
+            return;
+        }
+        
         var directions = new (int dx, int dy)[]
         {
             (0, -1), (0, 1), (-1, 0), (1, 0)
@@ -63,6 +72,9 @@ public class EnemyData(
             Position = chosenMove;
             map.Characters[Position] = this;
         }
+        
+        _lastMoveTime = DateTime.Now;
+        _moveInterval = TimeSpan.FromSeconds(0.4 + (Rng.NextDouble() * 0.4));
     }
     
     // metody obserwatora

@@ -1,4 +1,5 @@
-﻿using Erpeg.Core.Interfaces;
+﻿using System.Security.Cryptography;
+using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.CharacterSystems;
@@ -11,6 +12,7 @@ public class ExplorationState : IGameState
     private readonly MapData _map;
     private readonly PlayerData _player;
     private readonly Dictionary<ConsoleKey, ICommand> _commands;
+    
     public ExplorationState(MapData map, PlayerData player)
     {
         _map = map;
@@ -34,16 +36,6 @@ public class ExplorationState : IGameState
         if (_commands.TryGetValue(key, out ICommand command))
         {
             command.Execute();
-            
-            if (key is ConsoleKey.W or ConsoleKey.S or ConsoleKey.A or ConsoleKey.D)
-            {
-                var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
-                
-                foreach (var enemy in enemies)
-                {
-                    enemy.MoveRandomly(_map);
-                }
-            }
         }
         else
         {
@@ -62,6 +54,10 @@ public class ExplorationState : IGameState
         {
             GameLogger.Instance.SetContext("");
         }
+        
+        var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
+        foreach (var e in enemies)
+            e.MoveRandomly(_map);
     }
 
     public List<string> GetAvailableActions()
