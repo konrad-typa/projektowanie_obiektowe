@@ -19,4 +19,6 @@ public class LightWeapon(
 
     public override int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
         => visitor.VisitLightWeaponDefense(player);
+    
+    public override int NoiseRange => 2;
 }

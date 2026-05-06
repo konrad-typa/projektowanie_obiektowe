@@ -1,5 +1,6 @@
 ﻿using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Systems.EventSystems;
 
 namespace Erpeg.Systems.WorldSetup.Spawners;
 
@@ -13,6 +14,9 @@ public static class EnemySpawner
         {
             var generator = enemyGens[Random.Next(enemyGens.Length)];
             var enemy = generator();
+            
+            EventManager.SoundSystem.RegisterObserver(enemy);
+            EventManager.SpeciesSystem.RegisterObserver(enemy);
             
             PlaceEnemyRandomly(map, enemy);
         }

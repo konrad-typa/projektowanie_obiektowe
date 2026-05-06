@@ -19,4 +19,6 @@ public class HeavyWeapon(
 
     public override int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
         => visitor.VisitHeavyWeaponDefense(player);
+
+    public override int NoiseRange => 7;
 }

@@ -19,4 +19,6 @@ public class MagicWeapon(
 
     public override int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
         => visitor.VisitMagicWeaponDefense(player);
+    
+    public override int NoiseRange => 4;
 }

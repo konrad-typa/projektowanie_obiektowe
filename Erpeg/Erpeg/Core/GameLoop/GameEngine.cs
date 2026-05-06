@@ -1,10 +1,12 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Core.StateMachine;
+using Erpeg.Data.Events;
 using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
 using Erpeg.Systems;
+using Erpeg.Systems.EventSystems;
 using Erpeg.Systems.GameStateSystems;
 using Erpeg.Systems.LogSystem;
 using Erpeg.Systems.WorldSetup;
@@ -17,7 +19,7 @@ public class GameEngine
     private bool _isRunning = true;
     private MapData _map;
     private PlayerData _player;
-
+    
     public void Run()
     {
         var configService = new GameConfigService();
@@ -63,6 +65,8 @@ public class GameEngine
         Console.WriteLine($"\n\nPress any key to continue.");
         Console.ReadKey(intercept: true);
         Console.Clear();
+        
+        EventManager.Initialize();
         
         _map = MapSetup.SetupMap(config!.Strategy);
         _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
