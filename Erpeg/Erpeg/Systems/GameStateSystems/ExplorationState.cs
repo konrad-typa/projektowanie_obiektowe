@@ -34,6 +34,16 @@ public class ExplorationState : IGameState
         if (_commands.TryGetValue(key, out ICommand command))
         {
             command.Execute();
+            
+            if (key is ConsoleKey.W or ConsoleKey.S or ConsoleKey.A or ConsoleKey.D)
+            {
+                var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
+                
+                foreach (var enemy in enemies)
+                {
+                    enemy.MoveRandomly(_map);
+                }
+            }
         }
         else
         {

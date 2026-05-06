@@ -19,7 +19,8 @@ public abstract class WeaponDecorator : WeaponItem
     public override int Damage => _innerWeapon.Damage;
     public override Dictionary<AttributesType, int> Attributes => _innerWeapon.Attributes;
     public override bool BlocksOffHand => _innerWeapon.BlocksOffHand;
-    
+    public override int NoiseRange => _innerWeapon.NoiseRange;
+
     public override int AcceptDamage(IAttackVisitor visitor, PlayerData player)
     {
         return _innerWeapon.AcceptDamage(visitor, player);

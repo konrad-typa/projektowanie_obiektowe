@@ -13,6 +13,8 @@ public abstract class Item(string name, int value, double weight, char symbol)
     public char MapSymbol { get; protected set; } = symbol;
     public (int x, int y) Position { get; set; }
     public virtual bool BlocksOffHand => false;
+    public virtual int NoiseRange => 0;
+    
     public virtual Dictionary<AttributesType, int> Attributes { get; protected set; } = new()
     {
         { AttributesType.Strength, 0 },

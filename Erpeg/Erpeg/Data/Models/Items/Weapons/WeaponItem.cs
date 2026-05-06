@@ -13,7 +13,6 @@ public class WeaponItem(string name, int value,
     public double Hitspeed { get; } = hitspeed;
     public int Range { get; } = range;
     public override bool BlocksOffHand => Grip == WeaponGripType.TwoHanded;
-    public virtual int NoiseRange => 0;
     
     public override void OnPickedUp(PlayerData player, MapData map)
     {
