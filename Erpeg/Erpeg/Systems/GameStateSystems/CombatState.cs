@@ -90,15 +90,14 @@ public class CombatState : IGameState
     {
         return new List<string>
         {
-            "== COMBAT ==",
-            $"Target: {_enemy.Name}",
-            $"HP: {_enemy.Hp}/{_enemy.MaxHp}",
+            "  == COMBAT == ",
+            $"  Target: {_enemy.Name}",
+            $"  HP: {_enemy.Hp}/{_enemy.MaxHp}",
             "",
-            "Actions:",
-            "[1] Normal Attack",
-            "[2] Stealth Attack",
-            "[3] Magic Attack",
-            "[I] Open Inventory"
+            "  [1] Normal Attack",
+            "  [2] Stealth Attack",
+            "  [3] Magic Attack",
+            "  [I] Open Inventory"
         };
     }
     

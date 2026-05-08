@@ -7,7 +7,7 @@ using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Services;
 
-public static class UIService
+public static class OldUIService
 {
     public static int Width = 60;
     public static List<string> GenerateUILinesRight(MapData map, PlayerData player)

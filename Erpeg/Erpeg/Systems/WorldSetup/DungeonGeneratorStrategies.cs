@@ -21,7 +21,7 @@ public class ClassicDungeon : IDungeonGenStrategy
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedClassicArtifact)
             .AddItems(7)
-            .AddWeapons(3,
+            .AddWeapons(4,
                 ItemLibrary.GetOneHandSword,
                 ItemLibrary.GetStrongDexterityOHSword,
                 ItemLibrary.GetIntelligentMagicStaff,
@@ -29,7 +29,7 @@ public class ClassicDungeon : IDungeonGenStrategy
                 ItemLibrary.GetStrongTwoHandSword,
                 ItemLibrary.GetUnluckyTwoHandSword,
                 ItemLibrary.GetMagicStaff)
-            .AddEq(3,
+            .AddEq(4,
                 ItemLibrary.GetIntelligentArmor,
                 ItemLibrary.GetShield,
                 ItemLibrary.GetStaminaArmor,
@@ -57,14 +57,14 @@ public class FuturisticDungeon : IDungeonGenStrategy
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedFuturisticArtifact)
             .AddItems(7)
-            .AddWeapons(3,
+            .AddWeapons(4,
                 ItemLibrary.GetBlaster,
                 ItemLibrary.GetStrongBlaster,
                 ItemLibrary.GetIntelligentMagicRing,
                 ItemLibrary.GetStrongDexterityBlaster,
                 ItemLibrary.GetStrongLightsaber,
                 ItemLibrary.GetUnluckyLightsaber)
-            .AddEq(3,
+            .AddEq(4,
                 ItemLibrary.GetStaminaArmor,
                 ItemLibrary.GetShield,
                 ItemLibrary.GetIntelligentArmor,
@@ -91,14 +91,14 @@ public class UniversityDungeon : IDungeonGenStrategy
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedUniArtifact)
             .AddItems(7)
-            .AddWeapons(3,
+            .AddWeapons(4,
                 ItemLibrary.GetPencil,
                 ItemLibrary.GetStrongDexterityPencil,
                 ItemLibrary.GetIntelligentMagicIpad,
                 ItemLibrary.GetStrongPen,
                 ItemLibrary.GetStrongPencil,
                 ItemLibrary.GetUnluckyPen)
-            .AddEq(3,
+            .AddEq(4,
                 ItemLibrary.GetIntelligentArmor,
                 ItemLibrary.GetShield,
                 ItemLibrary.GetStaminaArmor,

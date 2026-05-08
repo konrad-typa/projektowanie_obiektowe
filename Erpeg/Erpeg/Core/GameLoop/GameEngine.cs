@@ -5,6 +5,7 @@ using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Services;
+using Erpeg.Services.RenderServices;
 using Erpeg.Systems;
 using Erpeg.Systems.EventSystems;
 using Erpeg.Systems.GameStateSystems;
@@ -23,7 +24,9 @@ public class GameEngine
     public void Run()
     {
         var configService = new GameConfigService();
-        string filePath;
+        
+        string filePath = "uni_config.json";
+        /*
         while (true)
         {
             Console.WriteLine("Config File name/path:");
@@ -34,6 +37,7 @@ public class GameEngine
             }
             else break;
         }
+        */
 
         if (!configService.TryLoadConfig(filePath, out GameConfig? config, out var message))
         {

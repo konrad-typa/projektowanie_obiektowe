@@ -48,10 +48,9 @@ public class JournalState : IGameState
     {
         return new List<string>
         {
-            "Actions:",
-            "Scroll Up: [W]",
-            "Scroll Down: [S]",
-            "Close Journal: [J]/[Esc]"
+            "  [W] Scroll Up",
+            "  [S] Scroll Down",
+            "  [J]/[Esc] Close Journal"
         };
     }
 

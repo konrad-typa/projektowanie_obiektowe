@@ -64,13 +64,13 @@ public class ExplorationState : IGameState
     {
         return new List<string>
         {
-            "Actions:",
-            "Move: [W, A, S, D]",
-            "Pick Up: [E]",
-            "Inventory: [I]",
-            "Exit: [Esc]"
+            "  [W, A, S, D]: Move",
+            "  [E] Pick Up",
+            "  [I] Inventory",
+            "  [J] Journal",
+            "  [Esc] Exit"
         };
     }
 
-    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

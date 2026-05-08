@@ -107,8 +107,8 @@ public class EnemyData(
             }
             else if (Species == "Aggressive")
             {
-                Attack = (int)(Attack * 1.2);
-                Defense = (int)(Defense * 1.2);
+                Attack = (int)(Attack * 1.4);
+                Defense = (int)(Defense * 1.4);
             }
         }
     }

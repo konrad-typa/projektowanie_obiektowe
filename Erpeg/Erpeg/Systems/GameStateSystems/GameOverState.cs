@@ -18,13 +18,14 @@ public class GameOverState : IGameState
     {
         return new List<string>
         {
-            "==============================",
+            " ============================== ",
             "         GAME OVER            ",
-            "==============================",
+            " ============================== ",
             "",
-            "Press any key to exit the game"
+            "  Press any key ",
+            "  to exit the game "
         };
     }
 
-    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

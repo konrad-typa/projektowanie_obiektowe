@@ -8,5 +8,5 @@ public class SoundEvent
     public int SourceY { get; set; }
     public int Range { get; set; }
     public string? SourceName { get; set; }
-    public MapData Map { get; set; }
+    public MapData? Map { get; set; }
 }

@@ -96,12 +96,20 @@ public class InventoryState : IGameState
     {
         return new List<string>
         {
-            "Actions:",
-            "Prev Item: [A]",
-            "Next Item: [D]",
-            "Close Inv: [I]/[Esc]"
+            "  Prev Item: [A]",
+            "  Next Item: [D]",
+            "  Close Inv: [I]/[Esc]"
         };
     }
-    
-    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+    /*
+    public List<string> GetInvInteractive()
+    {
+        var fullHistory = GameLogger.Instance.GetFullHistory();
+        _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0,  fullHistory.Count - _selectedIndex));
+        int bufferSize =(fullHistory.Count - 1 - _selectedIndex < WindowSize ? fullHistory.Count - 1 : WindowSize;
+
+        return fullHistory.Skip(_offset).Take(bufferSize).ToList();
+    } 
+    */
+    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

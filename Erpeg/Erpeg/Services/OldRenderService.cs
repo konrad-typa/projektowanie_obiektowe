@@ -7,20 +7,20 @@ using Erpeg.Systems;
 
 namespace Erpeg.Services;
 
-public class RenderService : IService
+public class OldRenderService : IService
 {
     public void Initialize() { }
 
     public static string RenderFrame(MapData map, PlayerData player, IGameState gameState)
     {
         var sb = new StringBuilder();
-        var rHudlines = UIService.GenerateUILinesRight(map, player);
-        var topHudlines = UIService.GenerateUILinesTop(map, player);
-        var lHudlines = UIService.GenerateUILinesLeft(map, player, gameState);
-        var bottomHudlines = UIService.GenerateUILinesBottom(map, player);
+        var rHudlines = OldUIService.GenerateUILinesRight(map, player);
+        var topHudlines = OldUIService.GenerateUILinesTop(map, player);
+        var lHudlines = OldUIService.GenerateUILinesLeft(map, player, gameState);
+        var bottomHudlines = OldUIService.GenerateUILinesBottom(map, player);
         
-        int rUiWidth = rHudlines.Count > 0 ? rHudlines[0].Length : UIService.Width;
-        int lUiWidth = lHudlines.Count > 0 ? lHudlines[0].Length : UIService.Width;
+        int rUiWidth = rHudlines.Count > 0 ? rHudlines[0].Length : OldUIService.Width;
+        int lUiWidth = lHudlines.Count > 0 ? lHudlines[0].Length : OldUIService.Width;
 
         // top hud
         foreach (var topHudline in topHudlines)
