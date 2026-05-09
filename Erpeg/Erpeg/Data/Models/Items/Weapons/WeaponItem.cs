@@ -1,5 +1,7 @@
-﻿using Erpeg.Data.Models.Characters;
+﻿using Erpeg.Data.Events;
+using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Systems.EventSystems;
 using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items.Weapons;
@@ -16,11 +18,24 @@ public class WeaponItem(string name, int value,
     
     public override void OnPickedUp(PlayerData player, MapData map)
     {
-        if (player.TryAddWeight(this.Weight))
+        if (player.TryAddWeight(Weight))
         {
             player.Inventory.Add(this);
             map.Items.Remove(player.Position);
             GameLogger.Instance.Log($"Picked up {Name}.");
+            
+            int range = NoiseRange;
+            if (range > 0)
+            {
+                EventManager.SoundSystem.NotifyObservers(new SoundEvent
+                {
+                    SourceX = player.Position.x,
+                    SourceY = player.Position.y,
+                    Range = range,
+                    SourceName = Name,
+                    Map = map
+                });
+            }
         }
         else
         {

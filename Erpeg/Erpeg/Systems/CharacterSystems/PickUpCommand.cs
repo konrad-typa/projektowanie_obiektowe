@@ -16,19 +16,6 @@ public class PickUpCommand(MapData map, PlayerData player) : ICommand
         if (map.Items.TryGetValue(player.Position, out Item item))
         {
             item.OnPickedUp(player, map);
-            
-            int range = item.NoiseRange;
-            if (range > 0)
-            {
-                EventManager.SoundSystem.NotifyObservers(new SoundEvent
-                {
-                    SourceX = player.Position.x,
-                    SourceY = player.Position.y,
-                    Range = range,
-                    SourceName = item.Name,
-                    Map = map
-                });
-            }
         }
         else
         {
