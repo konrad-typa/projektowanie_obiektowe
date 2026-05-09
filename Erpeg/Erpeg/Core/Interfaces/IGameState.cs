@@ -6,4 +6,5 @@ public interface IGameState
     void Update();
     List<string> GetAvailableActions();
     List<string> GetLogHistory();
+    List<string>? GetInteractiveInventory() => null;
 }

@@ -49,7 +49,7 @@ public static class CenterUI
         // dziennik
         var journalContent = new List<string>();
         var logs = gameState.GetLogHistory();
-        foreach (var log in logs.TakeLast(8))
+        foreach (var log in logs.TakeLast(5))
         {
             var wrappedLines = UIHelper.WrapText(log, Width - 4);
             foreach (var line in wrappedLines)
@@ -57,7 +57,7 @@ public static class CenterUI
                 journalContent.Add($" {line}");
             }
         }
-        allLines.AddRange(UIHelper.DrawBox("Journal", journalContent, Width, 10));
+        allLines.AddRange(UIHelper.DrawBox("Journal", journalContent, Width, 5));
 
         return allLines;
     }

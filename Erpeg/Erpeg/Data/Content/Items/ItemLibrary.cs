@@ -53,7 +53,7 @@ public static class ItemLibrary
             100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
     public static HeavyWeapon GetTwoHandSword() => 
         new HeavyWeapon("2H Sword", 
-            250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
+            250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,'!');
     public static LightWeapon GetDaggers() => 
         new LightWeapon("Daggers", 
             75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
@@ -84,7 +84,7 @@ public static class ItemLibrary
             100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
     public static HeavyWeapon GetLightsaber() => 
         new HeavyWeapon("Lightsaber", 
-            250, WeaponGripType.TwoHanded, 90, 0.6, 1, 20,'!');
+            250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,'!');
     public static MagicWeapon GetMagicRing() =>
         new MagicWeapon("Magic Ring", 
             100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
@@ -112,7 +112,7 @@ public static class ItemLibrary
             100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
     public static HeavyWeapon GetPen() => 
         new HeavyWeapon("Pen", 
-            250, WeaponGripType.OneHanded, 70, 0.8, 1, 20,'!');
+            250, WeaponGripType.TwoHanded, 100, 0.8, 1, 20,'!');
     public static LightWeapon GetCrayons() => 
         new LightWeapon("Crayons", 
             75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');

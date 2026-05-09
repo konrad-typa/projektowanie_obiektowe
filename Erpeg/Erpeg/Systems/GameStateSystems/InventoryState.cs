@@ -2,6 +2,7 @@
 using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Services.RenderServices;
 using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStateSystems;
@@ -11,6 +12,8 @@ public class InventoryState : IGameState
     private readonly MapData _map;
     private readonly PlayerData _player;
     private int _selectedIndex = 0;
+    private const int WindowSize = 11;
+    private int _offset = 0;
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
@@ -21,8 +24,8 @@ public class InventoryState : IGameState
         
         _keyBindings = new Dictionary<ConsoleKey, Action>
         {
-            { ConsoleKey.A, () => _selectedIndex-- },
-            { ConsoleKey.D, () => _selectedIndex++ },
+            { ConsoleKey.W, () => _selectedIndex-- },
+            { ConsoleKey.S, () => _selectedIndex++ },
             { ConsoleKey.E, UseSelectedItem },
             { ConsoleKey.G, DropSelectedItem },
             { ConsoleKey.I, () => GameStateManager.ChangeState(previousState) },
@@ -80,11 +83,12 @@ public class InventoryState : IGameState
 
     public void Update()
     {
+        _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0, _player.Inventory.Count - 1));
+
         if (_player.Inventory.Count > 0)
         {
-            _selectedIndex = Math.Clamp(_selectedIndex, 0, _player.Inventory.Count - 1);
-            var item =  _player.Inventory[_selectedIndex];
-            GameLogger.Instance.SetContext($"({item.Name}) Equip/Use [E] / Drop [G]");
+            var selectedItem = _player.Inventory[_selectedIndex];
+            GameLogger.Instance.SetContext($"({selectedItem.Name}) Equip [E] / Drop [G]");
         }
         else
         {
@@ -101,15 +105,38 @@ public class InventoryState : IGameState
             "  Close Inv: [I]/[Esc]"
         };
     }
-    /*
-    public List<string> GetInvInteractive()
+    
+    public List<string>? GetInteractiveInventory()
     {
-        var fullHistory = GameLogger.Instance.GetFullHistory();
-        _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0,  fullHistory.Count - _selectedIndex));
-        int bufferSize =(fullHistory.Count - 1 - _selectedIndex < WindowSize ? fullHistory.Count - 1 : WindowSize;
-
-        return fullHistory.Skip(_offset).Take(bufferSize).ToList();
-    } 
-    */
+        var inv = _player.Inventory;
+        if (inv.Count == 0) 
+            return new List<string>(); 
+        
+        _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0, inv.Count - 1));
+        
+        if (_selectedIndex < _offset) 
+            _offset = _selectedIndex; 
+        else if (_selectedIndex >= _offset + WindowSize) 
+            _offset = _selectedIndex - WindowSize + 1; 
+        
+        _offset = Math.Clamp(_offset, 0, Math.Max(0, inv.Count - WindowSize));
+        
+        return inv
+            .Skip(_offset)
+            .Take(WindowSize)
+            .Select((item, index) => 
+            {
+                int realIndex = _offset + index; 
+                
+                string leftText = realIndex == _selectedIndex 
+                    ? $"> {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
+                    : $"  {item.Name}";
+                string rightText = item.Weight.ToString(); 
+                
+                return UIHelper.JustifyAnsi(leftText, rightText, RightUI.Width - 2, 2);
+            })
+            .ToList();
+    }
+    
     public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

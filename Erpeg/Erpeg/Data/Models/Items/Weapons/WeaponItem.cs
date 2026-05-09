@@ -22,6 +22,10 @@ public class WeaponItem(string name, int value,
             map.Items.Remove(player.Position);
             GameLogger.Instance.Log($"Picked up {Name}.");
         }
+        else
+        {
+            GameLogger.Instance.Log("Not enough space in inventory!");
+        }
     }
     
     public override void Use(PlayerData player)

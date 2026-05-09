@@ -16,7 +16,7 @@ public class PickUpCommand(MapData map, PlayerData player) : ICommand
         if (map.Items.TryGetValue(player.Position, out Item item))
         {
             item.OnPickedUp(player, map);
-
+            
             int range = item.NoiseRange;
             if (range > 0)
             {

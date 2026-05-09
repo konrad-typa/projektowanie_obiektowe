@@ -36,7 +36,8 @@ public static class UIHelper
         for (int i = 0; i < text.Length; i++)
         {
             char c = text[i];
-            if (c == '\x1b') inAnsi = true;
+            if (c == '\x1b') 
+                inAnsi = true;
         
             result.Append(c);
         
@@ -57,9 +58,9 @@ public static class UIHelper
     
     public static string CenterAnsi(string text, int width)
     {
-        text ??= "";
         int visibleLen = VisibleLength(text);
-        if (visibleLen >= width) return text;
+        if (visibleLen >= width) 
+            return text;
 
         int leftPadding = (width - visibleLen) / 2;
         int rightPadding = width - visibleLen - leftPadding;
@@ -120,6 +121,21 @@ public static class UIHelper
         return lines;
     }
 
+    public static string JustifyAnsi(string leftText, string rightText, int totalWidth, int rightPadding = 2)
+    {
+        int leftLen = VisibleLength(leftText);
+        int rightLen = VisibleLength(rightText);
+        
+        int spacesCount = totalWidth - leftLen - rightLen - rightPadding;
+    
+        if (spacesCount >= 0)
+        {
+            return leftText + new string(' ', spacesCount) + rightText + new string(' ', rightPadding);
+        }
+        
+        return leftText + " " + rightText; 
+    }
+    
     public static string GetProgressBar(int current, int max, int width, string filledColor, string emptyColor, char filledChar = '█', char emptyChar = '░')
     {
         if (max <= 0) max = 1; 

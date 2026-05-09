@@ -16,7 +16,7 @@ public class RenderService : IService
         
         var leftColumn = LeftUI.Render(player, gameState);
         var centerColumn = CenterUI.Render(map, gameState);
-        var rightColumn = RightUI.Render(player);
+        var rightColumn = RightUI.Render(player, gameState);
         
         int maxHeight = Math.Max(leftColumn.Count, Math.Max(centerColumn.Count, rightColumn.Count));
 
@@ -31,14 +31,12 @@ public class RenderService : IService
         
         int totalWidth = LeftUI.Width + CenterUI.Width + RightUI.Width + 6; 
         
-        sb.AppendLine(new string('─', totalWidth));
-        
-        string footer = $"FPS: {GameDiagnostics.FPS}          Czas gry: {UIHelper.PlaceHolder}" +
-                        $"          Score: {UIHelper.PlaceHolder}          Active Players: {UIHelper.PlaceHolder}";
+        // sb.AppendLine(new string('─', totalWidth));
+        string footer = $"FPS: {GameDiagnostics.FPS}              Czas gry: {UIHelper.PlaceHolder}" +
+                        $"              Score: {UIHelper.PlaceHolder}              Active Players: {UIHelper.PlaceHolder}";
         string formattedFooter = $" {UIHelper.CenterAnsi(footer, totalWidth - 2)} ";
-        
         sb.AppendLine(formattedFooter);
-        sb.AppendLine(new string('─', totalWidth));
+        // sb.AppendLine(new string('─', totalWidth));
 
         return sb.ToString();
     }
