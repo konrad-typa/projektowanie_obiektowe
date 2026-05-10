@@ -7,8 +7,8 @@ using Erpeg.Systems.LogSystem;
 namespace Erpeg.Data.Models.Items;
 
 public class EquipmentItem(string name, int value, 
-    EquipmentSlotType slotType, int defense, double weight, char symbol = '?')
-    : Item(name, value, weight, symbol)
+    EquipmentSlotType slotType, int defense, double weight, char symbol = '?', string color = "")
+    : Item(name, value, weight, symbol, color)
 {
     public EquipmentSlotType SlotType { get; set; } = slotType;
     public override int Defense { get; protected set; } = defense;

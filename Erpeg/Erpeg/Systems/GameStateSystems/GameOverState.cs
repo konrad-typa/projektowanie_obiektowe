@@ -27,5 +27,5 @@ public class GameOverState : IGameState
         };
     }
 
-    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
+    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

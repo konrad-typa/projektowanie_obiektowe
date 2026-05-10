@@ -6,8 +6,8 @@ using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
-public class MaterialItem(string name, int value, double weight, char symbol)
-    : Item(name, value, weight, symbol)
+public class MaterialItem(string name, int value, double weight, char symbol, string  color = "")
+    : Item(name, value, weight, symbol, color)
 {
     public override void OnPickedUp(PlayerData player, MapData map)
     {

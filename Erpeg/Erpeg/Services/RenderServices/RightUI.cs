@@ -20,13 +20,14 @@ public static class RightUI
 
             eqContent.Add(UIHelper.JustifyAnsi(leftText, rightText, Width - 2, rightPadding: 2));
         }
-        allLines.AddRange(UIHelper.DrawBox("Equipment", eqContent, Width, 6));
+        allLines.AddRange(UIHelper.DrawBox("Equipment", eqContent, Width, 6, 
+            UIHelper.DarkCyan));
 
         var invContent = new List<string>
         {
-            UIHelper.CenterAnsi($"Gold: {UIHelper.ColorYellow}{player.Gold}{UIHelper.ColorReset}    " +
-                                $"Coins: {UIHelper.ColorYellow}{player.Coins}{UIHelper.ColorReset}", Width - 2),
-            new string('─', Width - 2),
+            UIHelper.CenterAnsi($"{UIHelper.ColorGold}$ Gold: {player.Gold}{UIHelper.ColorReset}    " +
+                                $"{UIHelper.ColorSilver}◎ Coins: {player.Coins}{UIHelper.ColorReset}", Width - 2),
+            UIHelper.ColorDarkGray + new string('─', Width - 2) + UIHelper.ColorReset,
             UIHelper.CenterAnsi($"{player.CurrentWeight}/{player.MaxWeight}", Width - 2)
         };
         
@@ -44,7 +45,7 @@ public static class RightUI
             for (int i = 0; i < itemsToShow; i++)
             {
                 var item = player.Inventory[i];
-                string name = $"  {item.Name}";
+                string name = $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
                 string weight = $"{item.Weight}";
                 
                 invContent.Add(UIHelper.JustifyAnsi(name, weight, Width - 2, rightPadding: 2));
@@ -54,17 +55,19 @@ public static class RightUI
                 invContent.Add($"  ... ({player.Inventory.Count - 10} more)");
         }
         
-        allLines.AddRange(UIHelper.DrawBox("Inventory", invContent, Width, 14));
+        allLines.AddRange(UIHelper.DrawBox("Inventory", invContent, Width, 14, 
+            UIHelper.DarkCyan));
 
         var legendContent = new List<string>
         {
-            " @ - Enemy        [1-9] - Players",
-            " ! - TH Sword     O - Shield",
-            " / - OH Sword     =* - Ores",
-            " . - Dust         } - Magic Weapon",
-            " & - Armor        Ω - Artifact"
+            "  @ - Enemy        [1-9] - Players",
+            "  ! - TH Sword     O - Shield",
+            "  / - OH Sword     =* - Ores",
+            "  . - Dust         } - Magic Weapon",
+            "  & - Armor        Ω - Artifact"
         };
-        allLines.AddRange(UIHelper.DrawBox("Legend", legendContent, Width, 5));
+        allLines.AddRange(UIHelper.DrawBox("Legend", legendContent, Width, 5, 
+            UIHelper.MutedCobalt));
 
         return allLines;
     }

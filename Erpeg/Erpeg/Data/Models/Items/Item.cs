@@ -1,11 +1,12 @@
 ﻿using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Services.RenderServices;
 using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
-public abstract class Item(string name, int value, double weight, char symbol)
+public abstract class Item(string name, int value, double weight, char symbol, string color = UIHelper.ColorReset)
 {
     public virtual string Name { get; protected set; } = name;
     public int Value { get; protected set; } = value;
@@ -39,4 +40,6 @@ public abstract class Item(string name, int value, double weight, char symbol)
     {
         GameLogger.Instance.Log($"You cannot use {Name}.");
     }
+
+    public string Color = color;
 }

@@ -1,4 +1,5 @@
 ﻿using Erpeg.Data.Models.Maps;
+using Erpeg.Services.RenderServices;
 
 namespace Erpeg.Data.Models.Characters;
 
@@ -29,4 +30,6 @@ public class CharacterData(string name, (int x, int y) position,
     public virtual void Interact(PlayerData player, MapData map)
     {
     }
+    
+    public string Color { get; init; } = UIHelper.ColorReset;
 }

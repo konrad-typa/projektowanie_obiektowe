@@ -41,7 +41,7 @@ public class InventoryState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}] Wrong input");
         }
     }
 
@@ -129,8 +129,8 @@ public class InventoryState : IGameState
                 int realIndex = _offset + index; 
                 
                 string leftText = realIndex == _selectedIndex 
-                    ? $"> {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
-                    : $"  {item.Name}";
+                    ? $"> {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
+                    : $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
                 string rightText = item.Weight.ToString(); 
                 
                 return UIHelper.JustifyAnsi(leftText, rightText, RightUI.Width - 2, 2);
@@ -138,5 +138,5 @@ public class InventoryState : IGameState
             .ToList();
     }
     
-    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
+    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

@@ -6,8 +6,9 @@ using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
-public abstract class ConsumableItem(string name, int value, int restoreAmount, double weight, char symbol = '?')
-    : Item(name, value, weight, symbol)
+public abstract class ConsumableItem(string name, int value, int restoreAmount, double weight, char symbol = '?',
+    string color = "")
+    : Item(name, value, weight, symbol, color)
 {
     protected int RestoreAmount { get; set; } = restoreAmount;
 
@@ -26,7 +27,8 @@ public abstract class ConsumableItem(string name, int value, int restoreAmount, 
     }
 }
 
-public class HealthPotion(int restoreAmount, int value) : ConsumableItem("Health Potion", value, restoreAmount, 2, '+')
+public class HealthPotion(int restoreAmount, int value, string color = "") 
+    : ConsumableItem("Health Potion", value, restoreAmount, 2, '+', color)
 {
     public override void Use(PlayerData player)
     {
@@ -36,7 +38,8 @@ public class HealthPotion(int restoreAmount, int value) : ConsumableItem("Health
     }
 }
 
-public class ManaPotion(int restoreAmount, int value) : ConsumableItem("Mana Potion", value, restoreAmount, 2, '+')
+public class ManaPotion(int restoreAmount, int value, string color = "")
+    : ConsumableItem("Mana Potion", value, restoreAmount, 2, '+', color)
 {
     public override void Use(PlayerData player)
     {

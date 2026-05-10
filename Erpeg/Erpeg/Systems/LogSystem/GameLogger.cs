@@ -28,6 +28,6 @@ public class GameLogger : ILogger
     }
     public string GetContext() => _contextMessage;
 
-    public List<string> GetRecentLogs() => _logStrategy?.GetRecentLogs() ?? new List<string>();
-    public List<string> GetFullHistory() => _logStrategy?.GetFullHistory() ?? new List<string>();
+    public List<(DateTime, string)> GetRecentLogs() => _logStrategy?.GetRecentLogs() ?? new List<(DateTime, string)>();
+    public List<(DateTime, string)> GetFullHistory() => _logStrategy?.GetFullHistory() ?? new List<(DateTime, string)>();
 }

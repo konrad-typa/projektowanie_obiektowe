@@ -2,7 +2,7 @@
 
 public abstract class EquipmentDecorator(EquipmentItem innerEquipment) : EquipmentItem(innerEquipment.Name,
     innerEquipment.Value, innerEquipment.SlotType, innerEquipment.Defense, innerEquipment.Weight,
-    innerEquipment.MapSymbol)
+    innerEquipment.MapSymbol, innerEquipment.Color)
 {
     protected readonly EquipmentItem InnerEquipment = innerEquipment;
 

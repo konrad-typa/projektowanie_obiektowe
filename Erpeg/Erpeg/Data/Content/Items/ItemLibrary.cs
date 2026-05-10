@@ -1,139 +1,167 @@
 ﻿using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Items.Decorators;
 using Erpeg.Data.Models.Items.Weapons;
+using Erpeg.Services.RenderServices;
 
 namespace Erpeg.Data.Content.Items;
 
 public static class ItemLibrary
 {
-    // eq
+    // standard eq 
     public static EquipmentItem GetArmor() => 
-        new EquipmentItem("Armor",
-             80, EquipmentSlotType.Chest, 30, 10, '&');
+        new EquipmentItem("Armor", 80, EquipmentSlotType.Chest, 30, 10, '&',
+            UIHelper.BlueSlate);
+
     public static EquipmentItem GetShield() => 
-        new EquipmentItem("Shield", 
-             50, EquipmentSlotType.OffHand, 20, 10, 'O');
-    // decorated eq
+        new EquipmentItem("Shield", 50, EquipmentSlotType.OffHand, 20, 10, 'O', 
+            UIHelper.BlueSlate);
+    
     public static EquipmentItem GetIntelligentArmor() =>
         new IntelligentEquipmentDecorator(GetArmor());
+
     public static EquipmentItem GetStaminaArmor() =>
         new StaminaEquipmentDecorator(GetArmor());
+
     public static EquipmentItem GetIntelligentStaminaShield() =>
         new IntelligentEquipmentDecorator(new StaminaEquipmentDecorator(GetShield()));
-
-    // potions
+    
+    
     public static HealthPotion GetHealthPotion() => 
-        new HealthPotion( 100, 20);
-    public static ConsumableItem GetManaPotion() => 
-        new ManaPotion( 100, 20);
+        new HealthPotion(100, 20, UIHelper.MutedRose);
 
-    // money
+    public static ConsumableItem GetManaPotion() => 
+        new ManaPotion(100, 20, UIHelper.ColorManaBlue);
+
     public static GoldItem GetGold(int amount) => 
-        new GoldItem(amount);
+        new GoldItem(amount, UIHelper.ColorGold);
+
     public static CoinItem GetCoins(int amount) => 
-        new CoinItem(amount);
-        
-    // ores
+        new CoinItem(amount, UIHelper.ColorSilver);
+    
+    // materials
     public static MaterialItem GetWood() =>
-        new MaterialItem("Wood", 5, 1,'=');
+        new MaterialItem("Wood", 5, 1, '=', UIHelper.ColorBrown);
+
     public static MaterialItem GetIron() =>
-        new MaterialItem("Iron", 5, 1.5,'*');
+        new MaterialItem("Iron", 5, 1.5, '*', UIHelper.FrameStone);
     
-    // scrap
     public static MaterialItem GetDust() =>
-        new MaterialItem("Dust", 2, 0,'.');
-    
+        new MaterialItem("Dust", 2, 0, '.', UIHelper.ColorDarkGray);
     
     /* ----------- THEME ITEMS ---------- */
     
     // CLASSIC THEME
-    // weapons
     public static LightWeapon GetOneHandSword() => 
-        new LightWeapon("Sword", 
-            100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
+        new LightWeapon("Sword", 100, WeaponGripType.OneHanded, 50, 1, 1, 10,
+            '/', UIHelper.MutedGreen);
+
     public static HeavyWeapon GetTwoHandSword() => 
-        new HeavyWeapon("2H Sword", 
-            250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,'!');
+        new HeavyWeapon("2H Sword", 250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,
+            '!', UIHelper.MutedGreen);
+
     public static LightWeapon GetDaggers() => 
-        new LightWeapon("Daggers", 
-            75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
+        new LightWeapon("Daggers", 75, WeaponGripType.TwoHanded, 30, 2, 1, 6, 
+            ';', UIHelper.MutedGreen);
+
     public static MagicWeapon GetMagicStaff() =>
-        new MagicWeapon("Magic Staff", 
-            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
+        new MagicWeapon("Magic Staff", 100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, 
+            '}', UIHelper.MutedGreen);
+
     // decorated weapons
     public static WeaponItem GetStrongOneHandSword() =>
         new StrongWeaponDecorator(GetOneHandSword());
+
     public static WeaponItem GetStrongTwoHandSword() =>
         new StrongWeaponDecorator(GetTwoHandSword());
+
     public static WeaponItem GetUnluckyTwoHandSword() =>
         new UnluckyWeaponDecorator(GetTwoHandSword()); 
+
     public static WeaponItem GetIntelligentMagicStaff() =>
         new IntelligentWeaponDecorator(GetMagicStaff());
+
     public static WeaponItem GetStrongDexterityOHSword() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetOneHandSword()));
-    // artifact
+
+    // artefact
     public static EquipmentItem GetClassicArtifact() => 
-        new EquipmentItem("Artifact", 
-            20, EquipmentSlotType.Artifact, 60, 10, 'Ω');
+        new EquipmentItem("Artifact", 20, EquipmentSlotType.Artifact, 60, 10, 'Ω', 
+            UIHelper.ColorPurple);
+
     public static EquipmentItem GetDecoratedClassicArtifact() =>
         new ArtifactDecorator(GetClassicArtifact());
     
     // FUTURISTIC THEME
     public static LightWeapon GetBlaster() => 
-        new LightWeapon("Blaster", 
-            100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
+        new LightWeapon("Blaster", 100, WeaponGripType.OneHanded, 50, 1, 1, 10, 
+            '/', UIHelper.MutedGreen);
+
     public static HeavyWeapon GetLightsaber() => 
-        new HeavyWeapon("Lightsaber", 
-            250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,'!');
+        new HeavyWeapon("Lightsaber", 250, WeaponGripType.TwoHanded, 100, 0.6, 1, 20,
+            '!', UIHelper.MutedGreen);
+
     public static MagicWeapon GetMagicRing() =>
-        new MagicWeapon("Magic Ring", 
-            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
-    // decorated weapons
+        new MagicWeapon("Magic Ring", 100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10,
+            '}', UIHelper.MutedPurple);
+
     public static WeaponItem GetStrongBlaster() =>
         new StrongWeaponDecorator(GetBlaster());
+
     public static WeaponItem GetStrongLightsaber() =>
         new StrongWeaponDecorator(GetLightsaber());
+
     public static WeaponItem GetUnluckyLightsaber() =>
         new UnluckyWeaponDecorator(GetLightsaber());
+
     public static WeaponItem GetIntelligentMagicRing() =>
         new IntelligentWeaponDecorator(GetMagicRing());
+
     public static WeaponItem GetStrongDexterityBlaster() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetBlaster()));
-    // artifact
+
     public static EquipmentItem GetFuturisticArtifact() => 
-        new EquipmentItem("Online Girlfriend", 
-            20, EquipmentSlotType.Artifact, 60, 10, 'Ω');
+        new EquipmentItem("Online Girlfriend", 20, EquipmentSlotType.Artifact, 60, 10, 
+            'Ω', UIHelper.ColorPurple);
+
     public static EquipmentItem GetDecoratedFuturisticArtifact() =>
         new ArtifactDecorator(GetFuturisticArtifact());
     
     // UNI THEME
     public static LightWeapon GetPencil() => 
-        new LightWeapon("Pencil", 
-            100, WeaponGripType.OneHanded, 50, 1, 1, 10,'/');
+        new LightWeapon("Pencil", 100, WeaponGripType.OneHanded, 50, 1, 1, 10, 
+            '/', UIHelper.MutedGreen);
+
     public static HeavyWeapon GetPen() => 
-        new HeavyWeapon("Pen", 
-            250, WeaponGripType.TwoHanded, 100, 0.8, 1, 20,'!');
+        new HeavyWeapon("Pen", 250, WeaponGripType.TwoHanded, 100, 0.8, 1, 20, 
+            '!', UIHelper.MutedGreen);
+
     public static LightWeapon GetCrayons() => 
-        new LightWeapon("Crayons", 
-            75, WeaponGripType.TwoHanded, 30, 2, 1, 6,';');
+        new LightWeapon("Crayons", 75, WeaponGripType.TwoHanded, 30, 2, 1, 6,
+            ';', UIHelper.MutedGreen);
+
     public static MagicWeapon GetMagicIpad() =>
-        new MagicWeapon("Magic Ipad", 
-            100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, '}');
-    // decorated weapons
+        new MagicWeapon("Magic Ipad", 100, WeaponGripType.TwoHanded, 40, 0.7, 1, 10, 
+            '}', UIHelper.MutedGreen);
+
     public static WeaponItem GetStrongPencil() =>
         new StrongWeaponDecorator(GetPencil());
+
     public static WeaponItem GetStrongPen() =>
         new StrongWeaponDecorator(GetPen());
+
     public static WeaponItem GetUnluckyPen() =>
         new UnluckyWeaponDecorator(GetPen());
+
     public static WeaponItem GetIntelligentMagicIpad() =>
         new IntelligentWeaponDecorator(GetMagicIpad());
+
     public static WeaponItem GetStrongDexterityPencil() =>
         new StrongWeaponDecorator(new DexterityWeaponDecorator(GetPencil()));
-    // artifact
+
     public static EquipmentItem GetUniArtifact() => 
-        new EquipmentItem("Last year's exam", 
-            20, EquipmentSlotType.Artifact, 60, 10, 'Ω');
+        new EquipmentItem("Last year's exam", 20, EquipmentSlotType.Artifact, 60, 10, 'Ω',
+            UIHelper.ColorPurple);
+
     public static EquipmentItem GetDecoratedUniArtifact() =>
         new ArtifactDecorator(GetUniArtifact());
 }

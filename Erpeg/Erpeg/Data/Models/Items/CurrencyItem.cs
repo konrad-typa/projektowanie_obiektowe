@@ -5,7 +5,7 @@ using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Data.Models.Items;
 
-public class CoinItem(int amount) : Item("Coins", amount, 0, '◎')
+public class CoinItem(int amount, string color = "") : Item("Coins", amount, 0, '◎', color)
 {
     public override void OnPickedUp(PlayerData player, MapData map)
     {
@@ -15,7 +15,7 @@ public class CoinItem(int amount) : Item("Coins", amount, 0, '◎')
     }
 }
 
-public class GoldItem(int amount) : Item("Gold", amount, 0, '$')
+public class GoldItem(int amount, string color = "") : Item("Gold", amount, 0, '$', color)
 {
     public override void OnPickedUp(PlayerData player, MapData map)
     {

@@ -90,7 +90,7 @@ public class UniversityDungeon : IDungeonGenStrategy
             .AddCorridors()
             .AddArtifact(1,
                 ItemLibrary.GetDecoratedUniArtifact)
-            .AddItems(20)
+            .AddItems(8)
             .AddWeapons(4,
                 ItemLibrary.GetPencil,
                 ItemLibrary.GetStrongDexterityPencil,

@@ -10,7 +10,8 @@ public abstract class WeaponDecorator : WeaponItem
     protected readonly WeaponItem _innerWeapon;
 
     protected WeaponDecorator(WeaponItem innerWeapon) 
-        : base(innerWeapon.Name, innerWeapon.Value, innerWeapon.Grip, innerWeapon.Damage, innerWeapon.Hitspeed, innerWeapon.Range, innerWeapon.Weight, innerWeapon.MapSymbol)
+        : base(innerWeapon.Name, innerWeapon.Value, innerWeapon.Grip, innerWeapon.Damage, 
+            innerWeapon.Hitspeed, innerWeapon.Range, innerWeapon.Weight, innerWeapon.MapSymbol, innerWeapon.Color)
     {
         _innerWeapon = innerWeapon;
     }

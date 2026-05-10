@@ -5,6 +5,7 @@ using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Services.RenderServices;
 using Erpeg.Systems;
 using Erpeg.Systems.CombatSystems;
 using Erpeg.Systems.GameStateSystems;
@@ -28,7 +29,9 @@ public class CombatState : IGameState
         _player = player;
         _enemy = enemy;
         
-        GameLogger.Instance.SetContext($"Combat! {_enemy.Name} blocks the way.");
+        GameLogger.Instance.SetContext($"{_enemy.Name}: " + 
+                                       $"{UIHelper.GetProgressBar(_enemy.Hp, _enemy.MaxHp, 15, 
+                                           UIHelper.ColorHpRed, UIHelper.ColorDarkGray)} {_enemy.Hp}/{_enemy.MaxHp}");
 
         _combatActions = new Dictionary<ConsoleKey, Action>
         {
@@ -47,7 +50,7 @@ public class CombatState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}] Wrong input");
         }
     }
 
@@ -62,6 +65,10 @@ public class CombatState : IGameState
         int damageToEnemy = Math.Max(0, playerDamage - _enemy.Defense);
         _enemy.Hp -= damageToEnemy;
         GameLogger.Instance.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
+        
+        GameLogger.Instance.SetContext($"{_enemy.Name}: " + 
+                                       $"{UIHelper.GetProgressBar(_enemy.Hp, _enemy.MaxHp, 15, 
+                                           UIHelper.ColorHpRed, UIHelper.ColorDarkGray)} {_enemy.Hp}/{_enemy.MaxHp}");
 
         if (_enemy.Hp <= 0)
         {
@@ -90,10 +97,7 @@ public class CombatState : IGameState
     {
         return new List<string>
         {
-            "  == COMBAT == ",
-            $"  Target: {_enemy.Name}",
-            $"  HP: {_enemy.Hp}/{_enemy.MaxHp}",
-            "",
+            "  ==== COMBAT! ====",
             "  [1] Normal Attack",
             "  [2] Stealth Attack",
             "  [3] Magic Attack",
@@ -101,7 +105,7 @@ public class CombatState : IGameState
         };
     }
     
-    public List<string> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
 
     private int CritHitBonus(int damage, int chance, double bonusPercentage)
     {

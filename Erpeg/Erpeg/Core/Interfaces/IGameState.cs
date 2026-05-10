@@ -5,6 +5,6 @@ public interface IGameState
     void HandleInput(ConsoleKey key);
     void Update();
     List<string> GetAvailableActions();
-    List<string> GetLogHistory();
+    List<(DateTime, string)> GetLogHistory();
     List<string>? GetInteractiveInventory() => null;
 }

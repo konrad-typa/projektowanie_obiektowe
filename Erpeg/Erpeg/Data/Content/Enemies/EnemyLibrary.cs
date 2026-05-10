@@ -1,4 +1,5 @@
 ﻿using Erpeg.Data.Models.Characters;
+using Erpeg.Services.RenderServices;
 using Erpeg.Systems.EventSystems;
 
 namespace Erpeg.Data.Content.Enemies;
@@ -6,26 +7,47 @@ namespace Erpeg.Data.Content.Enemies;
 public static class EnemyLibrary
 {
     // classic theme
-    public static EnemyData GetGoblin() => 
-        new("Goblin", (0, 0), attack: 70, defense: 50, 
-            "Aggressive", maxhp: 300, hp: 300);
-    public static EnemyData GetOrc() => 
-        new("Orc", (0, 0), attack: 180, defense: 70, 
-            "Cowardly", maxhp: 500, hp: 500);
+    public static EnemyData GetGoblin() =>
+        new("Goblin", (0, 0), attack: 70, defense: 50,
+            "Aggressive", maxhp: 300, hp: 300)
+        {
+            Color = UIHelper.ColorEnemyWeak
+        };
+
+    public static EnemyData GetOrc() =>
+        new("Orc", (0, 0), attack: 180, defense: 70,
+            "Cowardly", maxhp: 500, hp: 500)
+        {
+            Color = UIHelper.ColorEnemyStrong
+        };
         
     // futuristic theme
-    public static EnemyData GetAndroid() => 
-        new("Android", (0, 0), attack: 70, defense: 50, 
-            "Aggressive", maxhp: 300, hp: 300);
-    public static EnemyData GetSmartFridge() => 
-        new("SmartFridge", (0, 0), attack: 180, defense: 70, 
-            "Cowardly", maxhp: 500, hp: 500);
+    public static EnemyData GetAndroid() =>
+        new("Android", (0, 0), attack: 70, defense: 50,
+            "Aggressive", maxhp: 300, hp: 300)
+        {
+            Color = UIHelper.ColorEnemyWeak
+        };
+
+    public static EnemyData GetSmartFridge() =>
+        new("SmartFridge", (0, 0), attack: 180, defense: 70,
+            "Cowardly", maxhp: 500, hp: 500)
+        {
+            Color = UIHelper.ColorEnemyStrong
+        };
     
     // university theme
     public static EnemyData GetAlgebraProfessor() =>
-        new("Algebra Professor ", (0, 0), attack: 70, defense: 50, 
-            "Aggressive", maxhp: 300, hp: 300);
-    public static EnemyData GetRector() => 
+        new("Algebra Professor ", (0, 0), attack: 70, defense: 50,
+            "Aggressive", maxhp: 300, hp: 300)
+        {
+            Color = UIHelper.ColorEnemyWeak
+        };
+
+    public static EnemyData GetRector() =>
         new("Rector", (0, 0), attack: 180, defense: 70,
-            "Cowardly", maxhp: 500, hp: 500);
+            "Cowardly", maxhp: 500, hp: 500)
+        {
+            Color = UIHelper.ColorEnemyStrong
+        };
 }

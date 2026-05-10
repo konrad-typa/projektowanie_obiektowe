@@ -40,6 +40,6 @@ public class FileLogger : ILogger
         }
     }
 
-    public List<string> GetRecentLogs() => _innerLogger.GetRecentLogs();
-    public List<string> GetFullHistory() => _innerLogger.GetFullHistory();
+    public List<(DateTime, string)> GetRecentLogs() => _innerLogger.GetRecentLogs();
+    public List<(DateTime, string)> GetFullHistory() => _innerLogger.GetFullHistory();
 }

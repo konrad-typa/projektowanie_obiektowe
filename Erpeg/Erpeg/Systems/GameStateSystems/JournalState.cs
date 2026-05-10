@@ -35,7 +35,7 @@ public class JournalState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}] Wrong input");
         }
     }
 
@@ -54,7 +54,7 @@ public class JournalState : IGameState
         };
     }
 
-    public List<string> GetLogHistory()
+    public List<(DateTime, string)> GetLogHistory()
     {
         var fullHistory = GameLogger.Instance.GetFullHistory();
         _offset = Math.Clamp(_offset, 0, Math.Max(0,  fullHistory.Count - WindowSize));

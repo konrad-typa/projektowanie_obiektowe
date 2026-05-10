@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text;
 using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Maps;
@@ -16,7 +17,8 @@ public static class CenterUI
         // info
         string infoText = GameLogger.Instance.GetContext();
         var infoContent = new List<string> { UIHelper.CenterAnsi(infoText, Width - 2) };
-        allLines.AddRange(UIHelper.DrawBox("Info", infoContent, Width, 1));
+        allLines.AddRange(UIHelper.DrawBox("Info", infoContent, Width, 1, 
+            UIHelper.MutedCobalt));
 
         // mapa
         var mapContent = new List<string>();
@@ -33,31 +35,46 @@ public static class CenterUI
                 {
                     TileType.Wall => '█',
                     TileType.Empty => ' ',
-                    _ => '.'
+                    _ => '?'
                 };
+                string color = UIHelper.FrameStone;
 
-                if (map.Items.TryGetValue((x, y), out var item)) symbol = item.MapSymbol;
-                if (map.Characters.TryGetValue((x, y), out var character)) symbol = character.MapSymbol;
-                
-                if (symbol == '@') rowSb.Append($"{UIHelper.ColorRed}{symbol}{UIHelper.ColorReset}");
-                else rowSb.Append(symbol);
+                if (map.Items.TryGetValue((x, y), out var item))
+                {
+                    symbol = item.MapSymbol;
+                    color = item.Color;
+                }
+
+                if (map.Characters.TryGetValue((x, y), out var character))
+                {
+                    symbol = character.MapSymbol;
+                    color = character.Color;
+                }
+
+                rowSb.Append($"{color}{symbol}{UIHelper.ColorReset}");
             }
             mapContent.Add(rowSb.ToString());
         }
-        allLines.AddRange(UIHelper.DrawBox("Map", mapContent, Width, 19));
+        allLines.AddRange(UIHelper.DrawBox(map.Name, mapContent, Width, 19, 
+            UIHelper.MutedAmethyst));
 
         // dziennik
         var journalContent = new List<string>();
         var logs = gameState.GetLogHistory();
         foreach (var log in logs.TakeLast(5))
         {
-            var wrappedLines = UIHelper.WrapText(log, Width - 4);
+            var time = log.Item1;
+            var msg = log.Item2;
+            var wrappedLines = UIHelper.WrapText($"" +
+                                                 $"{UIHelper.ColorDarkGray}[{time:mm:ss}]{UIHelper.ColorReset} " +
+                                                 $"{msg}", Width - 4);
             foreach (var line in wrappedLines)
             {
-                journalContent.Add($" {line}");
+                journalContent.Add($"{line}");
             }
         }
-        allLines.AddRange(UIHelper.DrawBox("Journal", journalContent, Width, 5));
+        allLines.AddRange(UIHelper.DrawBox("Journal", journalContent, Width, 5, 
+            UIHelper.MutedGold));
 
         return allLines;
     }

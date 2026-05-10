@@ -7,8 +7,8 @@ using Erpeg.Systems.LogSystem;
 namespace Erpeg.Data.Models.Items.Weapons;
 
 public class WeaponItem(string name, int value, 
-    WeaponGripType grip, int damage, double hitspeed, int range, double weight, char symbol = '?')
-    : Item(name, value, weight, symbol)
+    WeaponGripType grip, int damage, double hitspeed, int range, double weight, char symbol = '?', string color = "")
+    : Item(name, value, weight, symbol, color)
 {
     public WeaponGripType Grip { get; } = grip;
     public override int Damage { get; protected set; } = damage;

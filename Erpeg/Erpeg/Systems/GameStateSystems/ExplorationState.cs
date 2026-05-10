@@ -39,7 +39,7 @@ public class ExplorationState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}]: Wrong input");
+            GameLogger.Instance.Log($"[{key}] Wrong input");
         }
     }
 
@@ -72,5 +72,5 @@ public class ExplorationState : IGameState
         };
     }
 
-    public List<string> GetLogHistory() => GameLogger.Instance.GetFullHistory();
+    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

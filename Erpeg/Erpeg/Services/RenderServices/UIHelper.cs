@@ -5,15 +5,49 @@ namespace Erpeg.Services.RenderServices;
 
 public static class UIHelper
 {
-    public static readonly string PlaceHolder = "placeholder";
+    public const string PlaceHolder = "placeholder";
     public const string ColorReset = "\x1b[0m";
-    public const string ColorRed = "\x1b[31m";
+    public const string ColorHpRed = "\x1b[31m";
     public const string ColorGreen = "\x1b[32m";
-    public const string ColorBlue = "\x1b[34m";
+    public const string ColorManaBlue = "\x1b[34m";
     public const string ColorYellow = "\x1b[33m";
     public const string ColorCyan = "\x1b[36m";
     public const string ColorMagenta = "\x1b[35m";
     public const string ColorDarkGray = "\x1b[90m";
+    public const string ColorGold = "\x1b[38;2;150;140;75m";
+    public const string ColorTeal = "\x1b[38;2;0;128;128m";
+    public const string ColorSilver = "\x1b[38;2;192;192;192m";
+    public const string ColorBrown = "\x1b[38;5;94m";
+    public const string ColorPurple = "\x1b[38;5;129m";
+    public const string ColorLightRed = "\x1b[91m";
+    public const string ColorCopper = "\x1b[38;2;184;115;51m";
+    public const string MutedBlue = "\x1b[38;2;85;115;150m"; 
+    public const string MutedGreen = "\x1b[38;2;90;130;90m"; 
+    public const string MutedRed = "\x1b[38;2;150;75;75m";   
+    public const string MutedPurple = "\x1b[38;2;120;90;140m";
+    public const string MutedGold = "\x1b[38;2;95;85;55m";
+    public const string MutedTeal = "\x1b[38;2;75;130;120m";
+    public const string MutedWood = "\x1b[38;2;120;95;75m";
+    public const string Slate = "\x1b[38;2;100;115;130m";
+    public const string BlueSlate = "\x1b[38;2;80;110;150m"; 
+    public const string MutedCyan = "\x1b[38;2;75;145;145m";
+    public const string DarkCyan = "\x1b[38;2;45;115;115m";
+    public const string DustyCyan = "\x1b[38;2;100;150;150m";
+    public const string MutedSwamp = "\x1b[38;2;85;95;65m";
+    public const string MutedRose = "\x1b[38;2;150;95;105m";
+    public const string MutedCoral = "\x1b[38;2;160;100;90m";
+    public const string MutedIndigo = "\x1b[38;2;80;85;130m";
+    public const string MutedLavender = "\x1b[38;2;135;115;145m";
+    public const string MutedAmethyst = "\x1b[38;2;120;90;130m";
+    public const string MutedCobalt = "\x1b[38;2;60;75;100m";
+    
+    public const string TextBone = "\x1b[38;2;220;215;195m";
+    
+    public const string FrameLightSteel = "\x1b[38;2;130;140;146m";
+    public const string FrameStone = "\x1b[38;2;160;165;162m";
+    
+    public const string ColorEnemyWeak = "\x1b[38;2;170;55;55m";
+    public const string ColorEnemyStrong = "\x1b[38;2;255;80;80m";
     
     public static int VisibleLength(string text)
     {
@@ -68,30 +102,31 @@ public static class UIHelper
         return new string(' ', leftPadding) + text + new string(' ', rightPadding);
     }
     
-    public static List<string> DrawBox(string title, List<string> content, int width, int innerHeight)
+    public static List<string> DrawBox(string title, List<string> content, int width, int innerHeight, 
+        string? color = ColorDarkGray)
     {
         var lines = new List<string>();
         int titleLen = VisibleLength(title);
         
-        string topBorder = $"┌" + 
+        string topBorder = $"{color}┌" + 
                            new  string('─', Math.Max(0, width/2 - titleLen / 2 - 2 - (titleLen%2)))
                            + $" {title} "
-                           + new string('─', Math.Max(0, width/2 - titleLen / 2) - 2) + "┐";
+                           + new string('─', Math.Max(0, width/2 - titleLen / 2) - 2) + $"┐{ColorReset}";
         lines.Add(topBorder);
         
         for (int i = 0; i < innerHeight; i++)
         {
             if (i < content.Count)
             {
-                lines.Add($"│{PadOrCropAnsi(content[i], width - 2)}│");
+                lines.Add($"{color}│{ColorReset}{PadOrCropAnsi(content[i], width - 2)}{color}│{ColorReset}");
             }
             else
             {
-                lines.Add($"│{new string(' ', width - 2)}│");
+                lines.Add($"{color}│{ColorReset}{new string(' ', width - 2)}{color}│{ColorReset}");
             }
         }
         
-        lines.Add("└" + new string('─', width - 2) + "┘");
+        lines.Add($"{color}└" + new string('─', width - 2) + $"┘{ColorReset}");
     
         return lines;
     }

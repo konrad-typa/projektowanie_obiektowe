@@ -2,10 +2,12 @@
 using Erpeg.Data.Content.Items;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Items.Weapons;
+using Erpeg.Services.RenderServices;
 
 namespace Erpeg.Data.Models.Characters;
 
-public class PlayerData(string name, (int x, int y) position, int maxhp = 300, int hp = 300, char symbol = '¶')
+public class PlayerData(string name, (int x, int y) position, int maxhp = 300, int hp = 300, 
+    char symbol = '¶')
     : CharacterData(name, position, maxhp, hp, symbol)
 {
     public List<Item> Inventory { get; set; } = new();

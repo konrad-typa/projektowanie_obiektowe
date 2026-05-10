@@ -26,15 +26,16 @@ public class RenderService : IService
             string center = i < centerColumn.Count ? centerColumn[i] : new string(' ', CenterUI.Width);
             string right = i < rightColumn.Count ? rightColumn[i] : new string(' ', RightUI.Width);
             
-            sb.AppendLine($"{left}   {center}   {right}");
+            sb.AppendLine($"{left} {center} {right}");
         }
         
         int totalWidth = LeftUI.Width + CenterUI.Width + RightUI.Width + 6; 
         
         // sb.AppendLine(new string('─', totalWidth));
-        string footer = $"FPS: {GameDiagnostics.FPS}              Czas gry: {UIHelper.PlaceHolder}" +
-                        $"              Score: {UIHelper.PlaceHolder}              Active Players: {UIHelper.PlaceHolder}";
-        string formattedFooter = $" {UIHelper.CenterAnsi(footer, totalWidth - 2)} ";
+        string footer = $"FPS: {GameDiagnostics.FPS}                   " +
+                        $"Time: {GameDiagnostics.PlayTime.Elapsed:mm\\:ss}" +
+                        $"                   Score: ???                   Active Players: 1";
+        string formattedFooter = $" {UIHelper.CenterAnsi(footer, totalWidth - 5)} ";
         sb.AppendLine(formattedFooter);
         // sb.AppendLine(new string('─', totalWidth));
 
