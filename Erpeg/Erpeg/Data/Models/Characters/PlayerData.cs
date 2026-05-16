@@ -47,7 +47,7 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 300, i
     public int Mana
     {
         get => _mana;
-        set => Math.Clamp(value, 0, _maxMana);
+        set => _mana = Math.Clamp(value, 0, _maxMana);
     }
     
     public int Damage { get; set; } = 0;
@@ -150,9 +150,9 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 300, i
         // bonus do hp ze staminy
         int totalStamina = GetTotalAttribute(AttributesType.Stamina);
         
-        var hpPercentage = Hp / MaxHp; 
+        var hpPercentage = (double) Hp / MaxHp; 
         MaxHp = 300 + (totalStamina * 5); 
-        Hp = MaxHp * hpPercentage;
+        Hp = (int)(MaxHp * hpPercentage);
         
         // bonus do dmg, obrony z itemow
         int totalDamage = 0;
