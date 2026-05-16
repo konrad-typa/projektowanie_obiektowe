@@ -5,6 +5,7 @@ using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Data.Models.View;
 using Erpeg.Services.RenderServices;
 using Erpeg.Systems;
 using Erpeg.Systems.CombatSystems;
@@ -20,6 +21,7 @@ public class CombatState : IGameState
     private readonly PlayerData _player;
     private readonly EnemyData _enemy;
     private readonly Dictionary<ConsoleKey, Action> _combatActions;
+    private readonly UIContext _uiContext = new UIContext { showBar = true };
     
     private readonly Item _fists = new FistsItem();
 
@@ -29,10 +31,6 @@ public class CombatState : IGameState
         _player = player;
         _enemy = enemy;
         
-        GameLogger.Instance.SetContext($"{_enemy.Name}: " + 
-                                       $"{UIHelper.GetProgressBar(_enemy.Hp, _enemy.MaxHp, 15, 
-                                           UIHelper.ColorHpRed, UIHelper.ColorDarkGray)} {_enemy.Hp}/{_enemy.MaxHp}");
-
         _combatActions = new Dictionary<ConsoleKey, Action>
         {
             { ConsoleKey.D1, () => ExecuteTurn(new NormalAttack()) },
@@ -66,10 +64,6 @@ public class CombatState : IGameState
         _enemy.Hp -= damageToEnemy;
         GameLogger.Instance.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
         
-        GameLogger.Instance.SetContext($"{_enemy.Name}: " + 
-                                       $"{UIHelper.GetProgressBar(_enemy.Hp, _enemy.MaxHp, 15, 
-                                           UIHelper.ColorHpRed, UIHelper.ColorDarkGray)} {_enemy.Hp}/{_enemy.MaxHp}");
-
         if (_enemy.Hp <= 0)
         {
             GameLogger.Instance.Log($"{_enemy.Name} has been defeated!");
@@ -106,6 +100,15 @@ public class CombatState : IGameState
     }
     
     public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+
+    public UIContext GetUIContext()
+    {
+        _uiContext.message = _enemy.Name;
+        _uiContext.barCurrent = _enemy.Hp;
+        _uiContext.barMax = _enemy.MaxHp;
+        
+        return _uiContext;
+    }
 
     private int CritHitBonus(int damage, int chance, double bonusPercentage)
     {

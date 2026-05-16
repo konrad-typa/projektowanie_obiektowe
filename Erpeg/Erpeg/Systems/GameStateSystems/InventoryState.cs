@@ -2,6 +2,7 @@
 using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Data.Models.View;
 using Erpeg.Services.RenderServices;
 using Erpeg.Systems.LogSystem;
 
@@ -14,6 +15,12 @@ public class InventoryState : IGameState
     private int _selectedIndex = 0;
     private const int WindowSize = 11;
     private int _offset = 0;
+    private readonly UIContext _uiContext = new UIContext();
+    private readonly InventoryInfo _inventoryInfo = new InventoryInfo()
+    {
+        isOpen = true,
+        WindowSize = WindowSize
+    };
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
@@ -84,15 +91,14 @@ public class InventoryState : IGameState
     public void Update()
     {
         _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0, _player.Inventory.Count - 1));
-
         if (_player.Inventory.Count > 0)
         {
-            var selectedItem = _player.Inventory[_selectedIndex];
-            GameLogger.Instance.SetContext($"({selectedItem.Name}) Equip [E] / Drop [G]");
-        }
-        else
-        {
-            GameLogger.Instance.SetContext("Inventory empty!");
+            if (_selectedIndex < _offset) 
+                _offset = _selectedIndex; 
+            else if (_selectedIndex >= _offset + WindowSize) 
+                _offset = _selectedIndex - WindowSize + 1; 
+        
+            _offset = Math.Clamp(_offset, 0, Math.Max(0, _player.Inventory.Count - WindowSize));
         }
     }
     
@@ -100,42 +106,29 @@ public class InventoryState : IGameState
     {
         return new List<string>
         {
-            "  Prev Item: [A]",
-            "  Next Item: [D]",
+            "  Prev Item: [W]",
+            "  Next Item: [S]",
             "  Close Inv: [I]/[Esc]"
         };
     }
-    
-    public List<string>? GetInteractiveInventory()
+
+    public UIContext GetUIContext()
     {
-        var inv = _player.Inventory;
-        if (inv.Count == 0) 
-            return new List<string>(); 
-        
-        _selectedIndex = Math.Clamp(_selectedIndex, 0, Math.Max(0, inv.Count - 1));
-        
-        if (_selectedIndex < _offset) 
-            _offset = _selectedIndex; 
-        else if (_selectedIndex >= _offset + WindowSize) 
-            _offset = _selectedIndex - WindowSize + 1; 
-        
-        _offset = Math.Clamp(_offset, 0, Math.Max(0, inv.Count - WindowSize));
-        
-        return inv
-            .Skip(_offset)
-            .Take(WindowSize)
-            .Select((item, index) => 
-            {
-                int realIndex = _offset + index; 
-                
-                string leftText = realIndex == _selectedIndex 
-                    ? $"> {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
-                    : $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
-                string rightText = item.Weight.ToString(); 
-                
-                return UIHelper.JustifyAnsi(leftText, rightText, RightUI.Width - 2, 2);
-            })
-            .ToList();
+        if (_player.Inventory.Count > 0)
+        {
+            var item = _player.Inventory[_selectedIndex];
+            _uiContext.message = $"({item.Name}) Equip [E] / Drop [G]";
+        }
+        else 
+            _uiContext.message = "Inventory Empty!";
+        return _uiContext;
+    }
+    
+    public InventoryInfo GetInventoryInfo()
+    {
+        _inventoryInfo.selectedIdx = _selectedIndex;
+        _inventoryInfo.Offset = _offset;
+        return _inventoryInfo;
     }
     
     public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();

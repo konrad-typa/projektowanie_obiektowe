@@ -30,29 +30,29 @@ public static class RightUI
             UIHelper.ColorDarkGray + new string('─', Width - 2) + UIHelper.ColorReset,
             UIHelper.CenterAnsi($"{player.CurrentWeight}/{player.MaxWeight}", Width - 2)
         };
+
+        var inventoryInfo = gameState.GetInventoryInfo();
+        var inv = player.Inventory;
+        int offset = inventoryInfo.isOpen ? inventoryInfo.Offset : 0;
+        int windowSize = inventoryInfo.isOpen ? inventoryInfo.WindowSize : 11;
+        int selectedIdx = inventoryInfo.isOpen ? inventoryInfo.selectedIdx : -1;
         
-        var interactiveInv = gameState.GetInteractiveInventory();
-        if (interactiveInv != null)
+        var itemsToShow = inv.Skip(offset).Take(windowSize).ToList();
+
+        for (int i = 0; i < itemsToShow.Count; i++)
         {
-            foreach (var item in interactiveInv)
-            {
-                invContent.Add(item);
-            }
-        }
-        else
-        {
-            int itemsToShow = Math.Min(10, player.Inventory.Count);
-            for (int i = 0; i < itemsToShow; i++)
-            {
-                var item = player.Inventory[i];
-                string name = $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
-                string weight = $"{item.Weight}";
-                
-                invContent.Add(UIHelper.JustifyAnsi(name, weight, Width - 2, rightPadding: 2));
-            }
+            var item = itemsToShow[i];
+            int realIndex = offset + i;
             
-            if (player.Inventory.Count > 10)
-                invContent.Add($"  ... ({player.Inventory.Count - 10} more)");
+            bool isSelected = (realIndex == selectedIdx);
+            
+            string leftText = isSelected 
+                ? $"> {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
+                : $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
+                    
+            string rightText = item.Weight.ToString();
+            
+            invContent.Add(UIHelper.JustifyAnsi(leftText, rightText, Width - 2, 2));
         }
         
         allLines.AddRange(UIHelper.DrawBox("Inventory", invContent, Width, 14, 

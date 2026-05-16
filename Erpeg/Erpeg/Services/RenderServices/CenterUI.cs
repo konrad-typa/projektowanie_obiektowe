@@ -15,11 +15,18 @@ public static class CenterUI
         var allLines = new List<string>();
 
         // info
-        string infoText = GameLogger.Instance.GetContext();
-        var infoContent = new List<string> { UIHelper.CenterAnsi(infoText, Width - 2) };
-        allLines.AddRange(UIHelper.DrawBox("Info", infoContent, Width, 1, 
-            UIHelper.MutedCobalt));
-
+        var uiContext = gameState.GetUIContext();
+        string contextText = uiContext.message;
+        if (uiContext.showBar)
+        {
+            var bar = UIHelper.GetProgressBar(uiContext.barCurrent, uiContext.barMax,
+                15, UIHelper.ColorHpRed, UIHelper.ColorDarkGray);
+            contextText += $" {bar} {uiContext.barCurrent} / {uiContext.barMax}";
+        }
+        
+        var infoContent = new List<string> { UIHelper.CenterAnsi(contextText, Width - 2) };
+        allLines.AddRange(UIHelper.DrawBox("Info", infoContent, Width, 1, UIHelper.MutedCobalt));
+        
         // mapa
         var mapContent = new List<string>();
         for (int y = 0; y < map.SizeY; y++)

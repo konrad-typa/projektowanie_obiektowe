@@ -1,4 +1,5 @@
 ﻿using Erpeg.Core.Interfaces;
+using Erpeg.Data.Models.View;
 using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.GameStateSystems;
@@ -27,5 +28,7 @@ public class GameOverState : IGameState
         };
     }
 
+    public UIContext GetUIContext() => new UIContext();
+    
     public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();
 }

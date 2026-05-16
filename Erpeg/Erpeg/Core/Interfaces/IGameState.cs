@@ -1,4 +1,6 @@
-﻿namespace Erpeg.Core.Interfaces;
+﻿using Erpeg.Data.Models.View;
+
+namespace Erpeg.Core.Interfaces;
 
 public interface IGameState
 {
@@ -6,5 +8,6 @@ public interface IGameState
     void Update();
     List<string> GetAvailableActions();
     List<(DateTime, string)> GetLogHistory();
-    List<string>? GetInteractiveInventory() => null;
+    public UIContext GetUIContext();
+    InventoryInfo GetInventoryInfo() => new InventoryInfo { isOpen = false };
 }

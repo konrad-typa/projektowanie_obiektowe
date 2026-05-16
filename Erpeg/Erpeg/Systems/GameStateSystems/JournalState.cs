@@ -3,6 +3,7 @@ using Erpeg.Core.Interfaces;
 using Erpeg.Core.StateMachine;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Data.Models.View;
 
 namespace Erpeg.Systems.GameStateSystems;
 
@@ -41,7 +42,6 @@ public class JournalState : IGameState
 
     public void Update()
     {
-        GameLogger.Instance.SetContext("Opened Journal");
     }
     
     public List<string> GetAvailableActions()
@@ -53,6 +53,8 @@ public class JournalState : IGameState
             "  [J]/[Esc] Close Journal"
         };
     }
+    
+    public UIContext GetUIContext() => new UIContext() { message = "Opened Journal" };
 
     public List<(DateTime, string)> GetLogHistory()
     {

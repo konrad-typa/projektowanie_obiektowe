@@ -2,6 +2,7 @@
 using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
+using Erpeg.Data.Models.View;
 using Erpeg.Systems.CharacterSystems;
 using Erpeg.Systems.LogSystem;
 
@@ -12,6 +13,7 @@ public class ExplorationState : IGameState
     private readonly MapData _map;
     private readonly PlayerData _player;
     private readonly Dictionary<ConsoleKey, ICommand> _commands;
+    private readonly UIContext _uiContext = new UIContext();
     
     public ExplorationState(MapData map, PlayerData player)
     {
@@ -45,19 +47,21 @@ public class ExplorationState : IGameState
 
     public void Update()
     {
-        var info = _map.GetItemAt(_player.Position);
-        if (info != null)
-        {
-            GameLogger.Instance.SetContext($"({info.Name}) Pick Up [E]");
-        }
-        else
-        {
-            GameLogger.Instance.SetContext("");
-        }
-        
         var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
         foreach (var e in enemies)
             e.MoveRandomly(_map);
+    }
+    
+    public UIContext GetUIContext()
+    {
+        var item = _map.GetItemAt(_player.Position);
+        if (item != null)
+        {
+            _uiContext.message = $"({item.Name}) Pick Up [E]";
+        }
+        else 
+            _uiContext.message = "";
+        return _uiContext;
     }
 
     public List<string> GetAvailableActions()
