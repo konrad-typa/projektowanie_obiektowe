@@ -19,16 +19,18 @@ public class CombatState : IGameState
     private static readonly Random Random = new();
     private readonly MapData _map;
     private readonly PlayerData _player;
+    private readonly PlayerSession _session;
     private readonly EnemyData _enemy;
     private readonly Dictionary<ConsoleKey, Action> _combatActions;
     private readonly UIContext _uiContext = new UIContext { showBar = true };
     
     private readonly Item _fists = new FistsItem();
 
-    public CombatState(MapData map, PlayerData player, EnemyData enemy)
+    public CombatState(MapData map, PlayerSession session, EnemyData enemy)
     {
         _map = map;
-        _player = player;
+        _session = session;
+        _player = _session.Player;
         _enemy = enemy;
         
         _combatActions = new Dictionary<ConsoleKey, Action>
@@ -36,7 +38,7 @@ public class CombatState : IGameState
             { ConsoleKey.D1, () => ExecuteTurn(new NormalAttack()) },
             { ConsoleKey.D2, () => ExecuteTurn(new StealthAttack()) },
             { ConsoleKey.D3, () => ExecuteTurn(new MagicAttack()) },
-            { ConsoleKey.I, () => GameStateManager.ChangeState(new InventoryState(_map, _player, this)) }
+            { ConsoleKey.I, () => _session.ChangeState(new InventoryState(_map, _session, this)) }
         };
     }
 
@@ -48,7 +50,7 @@ public class CombatState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}] Wrong input");
+            _session.Logger.Log($"[{key}] Wrong input");
         }
     }
 
@@ -62,26 +64,26 @@ public class CombatState : IGameState
         
         int damageToEnemy = Math.Max(0, playerDamage - _enemy.Defense);
         _enemy.Hp -= damageToEnemy;
-        GameLogger.Instance.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
+        _session.Logger.Log($"You hit {_enemy.Name} for {damageToEnemy} dmg!");
         
         if (_enemy.Hp <= 0)
         {
-            GameLogger.Instance.Log($"{_enemy.Name} has been defeated!");
+            _session.Logger.Log($"{_enemy.Name} has been defeated!");
             _enemy.Die();
             _map.Characters.Remove(_enemy.Position);
-            GameStateManager.ChangeState(new ExplorationState(_map, _player));
+            _session.ChangeState(new ExplorationState(_map, _session));
             return;
         }
         
         int damageToPlayer = Math.Max(0, _enemy.Attack - playerDefense);
         damageToPlayer += CritHitBonus(_enemy.Attack, 50, 0.10);
         _player.Hp -= damageToPlayer; 
-        GameLogger.Instance.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
+        _session.Logger.Log($"{_enemy.Name} hits you for {damageToPlayer} dmg!");
         
         if (_player.Hp <= 0)
         {
-            GameLogger.Instance.Log("YOU DIED!");
-            GameStateManager.ChangeState(new GameOverState()); 
+            _session.Logger.Log("YOU DIED!");
+            _session.ChangeState(new GameOverState(_session)); 
         }
     }
 
@@ -99,7 +101,7 @@ public class CombatState : IGameState
         };
     }
     
-    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetRecentLogs();
+    public List<(DateTime, string)> GetLogHistory() => _session.Logger.GetRecentLogs();
 
     public UIContext GetUIContext()
     {

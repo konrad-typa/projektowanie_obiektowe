@@ -9,22 +9,22 @@ namespace Erpeg.Systems.GameStateSystems;
 
 public class JournalState : IGameState
 {
-    private int _offset = 0;
+    private int _offset = int.MaxValue;
     private const int WindowSize = 10;
+    private readonly PlayerSession _session;
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
-    public JournalState(MapData map, PlayerData player)
+    public JournalState(MapData map, PlayerSession session)
     {
-        var map1 = map;
-        var player1 = player;
+        _session = session;
         
         _keyBindings = new Dictionary<ConsoleKey, Action>
         {
             { ConsoleKey.W, () => _offset-- },
             { ConsoleKey.S, () => _offset++ },
-            { ConsoleKey.J, () => GameStateManager.ChangeState(new ExplorationState(map1, player1)) },
-            { ConsoleKey.Escape, () => GameStateManager.ChangeState(new ExplorationState(map1, player1)) }
+            { ConsoleKey.J, () => _session.ChangeState(new ExplorationState(map, _session)) },
+            { ConsoleKey.Escape, () => _session.ChangeState(new ExplorationState(map, _session)) },
         };
     }
 
@@ -36,7 +36,7 @@ public class JournalState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}] Wrong input");
+            _session.Logger.Log($"[{key}] Wrong input");
         }
     }
 
@@ -58,10 +58,9 @@ public class JournalState : IGameState
 
     public List<(DateTime, string)> GetLogHistory()
     {
-        var fullHistory = GameLogger.Instance.GetFullHistory();
+        var fullHistory = _session.Logger.GetFullHistory();
         _offset = Math.Clamp(_offset, 0, Math.Max(0,  fullHistory.Count - WindowSize));
-        int bufferSize =(fullHistory.Count - 1 - _offset) < WindowSize ? fullHistory.Count - 1 : WindowSize;
 
-        return fullHistory.Skip(_offset).Take(bufferSize).ToList();
+        return fullHistory.Skip(_offset).Take(WindowSize).ToList();
     } 
 }

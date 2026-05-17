@@ -12,6 +12,7 @@ public class InventoryState : IGameState
 {
     private readonly MapData _map;
     private readonly PlayerData _player;
+    private readonly PlayerSession _session;
     private int _selectedIndex = 0;
     private const int WindowSize = 11;
     private int _offset = 0;
@@ -24,10 +25,11 @@ public class InventoryState : IGameState
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;
 
-    public InventoryState(MapData map, PlayerData player, IGameState previousState)
+    public InventoryState(MapData map, PlayerSession session, IGameState previousState)
     {
         _map = map;
-        _player = player;
+        _session = session;
+        _player = _session.Player;
         
         _keyBindings = new Dictionary<ConsoleKey, Action>
         {
@@ -35,8 +37,8 @@ public class InventoryState : IGameState
             { ConsoleKey.S, () => _selectedIndex++ },
             { ConsoleKey.E, UseSelectedItem },
             { ConsoleKey.G, DropSelectedItem },
-            { ConsoleKey.I, () => GameStateManager.ChangeState(previousState) },
-            { ConsoleKey.Escape, () => GameStateManager.ChangeState(previousState) }
+            { ConsoleKey.I, () => _session.ChangeState(previousState) },
+            { ConsoleKey.Escape, () => _session.ChangeState(previousState) }
         };
     }
 
@@ -48,7 +50,7 @@ public class InventoryState : IGameState
         }
         else
         {
-            GameLogger.Instance.Log($"[{key}] Wrong input");
+            _session.Logger.Log($"[{key}] Wrong input");
         }
     }
 
@@ -57,7 +59,7 @@ public class InventoryState : IGameState
         if (_player.Inventory.Count > 0)
         {
             var item = _player.Inventory[_selectedIndex];
-            item.Use(_player); 
+            item.Use(_player, _session.Logger); 
             
             if (_selectedIndex >= _player.Inventory.Count) 
                 _selectedIndex = Math.Max(0, _player.Inventory.Count - 1);
@@ -76,14 +78,14 @@ public class InventoryState : IGameState
                 
                 _map.Items[dropPos] = item;
             
-                GameLogger.Instance.Log($"Dropped {item.Name}.");
+                _session.Logger.Log($"Dropped {item.Name}.");
             
                 if (_selectedIndex >= _player.Inventory.Count) 
                     _selectedIndex = Math.Max(0, _player.Inventory.Count - 1);
             }
             else
             {
-                GameLogger.Instance.Log("No space to drop the item here!");
+                _session.Logger.Log("No space to drop the item here!");
             }
         }
     }
@@ -131,5 +133,5 @@ public class InventoryState : IGameState
         return _inventoryInfo;
     }
     
-    public List<(DateTime, string)> GetLogHistory() => GameLogger.Instance.GetFullHistory();
+    public List<(DateTime, string)> GetLogHistory() => _session.Logger.GetFullHistory();
 }

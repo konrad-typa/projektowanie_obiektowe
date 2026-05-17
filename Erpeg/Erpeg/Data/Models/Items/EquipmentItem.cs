@@ -1,3 +1,4 @@
+using Erpeg.Core.Interfaces;
 using Erpeg.Data.Events;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
@@ -13,23 +14,23 @@ public class EquipmentItem(string name, int value,
     public EquipmentSlotType SlotType { get; set; } = slotType;
     public override int Defense { get; protected set; } = defense;
     
-    public override void OnPickedUp(PlayerData player, MapData map)
+    public override void OnPickedUp(PlayerData player, MapData map, ILogger logger)
     {
         if (player.TryAddWeight(Weight))
         {
             player.Inventory.Add(this);
             map.Items.Remove(player.Position);
-            GameLogger.Instance.Log($"Picked up {Name}.");
+            logger.Log($"Picked up {Name}.");
         }
         else
         {
-            GameLogger.Instance.Log("Not enough space in inventory!");
+            logger.Log("Not enough space in inventory!");
         }
     }
     
-    public override void Use(PlayerData player)
+    public override void Use(PlayerData player, ILogger logger)
     {
         player.EquipEq(this); 
-        GameLogger.Instance.Log($"Equipped {Name}.");
+        logger.Log($"Equipped {Name}.");
     }
 }

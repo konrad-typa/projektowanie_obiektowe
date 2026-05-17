@@ -6,14 +6,16 @@ namespace Erpeg.Systems.GameStateSystems;
 public class ChangeStateCommand : ICommand
 {
     private readonly IGameState _newState;
+    private readonly PlayerSession _session;
 
-    public ChangeStateCommand(IGameState newState)
+    public ChangeStateCommand(IGameState newState, PlayerSession session)
     {
         _newState = newState;
+        _session = session;
     }
 
     public void Execute()
     {
-        GameStateManager.ChangeState(_newState);
+        _session.ChangeState(_newState);
     }
 }

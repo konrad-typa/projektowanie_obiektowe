@@ -19,7 +19,7 @@ public class GameEngine
 {
     private bool _isRunning = true;
     private MapData _map;
-    private PlayerData _player;
+    private PlayerSession _playerSession;
     
     public void Run()
     {
@@ -72,16 +72,17 @@ public class GameEngine
         
         EventManager.Initialize();
         
-        _map = MapSetup.SetupMap(config!.Strategy);
-        _player = new(config!.PlayerName, (_map.SizeX/2, _map.SizeY/2));
-        CharacterSpawner.SpawnPlayer(_map, _player);
-        _player.RecalculateStats();
+        _map = MapSetup.SetupMap(config.Strategy);
+        var player = new PlayerData(config.PlayerName, (_map.SizeX/2, _map.SizeY/2));
+        CharacterSpawner.SpawnPlayer(_map, player);
+        player.RecalculateStats();
 
         ILogger logger = new JournalLogger();
-        logger = new FileLogger(config!.LogFilePath, _player.Name, logger);
-        GameLogger.Instance.Initialize(logger);
+        logger = new FileLogger(config!.LogFilePath, player.Name, logger);
+        _playerSession = new PlayerSession(player, logger);
         
-        GameStateManager.Initialize(new ExplorationState(_map, _player));
+        _playerSession.Initialize(new ExplorationState(_map, _playerSession));
+        
         DisplayService.Initialize();
         GameDiagnostics.Start();
         
@@ -95,14 +96,18 @@ public class GameEngine
     }
     private void Update()
     {
-        InputService.ReadInput();
-        GameStateManager.Update();
+        if (Console.KeyAvailable)
+        {
+            var key = Console.ReadKey(true).Key;
+            _playerSession.HandleInput(key);
+        }
+        _playerSession.Update();
     }
 
     private void Draw()
     {
-        var currentState = GameStateManager.CurrentState;
-        var frame = RenderService.RenderFrame(_map, _player, currentState);
+        var currentState = _playerSession.CurrentState;
+        var frame = RenderService.RenderFrame(_map, _playerSession.Player, currentState);
         DisplayService.Write(frame);
     }
 }

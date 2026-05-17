@@ -6,11 +6,6 @@ public class GameLogger : ILogger
 {
     private ILogger? _logStrategy;
 
-    private GameLogger() {
-    }
-
-    public static GameLogger Instance { get; } = new GameLogger();
-
     public void Initialize(ILogger logStrategy)
     {
         _logStrategy = logStrategy;

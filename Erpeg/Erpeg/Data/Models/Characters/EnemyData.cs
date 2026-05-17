@@ -29,9 +29,9 @@ public class EnemyData(
     private DateTime _lastMoveTime = DateTime.Now;
     private TimeSpan _moveInterval = TimeSpan.FromSeconds(0.6 + (Rng.NextDouble() * 0.4));
 
-    public override void Interact(PlayerData player, MapData map)
+    public override void Interact(PlayerData player, MapData map, InteractionCallback interactionCallback)
     {
-        GameStateManager.ChangeState(new CombatState(map, player, this));
+        interactionCallback.OnCombatStart?.Invoke(this);
     }
     
     //
@@ -91,7 +91,7 @@ public class EnemyData(
         
         if (hears)
         {
-            GameLogger.Instance.Log($"[{Name} on ({Position.x}, {Position.y})] " +
+            eventData.FeedbackLog?.Invoke($"[{Name} on ({Position.x}, {Position.y})] " +
                                     $"heard: {eventData.SourceName} from {distance} tiles");
         }
     }

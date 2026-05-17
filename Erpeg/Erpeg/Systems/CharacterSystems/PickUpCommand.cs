@@ -9,17 +9,17 @@ using Erpeg.Systems.LogSystem;
 
 namespace Erpeg.Systems.CharacterSystems;
 
-public class PickUpCommand(MapData map, PlayerData player) : ICommand
+public class PickUpCommand(MapData map, PlayerData player, ILogger logger) : ICommand
 {
     public void Execute()
     {
         if (map.Items.TryGetValue(player.Position, out Item item))
         {
-            item.OnPickedUp(player, map);
+            item.OnPickedUp(player, map, logger);
         }
         else
         {
-            GameLogger.Instance.Log("There is nothing to pick up here.");
+            logger.Log("There is nothing to pick up here.");
         }
     }
 }

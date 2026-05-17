@@ -1,4 +1,5 @@
-﻿using Erpeg.Data.Models.Characters;
+﻿using Erpeg.Core.Interfaces;
+using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems;
 using Erpeg.Systems.LogSystem;
@@ -7,20 +8,20 @@ namespace Erpeg.Data.Models.Items;
 
 public class CoinItem(int amount, string color = "") : Item("Coins", amount, 0, '◎', color)
 {
-    public override void OnPickedUp(PlayerData player, MapData map)
+    public override void OnPickedUp(PlayerData player, MapData map, ILogger logger)
     {
         player.AddCoins(this.Value);
         map.Items.Remove(player.Position);
-        GameLogger.Instance.Log($"Picked up {Value} coins.");
+        logger.Log($"Picked up {Value} coins.");
     }
 }
 
 public class GoldItem(int amount, string color = "") : Item("Gold", amount, 0, '$', color)
 {
-    public override void OnPickedUp(PlayerData player, MapData map)
+    public override void OnPickedUp(PlayerData player, MapData map, ILogger logger)
     {
         player.AddGold(this.Value);
         map.Items.Remove(player.Position);
-        GameLogger.Instance.Log($"Picked up {Value} gold.");
+        logger.Log($"Picked up {Value} gold.");
     }
 }

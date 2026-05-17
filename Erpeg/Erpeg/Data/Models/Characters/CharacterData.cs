@@ -27,7 +27,7 @@ public class CharacterData(string name, (int x, int y) position,
         set => _hp = Math.Clamp(value, 0, MaxHp);
     }
 
-    public virtual void Interact(PlayerData player, MapData map)
+    public virtual void Interact(PlayerData player, MapData map, InteractionCallback interactionCallback)
     {
     }
     

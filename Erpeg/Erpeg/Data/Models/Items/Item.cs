@@ -34,11 +34,11 @@ public abstract class Item(string name, int value, double weight, char symbol, s
     public virtual int AcceptDefense(IAttackVisitor visitor, PlayerData player) 
         => visitor.VisitItemDefense(player);
 
-    public abstract void OnPickedUp(PlayerData player, MapData map);
+    public abstract void OnPickedUp(PlayerData player, MapData map, ILogger logger);
     
-    public virtual void Use(PlayerData player)
+    public virtual void Use(PlayerData player, ILogger logger)
     {
-        GameLogger.Instance.Log($"You cannot use {Name}.");
+        logger.Log($"You cannot use {Name}.");
     }
 
     public string Color = color;
