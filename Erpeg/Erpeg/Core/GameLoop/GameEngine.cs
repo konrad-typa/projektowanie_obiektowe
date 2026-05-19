@@ -90,7 +90,7 @@ public class GameEngine
             Update();
             Draw();
             GameDiagnostics.Update();
-            Thread.Sleep(8); 
+            // Thread.Sleep(8); 
         }
     }
     private void Update()
