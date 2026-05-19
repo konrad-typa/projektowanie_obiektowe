@@ -47,11 +47,12 @@ public class PlayerDTO
     public int MaxMana { get; set; }
     public int Damage { get; set; }
     public int Defense { get; set; }
-    public List<ItemDTO> Items { get; set; }
+    public List<ItemDTO> Inventory { get; set; }
+    public Dictionary<string, ItemDTO> Equipment { get; set; }
     public int Gold { get; set; }
     public int Coins { get; set; }
-    public int CurrentWeight { get; set; }
-    public int MaxWeight { get; set; }
+    public double CurrentWeight { get; set; }
+    public double MaxWeight { get; set; }
     public int Strength { get; set; }
     public int Stamina { get; set; }
     public int Dexterity { get; set; }

@@ -1,4 +1,5 @@
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.DTOs;
 using Erpeg.Data.Models.Characters;
 
 namespace Erpeg.Services.RenderServices;
@@ -7,8 +8,9 @@ public static class RightUI
 {
     public const int Width = 38;
 
-    public static List<string> Render(PlayerData player, IGameState gameState)
+    public static List<string> Render(GameStateDto state)
     {
+        var player = state.LocalPlayer;
         var allLines = new List<string>();
 
         var eqContent = new List<string>();
@@ -31,11 +33,11 @@ public static class RightUI
             UIHelper.CenterAnsi($"{player.CurrentWeight}/{player.MaxWeight}", Width - 2)
         };
 
-        var inventoryInfo = gameState.GetInventoryInfo();
+        var inventoryInfo = state.InventoryInfo;
         var inv = player.Inventory;
-        int offset = inventoryInfo.isOpen ? inventoryInfo.Offset : 0;
-        int windowSize = inventoryInfo.isOpen ? inventoryInfo.WindowSize : 11;
-        int selectedIdx = inventoryInfo.isOpen ? inventoryInfo.selectedIdx : -1;
+        int offset = state.InventoryInfo.IsOpen ? inventoryInfo.Offset : 0;
+        int windowSize = state.InventoryInfo.IsOpen ? inventoryInfo.WindowSize : 11;
+        int selectedIdx = state.InventoryInfo.IsOpen ? state.InventoryInfo.SelectedIdx : -1;
         
         var itemsToShow = inv.Skip(offset).Take(windowSize).ToList();
 
@@ -47,8 +49,8 @@ public static class RightUI
             bool isSelected = (realIndex == selectedIdx);
             
             string leftText = isSelected 
-                ? $"> {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
-                : $"  {item.Color}{item.MapSymbol}{UIHelper.ColorReset} {item.Name}";
+                ? $"> {item.Color}{item.Symbol}{UIHelper.ColorReset} {UIHelper.ColorGreen}{item.Name}{UIHelper.ColorReset}" 
+                : $"  {item.Color}{item.Symbol}{UIHelper.ColorReset} {item.Name}";
                     
             string rightText = item.Weight.ToString();
             

@@ -1,5 +1,4 @@
-﻿using Erpeg.Core.StateMachine;
-using Erpeg.Data.Models.Maps;
+﻿using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.GameStates;
 using Erpeg.Core.Interfaces;
 using Erpeg.Core.Utils;

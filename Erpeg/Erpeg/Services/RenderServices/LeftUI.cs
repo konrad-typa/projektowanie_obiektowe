@@ -1,5 +1,6 @@
 using Erpeg.Data.Models.Characters;
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.DTOs;
 
 namespace Erpeg.Services.RenderServices;
 
@@ -8,8 +9,9 @@ public static class LeftUI
     public const int Width = 26;
     private static readonly string HoldNum = "??";
 
-    public static List<string> Render(PlayerData player, IGameState gameState)
+    public static List<string> Render(GameStateDto state)
     {
+        var player = state.LocalPlayer;
         var allLines = new List<string>();
 
         var playerContent = new List<string>
@@ -35,17 +37,17 @@ public static class LeftUI
             $"  Damage:           {player.Damage}",
             $"  Defense:          {player.Defense}",
             UIHelper.ColorDarkGray + new string('─', Width - 2) + UIHelper.ColorReset,
-            $"  Strength:         {player.GetTotalAttribute(AttributesType.Strength)}",
-            $"  Stamina:          {player.GetTotalAttribute(AttributesType.Stamina)}",
-            $"  Luck:             {player.GetTotalAttribute(AttributesType.Luck)}",
-            $"  Intelligence:     {player.GetTotalAttribute(AttributesType.Intelligence)}",
-            $"  Dexterity:        {player.GetTotalAttribute(AttributesType.Dexterity)}",
-            $"  Aggression:       {player.GetTotalAttribute(AttributesType.Aggression)}"
+            $"  Strength:         {player.Strength}",
+            $"  Stamina:          {player.Stamina}",
+            $"  Luck:             {player.Luck}",
+            $"  Intelligence:     {player.Intelligence}",
+            $"  Dexterity:        {player.Dexterity}",
+            $"  Aggression:       {player.Aggression}"
         };
         allLines.AddRange(UIHelper.DrawBox("Stats", statsConntent, Width, 12,
             UIHelper.MutedTeal));
         
-        var actionContent = gameState.GetAvailableActions();
+        var actionContent = state.AvailableActions;
         allLines.AddRange(UIHelper.DrawBox("Available Actions", actionContent, Width, 5,
             UIHelper.MutedCobalt));
 

@@ -1,10 +1,8 @@
-using System;
 using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models.Characters;
-using Erpeg.Services;
 using Erpeg.Systems.LogSystem;
 
-namespace Erpeg.Core.StateMachine;
+namespace Erpeg.Data.Models;
 
 public class PlayerSession
 {

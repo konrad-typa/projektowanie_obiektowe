@@ -1,5 +1,6 @@
 using System.Text;
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.DTOs;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems;
@@ -10,13 +11,13 @@ public class RenderService : IService
 {
     public void Initialize() { }
 
-    public static string RenderFrame(MapData map, PlayerData player, IGameState gameState)
+    public static string RenderFrame(GameStateDto state)
     {
         var sb = new StringBuilder();
         
-        var leftColumn = LeftUI.Render(player, gameState);
-        var centerColumn = CenterUI.Render(map, gameState);
-        var rightColumn = RightUI.Render(player, gameState);
+        var leftColumn = LeftUI.Render(state);
+        var centerColumn = CenterUI.Render(state);
+        var rightColumn = RightUI.Render(state);
         
         int maxHeight = Math.Max(leftColumn.Count, Math.Max(centerColumn.Count, rightColumn.Count));
 

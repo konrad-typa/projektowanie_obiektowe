@@ -1,6 +1,7 @@
 using System.Data;
 using System.Text;
 using Erpeg.Core.Interfaces;
+using Erpeg.Data.DTOs;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Systems.LogSystem;
 
@@ -10,35 +11,38 @@ public static class CenterUI
 {
     public const int Width = 48;
 
-    public static List<string> Render(MapData map, IGameState gameState)
+    public static List<string> Render(GameStateDto state)
     {
         var allLines = new List<string>();
+        var map = state.Map;
 
         // info
-        var uiContext = gameState.GetUIContext();
-        string contextText = uiContext.message;
-        if (uiContext.showBar)
+        var uiContext = state.UIContext;
+        string contextText = uiContext.Message;
+        if (uiContext.ShowBar)
         {
-            var bar = UIHelper.GetProgressBar(uiContext.barCurrent, uiContext.barMax,
+            var bar = UIHelper.GetProgressBar(uiContext.BarCurrent, uiContext.BarMax,
                 15, UIHelper.ColorHpRed, UIHelper.ColorDarkGray);
-            contextText += $" {bar} {uiContext.barCurrent} / {uiContext.barMax}";
+            contextText += $" {bar} {uiContext.BarCurrent} / {uiContext.BarMax}";
         }
         
         var infoContent = new List<string> { UIHelper.CenterAnsi(contextText, Width - 2) };
         allLines.AddRange(UIHelper.DrawBox("Info", infoContent, Width, 1, UIHelper.MutedCobalt));
         
         // mapa
+        var itemsDict = map.Items.ToDictionary(i => (i.X, i.Y));
+        var charsDict = map.Characters.ToDictionary(c => (c.X, c.Y));
         var mapContent = new List<string>();
+        
         for (int y = 0; y < map.SizeY; y++)
         {
             var rowSb = new StringBuilder();
-
             int padding = (Width - 2 - map.SizeX) / 2;
             rowSb.Append(new string(' ', Math.Max(0, padding)));
 
             for (int x = 0; x < map.SizeX; x++)
             {
-                char symbol = map.Layout[x, y] switch
+                char symbol = map.Tiles[x][y] switch
                 {
                     TileType.Wall => '█',
                     TileType.Empty => ' ',
@@ -46,15 +50,15 @@ public static class CenterUI
                 };
                 string color = UIHelper.FrameStone;
 
-                if (map.Items.TryGetValue((x, y), out var item))
+                if (itemsDict.TryGetValue((x, y), out var item))
                 {
-                    symbol = item.MapSymbol;
+                    symbol = item.Symbol;
                     color = item.Color;
                 }
 
-                if (map.Characters.TryGetValue((x, y), out var character))
+                if (charsDict.TryGetValue((x, y), out var character))
                 {
-                    symbol = character.MapSymbol;
+                    symbol = character.Symbol;
                     color = character.Color;
                 }
 
@@ -67,14 +71,9 @@ public static class CenterUI
 
         // dziennik
         var journalContent = new List<string>();
-        var logs = gameState.GetLogHistory();
-        foreach (var log in logs.TakeLast(5))
+        foreach (var msg in state.RecentLogs.TakeLast(5))
         {
-            var time = log.Item1;
-            var msg = log.Item2;
-            var wrappedLines = UIHelper.WrapText($"" +
-                                                 $"{UIHelper.ColorDarkGray}[{time:mm:ss}]{UIHelper.ColorReset} " +
-                                                 $"{msg}", Width - 4);
+            var wrappedLines = UIHelper.WrapText(msg, Width - 4);
             foreach (var line in wrappedLines)
             {
                 journalContent.Add($"{line}");

@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Erpeg.Core.Interfaces;
-using Erpeg.Core.StateMachine;
+using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
 using Erpeg.Data.Models.View;
@@ -51,9 +51,6 @@ public class ExplorationState : IGameState
 
     public void Update()
     {
-        var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
-        foreach (var e in enemies)
-            e.MoveRandomly(_map);
     }
     
     public UIContext GetUIContext()

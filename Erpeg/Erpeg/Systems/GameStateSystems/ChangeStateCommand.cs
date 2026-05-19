@@ -1,5 +1,5 @@
 ﻿using Erpeg.Core.Interfaces;
-using Erpeg.Core.StateMachine;
+using Erpeg.Data.Models;
 
 namespace Erpeg.Systems.GameStateSystems;
 

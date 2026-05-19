@@ -1,6 +1,5 @@
 ﻿using Erpeg.Core.Interfaces;
-using Erpeg.Core.StateMachine;
-using Erpeg.Data.Events;
+using Erpeg.Data.DTOs;
 using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Maps;
@@ -102,12 +101,16 @@ public class GameEngine
             _playerSession.HandleInput(key);
         }
         _playerSession.Update();
+        
+        var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
+        foreach (var e in enemies)
+            e.MoveRandomly(_map);
     }
 
     private void Draw()
     {
-        var currentState = _playerSession.CurrentState;
-        var frame = RenderService.RenderFrame(_map, _playerSession.Player, currentState);
+        var gameStateDto = _playerSession.ToDto(_map);
+        var frame = RenderService.RenderFrame(gameStateDto);
         DisplayService.Write(frame);
     }
 }
