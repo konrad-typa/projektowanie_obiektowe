@@ -10,7 +10,7 @@ namespace Erpeg.Systems.GameStateSystems;
 public class JournalState : IGameState
 {
     private int _offset = int.MaxValue;
-    private const int WindowSize = 10;
+    private const int WindowSize = 5;
     private readonly PlayerSession _session;
     
     private readonly Dictionary<ConsoleKey, Action> _keyBindings;

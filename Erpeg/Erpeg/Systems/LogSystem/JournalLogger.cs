@@ -6,7 +6,7 @@ public class JournalLogger : ILogger
 {
     private readonly List<(DateTime, string)> _actionLogs = new();
     private readonly List<(DateTime Time, string Message)> _fullHistory = new();
-    private readonly int _maxLogs = 3;
+    private readonly int _maxLogs = 5;
 
     public void Log(string message)
     {

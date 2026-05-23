@@ -133,5 +133,5 @@ public class InventoryState : IGameState
         return _inventoryInfo;
     }
     
-    public List<(DateTime, string)> GetLogHistory() => _session.Logger.GetFullHistory();
+    public List<(DateTime, string)> GetLogHistory() => _session.Logger.GetRecentLogs();
 }

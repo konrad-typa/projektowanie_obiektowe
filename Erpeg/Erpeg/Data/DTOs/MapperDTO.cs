@@ -123,7 +123,8 @@ public static class MapperDTO
             Map = map.ToDTO(),
             LocalPlayer = session.Player.ToDto(),
             AvailableActions = session.CurrentState.GetAvailableActions(),
-            RecentLogs = session.Logger.GetRecentLogs().Select(l => $"[{l.Time:mm:ss}] {l.Message}").ToList(),
+            Logs = session.CurrentState.GetLogHistory()
+                .Select(l => $"[{l.Time:mm:ss}] {l.Message}").ToList(),
             
             UIContext = new UIContextDto
             {

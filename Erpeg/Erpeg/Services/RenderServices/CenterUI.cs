@@ -71,7 +71,7 @@ public static class CenterUI
 
         // dziennik
         var journalContent = new List<string>();
-        foreach (var msg in state.RecentLogs.TakeLast(5))
+        foreach (var msg in state.Logs.TakeLast(5))
         {
             var wrappedLines = UIHelper.WrapText(msg, Width - 4);
             foreach (var line in wrappedLines)

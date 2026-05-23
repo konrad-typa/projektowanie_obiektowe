@@ -7,7 +7,7 @@ public class GameStateDto
     public MapDTO Map { get; set; }
     public PlayerDTO LocalPlayer { get; set; }
     public List<string> AvailableActions { get; set; }
-    public List<string> RecentLogs { get; set; }
+    public List<string> Logs { get; set; }
     
     public UIContextDto UIContext { get; set; } 
     public InventoryInfoDto InventoryInfo { get; set; }
