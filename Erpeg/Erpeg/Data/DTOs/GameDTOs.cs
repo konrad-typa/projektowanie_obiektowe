@@ -86,3 +86,8 @@ public class InventoryInfoDto
     public int Offset { get; set; }
     public int WindowSize { get; set; }
 }
+
+public class PlayerInputDto
+{
+    public ConsoleKey Key { get; set; }
+}
