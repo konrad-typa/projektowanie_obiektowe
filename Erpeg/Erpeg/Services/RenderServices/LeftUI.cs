@@ -9,7 +9,7 @@ public static class LeftUI
     public const int Width = 26;
     private static readonly string HoldNum = "??";
 
-    public static List<string> Render(GameStateDto state)
+    public static List<string> Render(GameStateDTO state)
     {
         var player = state.LocalPlayer;
         var allLines = new List<string>();

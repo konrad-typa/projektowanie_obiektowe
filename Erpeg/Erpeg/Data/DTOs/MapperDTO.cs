@@ -1,4 +1,3 @@
-using Erpeg.Core.Interfaces;
 using Erpeg.Data.Models;
 using Erpeg.Data.Models.Characters;
 using Erpeg.Data.Models.Items;
@@ -113,12 +112,12 @@ public static class MapperDTO
         };
     }
     
-    public static GameStateDto ToDto(this PlayerSession session, MapData map)
+    public static GameStateDTO ToDto(this PlayerSession session, MapData map)
     {
         var uiContext = session.CurrentState.GetUIContext();
         var invInfo = session.CurrentState.GetInventoryInfo();
 
-        return new GameStateDto
+        return new GameStateDTO
         {
             Map = map.ToDTO(),
             LocalPlayer = session.Player.ToDto(),

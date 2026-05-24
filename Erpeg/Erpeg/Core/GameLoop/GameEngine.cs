@@ -90,7 +90,7 @@ public class GameEngine
             Update();
             Draw();
             GameDiagnostics.Update();
-            // Thread.Sleep(8); 
+            Thread.Sleep(50); // tickrate 20 
         }
     }
     private void Update()
@@ -104,7 +104,8 @@ public class GameEngine
         
         var enemies = _map.Characters.Values.OfType<EnemyData>().ToList();
         foreach (var e in enemies)
-            e.MoveRandomly(_map);
+            if (e.IsMoving)
+                e.MoveRandomly(_map);
     }
 
     private void Draw()

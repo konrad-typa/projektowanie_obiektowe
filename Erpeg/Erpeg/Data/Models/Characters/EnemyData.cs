@@ -23,6 +23,7 @@ public class EnemyData(
     public int Defense { get; protected set; } = defense;
     public string Species { get; protected set; } = species;
     private static readonly Random Rng = new Random();
+    public bool IsMoving { get; private set; } = true;
     
     // do ruchu
     private DateTime _lastMoveTime = DateTime.Now;
@@ -30,6 +31,7 @@ public class EnemyData(
 
     public override void Interact(PlayerData player, MapData map, InteractionCallback interactionCallback)
     {
+        IsMoving = false;
         interactionCallback.OnCombatStart?.Invoke(this);
     }
     

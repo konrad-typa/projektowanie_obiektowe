@@ -8,7 +8,7 @@ public static class RightUI
 {
     public const int Width = 38;
 
-    public static List<string> Render(GameStateDto state)
+    public static List<string> Render(GameStateDTO state)
     {
         var player = state.LocalPlayer;
         var allLines = new List<string>();

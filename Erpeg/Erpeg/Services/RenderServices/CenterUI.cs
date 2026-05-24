@@ -11,7 +11,7 @@ public static class CenterUI
 {
     public const int Width = 48;
 
-    public static List<string> Render(GameStateDto state)
+    public static List<string> Render(GameStateDTO state)
     {
         var allLines = new List<string>();
         var map = state.Map;

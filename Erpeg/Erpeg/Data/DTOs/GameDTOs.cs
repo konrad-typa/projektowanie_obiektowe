@@ -2,7 +2,7 @@ using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Data.DTOs;
 
-public class GameStateDto
+public class GameStateDTO
 {
     public MapDTO Map { get; set; }
     public PlayerDTO LocalPlayer { get; set; }
@@ -34,15 +34,8 @@ public class CharacterDTO
     public string Color { get; set; }
 }
 
-public class PlayerDTO
+public class PlayerDTO : CharacterDTO
 {
-    public string Name { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Hp { get; set; }
-    public int MaxHp { get; set; }
-    public char Symbol { get; set; }
-    public string Color { get; set; }
     public int Mana { get; set; }
     public int MaxMana { get; set; }
     public int Damage { get; set; }
