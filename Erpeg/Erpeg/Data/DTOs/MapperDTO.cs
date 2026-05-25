@@ -35,7 +35,7 @@ public static class MapperDTO
         };
     }
     
-    public static MapDTO ToDTO(this MapData map)
+    public static MapDTO ToStaticDto(this MapData map)
     {
         var layout = new TileType[map.SizeX][];
         for (int i = 0; i < map.SizeX; i++)
@@ -52,7 +52,14 @@ public static class MapperDTO
             Name = map.Name,
             SizeX = map.SizeX,
             SizeY = map.SizeY,
-            Tiles = layout,
+            Tiles = layout
+        };
+    }
+
+    public static MapChangeDTO ToDto(this MapData map)
+    {
+        return new MapChangeDTO
+        {
             Items = map.Items.Select(x => x.Value.ToDto(x.Key.x, x.Key.y)).ToList(),
             Characters = map.Characters.Select(x => x.Value.ToDto(x.Key.x, x.Key.y)).ToList()
         };
@@ -112,14 +119,14 @@ public static class MapperDTO
         };
     }
     
-    public static GameStateDTO ToDto(this PlayerSession session, MapData map)
+    public static GameUpdateDTO ToDto(this PlayerSession session, MapData map)
     {
         var uiContext = session.CurrentState.GetUIContext();
         var invInfo = session.CurrentState.GetInventoryInfo();
 
-        return new GameStateDTO
+        return new GameUpdateDTO
         {
-            Map = map.ToDTO(),
+            Map = map.ToDto(),
             LocalPlayer = session.Player.ToDto(),
             AvailableActions = session.CurrentState.GetAvailableActions(),
             Logs = session.CurrentState.GetLogHistory()

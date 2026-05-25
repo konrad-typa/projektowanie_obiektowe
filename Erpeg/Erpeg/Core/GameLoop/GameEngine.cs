@@ -19,6 +19,8 @@ public class GameEngine
     private bool _isRunning = true;
     private MapData _map;
     private PlayerSession _playerSession;
+    private Server _server;
+    private List<Client> _clients;
     
     public void Run()
     {
@@ -90,7 +92,7 @@ public class GameEngine
             Update();
             Draw();
             GameDiagnostics.Update();
-            Thread.Sleep(50); // tickrate 20 
+            Thread.Sleep(20); // tickrate 
         }
     }
     private void Update()
@@ -110,7 +112,25 @@ public class GameEngine
 
     private void Draw()
     {
-        var gameStateDto = _playerSession.ToDto(_map);
+        var gameUpdateDto = _playerSession.ToDto(_map);
+        var cachedMap = _map.ToStaticDto();
+        var gameStateDto = new LocalGameStateDTO
+        {
+            Map = new MapDTO()
+            {
+                Name = cachedMap.Name,
+                SizeX = cachedMap.SizeX,
+                SizeY = cachedMap.SizeY,
+                Tiles = cachedMap.Tiles,
+                Items = gameUpdateDto.Map.Items,
+                Characters = gameUpdateDto.Map.Characters,
+            },
+            AvailableActions = gameUpdateDto.AvailableActions,
+            InventoryInfo = gameUpdateDto.InventoryInfo,
+            LocalPlayer = gameUpdateDto.LocalPlayer,
+            Logs = gameUpdateDto.Logs,
+            UIContext = gameUpdateDto.UIContext,
+        };
         var frame = RenderService.RenderFrame(gameStateDto);
         DisplayService.Write(frame);
     }

@@ -11,7 +11,7 @@ public class RenderService : IService
 {
     public void Initialize() { }
 
-    public static string RenderFrame(GameStateDTO state)
+    public static string RenderFrame(LocalGameStateDTO state)
     {
         var sb = new StringBuilder();
         

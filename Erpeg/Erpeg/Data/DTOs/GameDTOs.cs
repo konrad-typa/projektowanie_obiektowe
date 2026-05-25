@@ -2,85 +2,103 @@ using Erpeg.Data.Models.Maps;
 
 namespace Erpeg.Data.DTOs;
 
-public class GameStateDTO
+public record LocalGameStateDTO
 {
-    public MapDTO Map { get; set; }
-    public PlayerDTO LocalPlayer { get; set; }
-    public List<string> AvailableActions { get; set; }
-    public List<string> Logs { get; set; }
+    public MapDTO Map { get; init; }
+    public PlayerDTO LocalPlayer { get; init; }
+    public List<string> AvailableActions { get; init; }
+    public List<string> Logs { get; init; }
     
-    public UIContextDto UIContext { get; set; } 
-    public InventoryInfoDto InventoryInfo { get; set; }
+    public UIContextDto UIContext { get; init; } 
+    public InventoryInfoDto InventoryInfo { get; init; }
 }
 
-public class ItemDTO
+public record GameUpdateDTO
 {
-    public string Name { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public double Weight { get; set; }
-    public char Symbol { get; set; }
-    public string Color { get; set; }
+    public MapChangeDTO Map { get; init; }
+    public PlayerDTO LocalPlayer { get; init; }
+    public List<string> AvailableActions { get; init; }
+    public List<string> Logs { get; init; }
+    
+    public UIContextDto UIContext { get; init; } 
+    public InventoryInfoDto InventoryInfo { get; init; }
 }
 
-public class CharacterDTO
+public record ItemDTO
 {
-    public string Name { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Hp { get; set; }
-    public int MaxHp { get; set; }
-    public char Symbol { get; set; }
-    public string Color { get; set; }
+    public string Name { get; init; }
+    public int X { get; init; }
+    public int Y { get; init; }
+    public double Weight { get; init; }
+    public char Symbol { get; init; }
+    public string Color { get; init; }
 }
 
-public class PlayerDTO : CharacterDTO
+public record CharacterDTO
 {
-    public int Mana { get; set; }
-    public int MaxMana { get; set; }
-    public int Damage { get; set; }
-    public int Defense { get; set; }
-    public List<ItemDTO> Inventory { get; set; }
-    public Dictionary<string, ItemDTO> Equipment { get; set; }
-    public int Gold { get; set; }
-    public int Coins { get; set; }
-    public double CurrentWeight { get; set; }
-    public double MaxWeight { get; set; }
-    public int Strength { get; set; }
-    public int Stamina { get; set; }
-    public int Dexterity { get; set; }
-    public int Intelligence { get; set; }
-    public int Aggression { get; set; }
-    public int Luck { get; set; }
+    public string Name { get; init; }
+    public int X { get; init; }
+    public int Y { get; init; }
+    public int Hp { get; init; }
+    public int MaxHp { get; init; }
+    public char Symbol { get; init; }
+    public string Color { get; init; }
 }
 
-public class MapDTO
+public record PlayerDTO : CharacterDTO
 {
-    public string Name { get; set; }
-    public int SizeX { get; set; }
-    public int SizeY { get; set; }
-    public List<ItemDTO> Items { get; set; }
-    public List<CharacterDTO> Characters { get; set; }
-    public TileType[][] Tiles { get; set; }
+    public int Mana { get; init; }
+    public int MaxMana { get; init; }
+    public int Damage { get; init; }
+    public int Defense { get; init; }
+    public List<ItemDTO> Inventory { get; init; }
+    public Dictionary<string, ItemDTO> Equipment { get; init; }
+    public int Gold { get; init; }
+    public int Coins { get; init; }
+    public double CurrentWeight { get; init; }
+    public double MaxWeight { get; init; }
+    public int Strength { get; init; }
+    public int Stamina { get; init; }
+    public int Dexterity { get; init; }
+    public int Intelligence { get; init; }
+    public int Aggression { get; init; }
+    public int Luck { get; init; }
 }
 
-public class UIContextDto
+public record MapDTO
 {
-    public string Message { get; set; }
-    public bool ShowBar { get; set; }
-    public int BarCurrent { get; set; }
-    public int BarMax { get; set; }
+    public string Name { get; init; }
+    public int SizeX { get; init; }
+    public int SizeY { get; init; }
+    public List<ItemDTO> Items { get; init; }
+    public List<CharacterDTO> Characters { get; init; }
+    public TileType[][] Tiles { get; init; }
 }
 
-public class InventoryInfoDto
+public record MapChangeDTO
 {
-    public bool IsOpen { get; set; }
-    public int SelectedIdx { get; set; }
-    public int Offset { get; set; }
-    public int WindowSize { get; set; }
+    public List<ItemDTO> Items { get; init; }
+    public List<CharacterDTO> Characters { get; init; }
 }
 
-public class PlayerInputDto
+public record UIContextDto
 {
-    public ConsoleKey Key { get; set; }
+    public string Message { get; init; }
+    public bool ShowBar { get; init; }
+    public int BarCurrent { get; init; }
+    public int BarMax { get; init; }
+}
+
+public record InventoryInfoDto
+{
+    public bool IsOpen { get; init; }
+    public int SelectedIdx { get; init; }
+    public int Offset { get; init; }
+    public int WindowSize { get; init; }
+}
+
+public record PlayerInputDto
+{
+    public int Id { get; init; }
+    public ConsoleKey Key { get; init; }
 }
