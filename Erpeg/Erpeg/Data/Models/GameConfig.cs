@@ -5,7 +5,8 @@ namespace Erpeg.Data.Models;
 
 public record GameConfig( 
     string PlayerName, 
-    [property: JsonPropertyName("DungeonTheme")] string ThemeClassName, 
+    [property: JsonPropertyName("DungeonTheme")] 
+    string ThemeClassName, 
     string LogFilePath)
 {
     [JsonIgnore]

@@ -4,45 +4,45 @@ namespace Erpeg.Data.DTOs;
 
 public record LocalGameStateDTO
 {
-    public MapDTO Map { get; init; }
-    public PlayerDTO LocalPlayer { get; init; }
-    public List<string> AvailableActions { get; init; }
-    public List<string> Logs { get; init; }
+    public MapDTO? Map { get; init; }
+    public PlayerDTO? LocalPlayer { get; init; }
+    public List<string>? AvailableActions { get; init; }
+    public List<string>? Logs { get; init; }
     
-    public UIContextDto UIContext { get; init; } 
-    public InventoryInfoDto InventoryInfo { get; init; }
+    public UIContextDto? UIContext { get; init; } 
+    public InventoryInfoDto? InventoryInfo { get; init; }
 }
 
 public record GameUpdateDTO
 {
-    public MapChangeDTO Map { get; init; }
-    public PlayerDTO LocalPlayer { get; init; }
-    public List<string> AvailableActions { get; init; }
-    public List<string> Logs { get; init; }
+    public MapChangeDTO? Map { get; init; }
+    public PlayerDTO? LocalPlayer { get; init; }
+    public List<string>? AvailableActions { get; init; }
+    public List<string>? Logs { get; init; }
     
-    public UIContextDto UIContext { get; init; } 
-    public InventoryInfoDto InventoryInfo { get; init; }
+    public UIContextDto? UIContext { get; init; } 
+    public InventoryInfoDto? InventoryInfo { get; init; }
 }
 
 public record ItemDTO
 {
-    public string Name { get; init; }
+    public string? Name { get; init; }
     public int X { get; init; }
     public int Y { get; init; }
     public double Weight { get; init; }
     public char Symbol { get; init; }
-    public string Color { get; init; }
+    public string? Color { get; init; }
 }
 
 public record CharacterDTO
 {
-    public string Name { get; init; }
+    public string? Name { get; init; }
     public int X { get; init; }
     public int Y { get; init; }
     public int Hp { get; init; }
     public int MaxHp { get; init; }
     public char Symbol { get; init; }
-    public string Color { get; init; }
+    public string? Color { get; init; }
 }
 
 public record PlayerDTO : CharacterDTO
@@ -51,8 +51,8 @@ public record PlayerDTO : CharacterDTO
     public int MaxMana { get; init; }
     public int Damage { get; init; }
     public int Defense { get; init; }
-    public List<ItemDTO> Inventory { get; init; }
-    public Dictionary<string, ItemDTO> Equipment { get; init; }
+    public List<ItemDTO>? Inventory { get; init; }
+    public Dictionary<string, ItemDTO>? Equipment { get; init; }
     public int Gold { get; init; }
     public int Coins { get; init; }
     public double CurrentWeight { get; init; }
@@ -67,23 +67,23 @@ public record PlayerDTO : CharacterDTO
 
 public record MapDTO
 {
-    public string Name { get; init; }
+    public string? Name { get; init; }
     public int SizeX { get; init; }
     public int SizeY { get; init; }
-    public List<ItemDTO> Items { get; init; }
-    public List<CharacterDTO> Characters { get; init; }
-    public TileType[][] Tiles { get; init; }
+    public List<ItemDTO>? Items { get; init; }
+    public List<CharacterDTO>? Characters { get; init; }
+    public TileType[][]? Tiles { get; init; }
 }
 
 public record MapChangeDTO
 {
-    public List<ItemDTO> Items { get; init; }
-    public List<CharacterDTO> Characters { get; init; }
+    public List<ItemDTO>? Items { get; init; }
+    public List<CharacterDTO>? Characters { get; init; }
 }
 
 public record UIContextDto
 {
-    public string Message { get; init; }
+    public string? Message { get; init; }
     public bool ShowBar { get; init; }
     public int BarCurrent { get; init; }
     public int BarMax { get; init; }

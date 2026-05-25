@@ -49,6 +49,7 @@ namespace Erpeg
             string? mode;
             while (true)
             {
+                Console.CursorVisible = false;
                 Console.WriteLine("Run as [S] server or [C] client?");
                 mode = Console.ReadKey(true).Key.ToString().ToUpper();
                 if (mode == "S" || mode == "C")
@@ -56,6 +57,7 @@ namespace Erpeg
                 Console.Clear();
                 Console.WriteLine("Wrong input. Try again");
             }
+            Console.CursorVisible = true;
 
             Console.Clear();
             if (mode == "S")

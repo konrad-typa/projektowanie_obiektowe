@@ -3,7 +3,7 @@ using System;
 
 namespace Erpeg.Services;
 
-public class DisplayService
+public static class DisplayService
 {
     private static int _lastWidth = 0;
     private static int _lastHeight = 0;
@@ -37,6 +37,4 @@ public class DisplayService
         Console.SetCursorPosition(0, 0);
         Console.Write(text);
     }
-
-    public static void Clear() => Console.Clear();
 }
