@@ -26,6 +26,7 @@ public class Server (int port = 5555)
     private readonly ConcurrentDictionary<int, StreamWriter> _writers = new ();
     private static readonly ConcurrentQueue<PlayerInputDto> CommandQueue = new();
     private int _activePlayers = 0;
+    private bool[] _isIdxOccupied = new bool[9];
      
     private static readonly JsonSerializerOptions JsonOptions = new() 
     { 
@@ -53,64 +54,74 @@ public class Server (int port = 5555)
                           $" Server finished on port {port}");
     }
 
-    private async Task StartServerLoop()
+private async Task StartServerLoop()
     {
         while (_isServerRunning)
         {
-            while (CommandQueue.TryDequeue(out var command))
+            var packetsToSend = new List<(StreamWriter writer, string serializedData)>();
+
+            lock (_sharedMap.Characters)
             {
-                if (_activeSessions.TryGetValue(command.Id, out var playerSession))
+                while (CommandQueue.TryDequeue(out var command))
                 {
-                    playerSession.HandleInput(command.Key);
+                    if (_activeSessions.TryGetValue(command.Id, out var playerSession))
+                    {
+                        playerSession.HandleInput(command.Key);
+                    }
+                }
+
+                foreach (var session in _activeSessions.Values)
+                {
+                    session.Update();
+                }
+                
+                var enemies = _sharedMap.Characters.Values.OfType<EnemyData>().ToList();
+                foreach (var e in enemies)
+                    if (e.IsMoving)
+                        e.MoveRandomly(_sharedMap);
+
+                foreach (var session in _activeSessions)
+                {
+                    int id = session.Key;
+                    var playerSession = session.Value;
+
+                    if (_writers.TryGetValue(id, out var writer))
+                    {
+                        GameUpdateDTO updateDto = playerSession.ToDto(_sharedMap);
+                        var cachedMap = _sharedMap.ToStaticDto();
+                        LocalGameStateDTO stateDto = new LocalGameStateDTO
+                        {
+                            Map = new MapDTO
+                            {
+                                Name = cachedMap.Name,
+                                SizeX = cachedMap.SizeX,
+                                SizeY = cachedMap.SizeY,
+                                Tiles = null,
+                                Items = updateDto.Map!.Items,
+                                Characters = updateDto.Map.Characters,
+                            },
+                            AvailableActions = updateDto.AvailableActions,
+                            InventoryInfo = updateDto.InventoryInfo,
+                            LocalPlayer = updateDto.LocalPlayer,
+                            Logs = updateDto.Logs,
+                            UIContext = updateDto.UIContext,
+                        };
+                        
+                        var serializedDto = JsonSerializer.Serialize(stateDto, JsonOptions);
+                        
+                        packetsToSend.Add((writer, serializedDto)); 
+                    }
                 }
             }
-
-            foreach (var session in _activeSessions.Values)
+            foreach (var packet in packetsToSend)
             {
-                session.Update();
-            }
-            
-            var enemies = _sharedMap.Characters.Values.OfType<EnemyData>().ToList();
-            foreach (var e in enemies)
-                if (e.IsMoving)
-                    e.MoveRandomly(_sharedMap);
-
-            foreach (var session in _activeSessions)
-            {
-                int id = session.Key;
-                var playerSession = session.Value;
-
-                if (_writers.TryGetValue(id, out var writer))
+                try
                 {
-                    GameUpdateDTO updateDto = playerSession.ToDto(_sharedMap);
-                    var cachedMap = _sharedMap.ToStaticDto();
-                    LocalGameStateDTO stateDto = new LocalGameStateDTO
-                    {
-                        Map = new MapDTO
-                        {
-                            Name = cachedMap.Name,
-                            SizeX = cachedMap.SizeX,
-                            SizeY = cachedMap.SizeY,
-                            Tiles = null,
-                            Items = updateDto.Map!.Items,
-                            Characters = updateDto.Map.Characters,
-                        },
-                        AvailableActions = updateDto.AvailableActions,
-                        InventoryInfo = updateDto.InventoryInfo,
-                        LocalPlayer = updateDto.LocalPlayer,
-                        Logs = updateDto.Logs,
-                        UIContext = updateDto.UIContext,
-                    };
-
-                    try
-                    {
-                        var serializedDto = JsonSerializer.Serialize(stateDto, JsonOptions);
-                        await writer.WriteLineAsync(serializedDto);
-                    }
-                    catch (Exception)
-                    {
-                        // obslugiwane w handleclient
-                    }
+                    await packet.writer.WriteLineAsync(packet.serializedData);
+                }
+                catch (Exception)
+                {
+                    // obslugiwane w handleclient
                 }
             }
 
@@ -127,10 +138,23 @@ public class Server (int port = 5555)
             try
             {
                 TcpClient client = await tcpListener.AcceptTcpClientAsync(token);
-                _activePlayers++;
-                int idx = _activePlayers;
+                int idx;
                 
-                var clientTask = Task.Run(() => HandleClient(client, idx), token);
+                lock (_isIdxOccupied)
+                {
+                    idx = Array.IndexOf(_isIdxOccupied, false);
+                    if (idx == -1)
+                    {
+                        Console.WriteLine("Server Full!");
+                        client.Close();
+                        continue;
+                    }
+                    
+                    _isIdxOccupied[idx] = true;
+                    _activePlayers++;
+                }
+                
+                var clientTask = Task.Run(() => HandleClient(client, ++idx), token);
                 _clients.Add(clientTask);
                 
                 _clients.RemoveAll(t => t.IsCompleted);
@@ -163,38 +187,47 @@ public class Server (int port = 5555)
             // inicjalizacja gracza
             var player = new PlayerData(name, (_sharedMap.SizeX/2, _sharedMap.SizeY/2), 
                 300, 300, (char)('0' + idx));
-            CharacterSpawner.SpawnPlayer(_sharedMap, player);
-            player.RecalculateStats();
-
+            
+            EventManager.SoundSystem.RegisterObserver(player);
+            
             ILogger logger = new JournalLogger();
             logger = new FileLogger(_config!.LogFilePath, name, logger);
-            
             var playerSession = new PlayerSession(player, logger);
-            playerSession.Initialize(new ExplorationState(_sharedMap, playerSession));
 
-            /*--- dane dla klienta ---*/
-            GameUpdateDTO updateDto = playerSession.ToDto(_sharedMap);
-            var cachedMap = _sharedMap.ToStaticDto();
-            LocalGameStateDTO initGameStateDto = new LocalGameStateDTO
-            {
-                Map = new MapDTO
-                {
-                    Name = cachedMap.Name,
-                    SizeX = cachedMap.SizeX,
-                    SizeY = cachedMap.SizeY,
-                    Tiles = cachedMap.Tiles,
-                    Items = updateDto.Map!.Items,
-                    Characters = updateDto.Map.Characters,
-                },
-                AvailableActions = updateDto.AvailableActions,
-                InventoryInfo = updateDto.InventoryInfo,
-                LocalPlayer = updateDto.LocalPlayer,
-                Logs = updateDto.Logs,
-                UIContext = updateDto.UIContext,
-            };
+            player.OnLogObserver = message => logger.Log(message);
             
-            // serializacja
-            var serializedInitDto =  JsonSerializer.Serialize(initGameStateDto, JsonOptions);
+            string serializedInitDto;
+            
+            lock (_sharedMap.Characters)
+            {
+                CharacterSpawner.SpawnPlayer(_sharedMap, player);
+                player.RecalculateStats();
+
+                playerSession.Initialize(new ExplorationState(_sharedMap, playerSession));
+
+                // dane dla klienta 
+                GameUpdateDTO updateDto = playerSession.ToDto(_sharedMap);
+                var cachedMap = _sharedMap.ToStaticDto();
+                LocalGameStateDTO initGameStateDto = new LocalGameStateDTO
+                {
+                    Map = new MapDTO
+                    {
+                        Name = cachedMap.Name,
+                        SizeX = cachedMap.SizeX,
+                        SizeY = cachedMap.SizeY,
+                        Tiles = cachedMap.Tiles,
+                        Items = updateDto.Map!.Items,
+                        Characters = updateDto.Map.Characters,
+                    },
+                    AvailableActions = updateDto.AvailableActions,
+                    InventoryInfo = updateDto.InventoryInfo,
+                    LocalPlayer = updateDto.LocalPlayer,
+                    Logs = updateDto.Logs,
+                    UIContext = updateDto.UIContext,
+                };
+                
+                serializedInitDto = JsonSerializer.Serialize(initGameStateDto, JsonOptions);
+            }
             
             // wysłanie pierwszych danych
             await writer.WriteLineAsync(serializedInitDto);
@@ -232,10 +265,20 @@ public class Server (int port = 5555)
             _writers.TryRemove(idx, out _);
             if (_activeSessions.TryRemove(idx, out var session))
             {
-                _sharedMap.Characters.Remove(session.Player.Position);
+                lock (_sharedMap.Characters) 
+                {
+                    _sharedMap.Characters.Remove(session.Player.Position);
+                }
+                EventManager.SoundSystem.RemoveObserver(session.Player);
             }
             client.Dispose();
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Client {idx} disconnected");
+            
+            lock (_isIdxOccupied)
+            {
+                _activePlayers--;
+                _isIdxOccupied[idx - 1] = false;
+            }
         }
     }
     

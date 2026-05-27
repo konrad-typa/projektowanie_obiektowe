@@ -1,5 +1,7 @@
 ﻿using System.Reflection.Metadata;
+using Erpeg.Core.Utils;
 using Erpeg.Data.Content.Items;
+using Erpeg.Data.Events;
 using Erpeg.Data.Models.Items;
 using Erpeg.Data.Models.Items.Weapons;
 using Erpeg.Services.RenderServices;
@@ -8,7 +10,7 @@ namespace Erpeg.Data.Models.Characters;
 
 public class PlayerData(string name, (int x, int y) position, int maxhp = 300, int hp = 300, 
     char symbol = '¶')
-    : CharacterData(name, position, maxhp, hp, symbol)
+    : CharacterData(name, position, maxhp, hp, symbol), Core.Interfaces.IObserver<SoundEvent>
 {
     public List<Item> Inventory { get; set; } = new();
     public Dictionary<EquipmentSlotType, Item?> Equipment { get; set; } = new()
@@ -168,5 +170,22 @@ public class PlayerData(string name, (int x, int y) position, int maxhp = 300, i
         
         Damage = totalDamage;
         Defense = totalDefense;
+    }
+
+    public Action<string>? OnLogObserver { get; set; }
+    public void OnNotify(SoundEvent eventData)
+    {
+        bool hears = PathfindingHelper.CanHearSound(
+            eventData.Map, 
+            Position, 
+            (eventData.SourceX, eventData.SourceY), 
+            eventData.Range, 
+            out int distance
+        );
+
+        if (hears && distance > 0)
+        {
+            OnLogObserver?.Invoke($"You heard: {eventData.SourceName} from {distance} tiles");
+        }
     }
 }
