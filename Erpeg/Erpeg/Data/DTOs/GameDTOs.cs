@@ -52,7 +52,7 @@ public record PlayerDTO : CharacterDTO
     public int Damage { get; init; }
     public int Defense { get; init; }
     public List<ItemDTO>? Inventory { get; init; }
-    public Dictionary<string, ItemDTO>? Equipment { get; init; }
+    public Dictionary<string, ItemDTO?> Equipment { get; init; }
     public int Gold { get; init; }
     public int Coins { get; init; }
     public double CurrentWeight { get; init; }

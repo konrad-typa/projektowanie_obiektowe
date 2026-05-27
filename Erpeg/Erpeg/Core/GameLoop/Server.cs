@@ -25,7 +25,8 @@ public class Server (int port = 5555)
     private readonly ConcurrentDictionary<int, PlayerSession> _activeSessions = new ();
     private readonly ConcurrentDictionary<int, StreamWriter> _writers = new ();
     private static readonly ConcurrentQueue<PlayerInputDto> CommandQueue = new();
-    
+    private int _activePlayers = 0;
+     
     private static readonly JsonSerializerOptions JsonOptions = new() 
     { 
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull 
@@ -120,15 +121,16 @@ public class Server (int port = 5555)
     private async Task AcceptClients(TcpListener tcpListener, CancellationToken token = default)
     {
         tcpListener.Start(9);
-        int idx = 0;
         
         while (true)
         {
             try
             {
                 TcpClient client = await tcpListener.AcceptTcpClientAsync(token);
+                _activePlayers++;
+                int idx = _activePlayers;
                 
-                var clientTask = Task.Run(() => HandleClient(client, ++idx), token);
+                var clientTask = Task.Run(() => HandleClient(client, idx), token);
                 _clients.Add(clientTask);
                 
                 _clients.RemoveAll(t => t.IsCompleted);
@@ -159,7 +161,8 @@ public class Server (int port = 5555)
             string name = "Tytus Bomba";
             
             // inicjalizacja gracza
-            var player = new PlayerData(name, (_sharedMap.SizeX/2, _sharedMap.SizeY/2));
+            var player = new PlayerData(name, (_sharedMap.SizeX/2, _sharedMap.SizeY/2), 
+                300, 300, (char)('0' + idx));
             CharacterSpawner.SpawnPlayer(_sharedMap, player);
             player.RecalculateStats();
 

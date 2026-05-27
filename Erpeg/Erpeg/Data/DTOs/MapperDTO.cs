@@ -82,8 +82,10 @@ public static class MapperDTO
             Defense = player.Defense,
             Inventory = player.Inventory.Select(x => x.ToDto(0, 0)).ToList(),
             Equipment = player.Equipment
-                .Where(x => x.Value != null)
-                .ToDictionary(x => x.Key.ToString(), x => x.Value!.ToDto(0, 0)),
+                .ToDictionary(
+                    x => x.Key.ToString(),
+                    x => x.Value == null ? null : x.Value.ToDto(0, 0)
+                    ),
             Gold = player.Gold,
             Coins = player.Coins,
             CurrentWeight = player.CurrentWeight,

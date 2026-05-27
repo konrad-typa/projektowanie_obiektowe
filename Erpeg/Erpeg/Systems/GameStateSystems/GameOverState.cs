@@ -8,30 +8,28 @@ namespace Erpeg.Systems.GameStateSystems;
 
 public class GameOverState(PlayerSession session) : IGameState
 {
-    private readonly PlayerSession _session = session;
     public void HandleInput(ConsoleKey key)
     {
-        Environment.Exit(0);
     }
 
-    public void Update() 
-    { 
+    public void Update()
+    {
+        
     }
 
     public List<string> GetAvailableActions()
     {
         return new List<string>
         {
-            " ============================== ",
-            "         GAME OVER            ",
-            " ============================== ",
+            " ======================",
+            "       GAME OVER       ",
+            " ======================",
             "",
-            "  Press any key ",
-            "  to exit the game "
+            "  You are Spectating "
         };
     }
 
     public UIContext GetUIContext() => new UIContext();
     
-    public List<(DateTime, string)> GetLogHistory() => _session.Logger.GetRecentLogs();
+    public List<(DateTime, string)> GetLogHistory() => session.Logger.GetRecentLogs();
 }
