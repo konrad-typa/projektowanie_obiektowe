@@ -1,5 +1,3 @@
-[Ongoing Project]
-
 Console-based roguelike game demonstrating modular architecture and OOP principles. Features local and multiplayer mode. Focuses on core game mechanics, data modeling, and extensible systems design.
 
 For multiplayer, run with:
